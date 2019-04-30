@@ -29,6 +29,13 @@
 
 - 切换分支： `git checkout xxx`
 
+- 将本地未 push 的 commit 历史整理成直线： `git rebase`
+
+  可将本次push中的commit合并，常见案例：
+
+  - commit-push 时发现远程已被他人更改，我们需要 pull 之后再 commmit-push，这将导致 git history 中我们这次有 2 次 commit
+  - 本地多次 commit 后再 push，同样 git history 中会有多次 commit
+
 - 合并 xxx 分支到当前分支： `git merge xxx`
 
 - 更新当前分支（不会自动 merge 本地代码，冲突时，用户检查后决定是否 merge）：`git fetch`
