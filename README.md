@@ -13,4 +13,4 @@
 
 - [Npm常用命令](./Basis/Npm常用命令.md)
 
-- [Sass基础用法](./Basis/Sass基础用法.md)
+- [Sass常用语法](./Basis/Sass常用语法.md)
