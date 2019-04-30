@@ -9,6 +9,12 @@
 
 由于第一种方式需要写配置文件对不同环境做规划，较麻烦，不在必要的情况下不建议使用，也就有了本文。
 
+### html、css、js 中的相对与绝对路径
+
+**相对路径** 相对于该项目（index.html）所部署在的地址,如部署在`http://website/example-prod`，则`user/login`和`static/img/logo.png`分别指向`http://website/example-prod/user/login`、`http://website/example-prod/static/img/logo.png`
+
+**绝对路径** 相对于该项目（index.html）所部署在的地址的'根目录'，同样是部署在`http://website/example-prod`，`/user/login`和`/static/img/logo.png`分别指向`http://website/user/login`、`http://website/static/img/logo.png`
+
 ### 使用举例
 
 三种环境下项目所部署的地址分别举例如下：
@@ -27,9 +33,3 @@
 `/user/login`
 `user/login`
 效果同上，使用相对路径可避免出错，需要注意的是若为前后端分离的项目，前后端地址必然不同，此时需要全局给相对路径添加上后台项目地址的前缀，拼成绝对路径，如：`http://backend/announcement` + `user/login`
-
-### html、css、js 中的相对与绝对路径
-
-**相对路径** 相对于该项目（index.html）所部署在的地址,如部署在`http://website/example-prod`，则`user/login`和`static/img/logo.png`分别指向`http://website/example-prod/user/login`、`http://website/example-prod/static/img/logo.png`
-
-**绝对路径** 相对于该项目（index.html）所部署在的地址的'根目录'，同样是部署在`http://website/example-prod`，`/user/login`和`/static/img/logo.png`分别指向`http://website/user/login`、`http://website/static/img/logo.png`
