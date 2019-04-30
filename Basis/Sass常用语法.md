@@ -24,6 +24,18 @@ button {
 }
 ```
 
+### 属性嵌套
+
+```
+.funky {
+  font: {
+    family: fantasy;
+    size: 30em;
+    weight: bold;
+  }
+}
+```
+
 ### 变量 \$
 
 变量定义时可在结尾添加 `!default` 以修饰，如果变量已经被赋值，则不会再被重新赋值
