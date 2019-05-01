@@ -46,9 +46,9 @@
 
 - 添加本地文件（夹）修改到 stage： `git add xxx`
 
-- 把 stage 中的修改提交到本地库：`git commit -m 'comments'`(-m: message, -a: all)
+- 把 stage 中的修改提交到本地库：`git commit -m 'comments'`(-m: message)
 
-- 将已被 git 追踪到的文件中的修改或删除操作提交到本地库，即使没有使用 git add 将改动提交到 stage，注意新加的文件是不会被提交的，仍需先使用 git add 将其添加到 stage：`git commit -a -m 'comments'`(-m: message, -a: all)
+- 将已被 git 追踪到的文件中的修改或删除操作提交到本地库，即使没有使用 git add 将改动提交到 stage，注意新加的文件是不会被提交的，仍需先使用 git add 将其添加到 stage：`git commit -a -m 'comments'`(-a: all)
 
 - 把本地库的修改提交到远程库中： `git push`
 
