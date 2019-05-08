@@ -24,7 +24,6 @@
   cnpm 与 npm 实际仍存在差异，可能导致意想不到的错误，应避免和 npm 同时使用，我们可以继续使用 npm，但使用淘宝的仓库：`npm install --registry=https://registry.npm.taobao.org`
 
 - 修改 npm 配置，如修改下载仓库为淘宝镜像，修改后 npm 安装包速度大大提高，也不再需要使用 cnpm：`npm config set registry https://registry.npm.taobao.org`
-- node-sass安装失败（使用cnpm安装时不会失败），正确安装方式：`npm i node-sass --sass_binary_site=https://npm.taobao.org/mirrors/node-sass/`
 
 - 安装更新包的插件: `npm install -g npm-check-updates`
 
