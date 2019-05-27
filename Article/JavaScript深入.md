@@ -1,5 +1,6 @@
-# JavaScript深入
-> 本文为[JavaScript深入系列][https://github.com/mqyqingfeng/Blog]学习总结，在此首先对冴羽大大表示感谢
+# JavaScript 深入
+
+> 本文为 [JavaScript 深入系列](https://github.com/mqyqingfeng/Blog) 学习总结，在此首先对冴羽大大表示感谢
 
 ### 从原型到原型链
 

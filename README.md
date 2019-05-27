@@ -2,11 +2,11 @@
 
 ## 博文
 
-- [JavaScript 深入](./Articles/JavaScript深入.md)
+- [JavaScript 深入](./Article/JavaScript深入.md)
 
-- [命名规范](./Articles/命名规范.md)
+- [命名规范](./Article/命名规范.md)
 
-- [相对路径的应用](./Articles/相对路径的应用.md)
+- [相对路径的应用](./Article/相对路径的应用.md)
 
 ## 基础知识
 
