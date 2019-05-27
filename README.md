@@ -2,6 +2,8 @@
 
 ## 博文
 
+- [JavaScript 深入](./Basis/JavaScript深入.md)
+
 - [命名规范](./Articles/命名规范.md)
 
 - [相对路径的应用](./Articles/相对路径的应用.md)
@@ -9,8 +11,6 @@
 ## 基础知识
 
 - [Git 常用命令](./Basis/Git常用命令.md)
-
-- [JavaScript 深入](./Basis/JavaScript深入.md)
 
 - [Markdown 常用语法](./Basis/Markdown常用语法.md)
 
