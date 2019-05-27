@@ -2,7 +2,7 @@
 
 ## 博文
 
-- [JavaScript 深入](./Basis/JavaScript深入.md)
+- [JavaScript 深入](./Articles/JavaScript深入.md)
 
 - [命名规范](./Articles/命名规范.md)
 
