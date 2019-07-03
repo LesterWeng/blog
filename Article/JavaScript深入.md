@@ -1,19 +1,256 @@
 # JavaScript 深入
 
-> 本文为 [JavaScript 深入系列](https://github.com/mqyqingfeng/Blog) 学习总结，在此首先对冴羽大大表示感谢
+> 本文部分参考自 [JavaScript 深入系列](https://github.com/mqyqingfeng/Blog)，在此对冴羽大大表示感谢
 
-### 从原型到原型链
+## 从原型到原型链
 
-### 词法作用域和动态作用域
+```
+function Person(){
+}
+const person = new Person();
+```
 
-### 执行上下文栈
+#### 原型
 
-### 变量对象
+原型可以理解为 Person 函数刚创建时初始化的一个原始的实例；当 Person 的实例在访问属性或方法时，如果实例本身不包含，则会继续在原型上进行查找，如果找到，则使用原型上的属性/方法
 
-### 作用域链
+可以通过两种方式访问：
 
-### this
+- `prototype`: 显示原型（构造函数的原型）
+- `__proto__`(仅浏览器中可访问) / `Object.getPrototypeOf()`: 隐式原型（实例的原型）
 
-### 执行上下文
+有如下关系：
+`Person.prototype === person.__proto__ === Object.getPrototypeOf(person)`
+
+#### 原型链
+
+原型链就是原型及原型的原型所组成的链式结构，当 Person 的实例在访问属性或方法时，若原型上也未查找到，则会继续沿着原型链往上查找，如果找到，则使用找到的原型上的属性/方法，从而实现类似面向对象语言中'继承'的效果
+
+如下原型链：
+`person.__proto__ => person.__proto__.__proto__ => person.__proto__.__proto__.__proto__`
+
+分别对应：
+`Person.prototype => Object.prototype => null`
+
+## 词法作用域和动态作用域
+
+#### 作用域
+
+作用域是指程序源代码中定义变量的区域。
+
+作用域规定了如何查找变量，也就是确定当前执行代码对变量的访问权限。
+
+#### 静态作用域(词法作用域)与动态作用域
+
+静态：函数的作用域在函数定义时就确定了
+动态：函数的作用域在函数调用时才能确定
+
+```
+var a = 1;
+function func1(){
+    console.log(a)
+}
+
+function func2(){
+    var a = 2;
+    func1();
+}
+
+func2();
+```
+
+如上例子，将打印出 1，这正是由于 js 使用的是词法作用域，若为动态作用域，则将打印出 2
+Ps: 非严格模式下，若变量未声明且未赋值，使用会报错；而在严格下，若变量未声明，使用就会报错
+
+## 执行上下文栈
+
+可执行代码包括：
+
+- 全局代码
+- 函数代码
+- eval 代码
+
+当执行全局代码时，会创建全局执行上下文；当执行到一个函数代码时，会创建函数执行上下文
+
+执行上下文包含三个重要属性：
+
+- 变量对象(Variable object，VO)
+- 作用域链(Scope chain)
+- this
+
+执行上下文栈便是用于管理执行上下文的
+
+```
+function func3() {
+    console.log('func3')
+}
+
+function func2() {
+    func3();
+}
+
+function func1() {
+    func2();
+}
+
+func1();
+```
+
+上例执行上下文栈变化情况如下：
+
+```
+// 代码开始执行，遇到全局代码，生成全局上下文并入栈
+ECStack = [
+    globalContext
+];
+
+// func1
+ECStack.push(<func1> functionContext);
+
+// func1内调用了func2
+ECStack.push(<func2> functionContext);
+
+// func2内调用了func3
+ECStack.push(<func3> functionContext);
+
+// func3执行完毕
+ECStack.pop();
+
+// func2执行完毕
+ECStack.pop();
+
+// func1执行完毕
+ECStack.pop();
+
+// 继续执行其他代码，globalContext未出栈
+```
+
+## 变量对象
+
+变量对象是与执行上下文相关的数据作用域，存储了在上下文中定义的变量和函数声明
+
+- 进入执行上下文阶段，变量对象会包括：
+
+  1. 函数的所有形参 (如果是函数上下文)
+     - 由名称和对应值组成的一个变量对象的属性被创建
+     - 没有实参，属性值设为 undefined
+  2. 函数声明
+     - 由名称和对应值（函数对象(function-object)）组成一个变量对象的属性被创建
+     - 如果变量对象已经存在相同名称的属性，则完全替换这个属性
+  3. 变量声明
+     - 由名称和对应值（undefined）组成一个变量对象的属性被创建
+     - 如果变量名称跟已经声明的形式参数或函数相同，则变量声明不会干扰已经存在的这类属性
+
+- 代码执行阶段，会顺序执行代码，根据代码，修改变量对象的值
+
+## 作用域链
+
+- 函数创建阶段
+  - 函数有一个内部属性 [[scope]]，当函数创建的时候，会保存所有父变量对象到其中
+- 函数激活阶段
+  - 当函数激活时，进入函数上下文，创建 VO/AO 后，就会将活动对象添加到作用链的前端
+
+## this
+
+- 从多种情形确定 this 的值
+- 注意 &&、||、=、(,)、双目 等运算符返回‘真正的值’(GetValue)，而不是 REference，this 返回 undefined，在非严格模式下，this 为 undefined 时会自动将其转为 window
+
+## 执行上下文整体举例分析
+
+```
+var scope = "global scope";
+function checkscope(){
+    var scope = "local scope";
+    function f(){
+        return scope;
+    }
+    return f;
+}
+checkscope()();
+```
+
+- 执行全局代码，创建全局执行上下文，入执行上下文栈
+
+```
+ECStack = {
+    globalContext
+}
+```
+
+- 全局上下文初始化，全局上下文的 VO 是全局变量
+
+```
+globalContext = {
+    VO: global,
+    scope: [globalContext.VO],
+    this: globalContext.VO
+}
+```
+
+- 全局上下文初始化过程中，checkscope 函数被创建，保存作用域链到内部属性[[scope]]
+
+```
+checkscope.[[scope]] = globalContext.scope
+```
+
+- 执行 checkscope 函数，创建 checkscope 函数执行上下文，入执行上下文栈
+
+```
+ECStack = {
+    checkscopeContext,
+    globalContext
+}
+```
+
+- checkscope 函数执行上下文初始化：
+  - 复制[[scope]]创建 scope
+  - 用 arguments、形参、变量声明、函数声明初始化 VO
+  - VO 压入 scope
+
+```
+checkscopeContext = {
+    VO: {
+        arguments: {
+        },
+        scope: undefined,
+        f: reference to function f
+    },
+    scope: [checkscopeContext.VO, globalContext.VO],
+    this: undefined
+}
+```
+
+- checkscope 函数执行上下文初始化过程中，f 函数被创建，保存作用域链到内部属性[[scope]]
+
+```
+f.[[scope]] = globalContext.scope
+```
+
+- checkscope 函数执行完毕，checkscopeContext 出执行上下文栈
+
+```
+ECStack = {
+    globalContext
+}
+```
+
+- 执行 f 函数，创建 checkscope 函数执行上下文，入执行上下文栈
+
+```
+ECStack = {
+    fContext,
+    globalContext
+}
+```
+
+- f 函数执行上下文初始化，过程与 checkscope 函数上下文同理
+
+- f 函数执行完毕，fContext 出执行上下文栈
+
+```
+ECStack = {
+    globalContext
+}
+```
 
 ### 闭包
