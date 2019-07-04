@@ -22,6 +22,6 @@
 
 ## 日常总结
 
-- [ios(mobile + 企微 or 微信)iframe 内图片的长按二维码识别](./Summary/ios(mobile+企微)iframe内图片的长按二维码识别.md)
+- [ios(mobile + 企微)iframe 内图片的长按二维码识别](./Summary/ios(mobile+企微)iframe内图片的长按二维码识别.md)
 
 - [ios(mobile)包含 iframe 的页面滚动](./Summary/ios(mobile)包含iframe的页面滚动.md)
