@@ -14,6 +14,8 @@
 
 - [Git 常用命令](./Basis/Git常用命令.md)
 
+- [JS-Array常用方法](./Basis/JS-Array常用方法.md)
+
 - [Markdown 常用语法](./Basis/Markdown常用语法.md)
 
 - [Npm 常用命令](./Basis/Npm常用命令.md)
