@@ -31,5 +31,4 @@ iframe.onload = () => {
 ```
 
 ### 总结
-初始对iframe的认识可能是错误的，iframe上的滑动操作是允许滑动父页面的，PC端和Android在iframe区域的滚动都没有问题，应该只是IOS兼容问题。
-初入移动端，可能这个问题是个常见的IOS滚动兼容问题，后续有更多发现将持续更新。
+PC端和Android在iframe区域内部滚动都没有问题，应该只是IOS兼容问题。
