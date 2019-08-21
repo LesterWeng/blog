@@ -1,4 +1,4 @@
-# ios(mobile + 企微)iframe 内图片的长按二维码识别
+# ios-mobile+企微 iframe 内图片的长按二维码识别
 
 ### 由来
 

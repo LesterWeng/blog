@@ -1,4 +1,4 @@
-# ios(mobile)包含 iframe 的页面滚动
+# ios-mobile 包含 iframe 的页面滚动
 
 ### 由来
 
@@ -31,4 +31,5 @@ iframe.onload = () => {
 ```
 
 ### 总结
-PC端和Android在iframe区域内部滚动都没有问题，应该只是IOS兼容问题。
+
+PC 端和 Android 在 iframe 区域内部滚动都没有问题，应该只是 IOS 兼容问题。
