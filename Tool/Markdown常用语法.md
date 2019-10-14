@@ -44,3 +44,22 @@
 - 行内代码块：使用 `反引号` 进行包裹
 
 - 块级代码块：使用 `三个反引号` 对代码块进行包裹
+
+### 复选框
+
+使用
+```
+- [ ] JavaScript
+- [x] JavaScript
+```
+```
++ [ ] JavaScript
++ [x] JavaScript
+```
+```
+* [ ] JavaScript
+* [x] JavaScript
+```
+都会有如下效果：
+- [ ] JavaScript
+- [x] JavaScript
