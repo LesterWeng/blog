@@ -16,7 +16,7 @@ const person = new Person();
 
 可以通过两种方式访问：
 
-- `prototype`: 显示原型（构造函数的原型）
+- `prototype`: 显式原型（构造函数的原型）
 - `__proto__`(仅浏览器中可访问) / `Object.getPrototypeOf()`: 隐式原型（实例的原型）
 
 有如下关系：
