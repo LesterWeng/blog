@@ -35,3 +35,9 @@
 - [Markdown 常用语法](./Tool/Markdown常用语法.md)
 
 - [Npm 常用命令](./Tool/Npm常用命令.md)
+
+## 资料
+
+- [ 前端安全系列（一）：如何防止XSS攻击？](https://segmentfault.com/a/1190000016551188)
+
+- [ 前端安全系列之二：如何防止CSRF攻击？](https://segmentfault.com/a/1190000016659945)
