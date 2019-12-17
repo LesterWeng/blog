@@ -6,7 +6,7 @@
 
 ### 触发条件
 
-- 根元素(指 html,body 并非 BFC)
+- 根元素(指 html,body 并不会生成 BFC)
 - positon: absolute/fixed
 - display: inline-block / table / table-cell...
 - float 元素
