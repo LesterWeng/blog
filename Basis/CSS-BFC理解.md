@@ -70,7 +70,7 @@
 
 示例代码效果如图所示，可以发现：child、sibling 的 margin-bottom 重叠在了一起，body、child 的 margin-top 也重叠在了一起
 
-BFC 内的子元素受到 BFC 的隔离，无法影响到外界，故而阻止了重叠，给 child 添加 parent BFC，如下：
+**BFC 内的子元素受到 BFC 的隔离，无法影响到外界，故而阻止了重叠。**给 child 添加 parent BFC，如下：
 
 ```
 <!DOCTYPE html>
@@ -136,7 +136,7 @@ BFC 内的子元素受到 BFC 的隔离，无法影响到外界，故而阻止�
 
 示例代码效果如图所示，可以发现：parent、child 的 margin-top 和 margin-bottom 重叠在了一起
 
-BFC 内的子元素受到 BFC 的隔离，同样给 parent 设置 overflow:hidden 生成 BFC，效果如下：
+**由于 BFC 内的子元素无法影响到外界，故而 BFC 内的子元素无法和父级发生重叠，为什么？可以试想，如果 BFC 内的子 box 可以和父级发生重叠，父级又可以和兄弟 box 发生重叠，也就会出现子 box 间接地影响到了外界，而这是和规则不符的。**给 parent 设置 overflow:hidden 生成 BFC，效果如下：
 
 ![parent](../Images/BFC_9.png)
 ![child](../Images/BFC_10.png)
