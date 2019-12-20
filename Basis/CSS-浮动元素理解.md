@@ -17,14 +17,19 @@
 ```
 
 - 两个子元素均为 float:left
+
   ![float](../Images/float_1.png)
+
   这里我们发现：左浮动时，为由右向左移动，且下一行元素移至上一行时同样是由右向左
 
 - 两个子元素均为 float:right
+
   ![float](../Images/float_2.png)
 
 - 仅第二个子元素为 float:right
+
   ![float](../Images/float_3.png)
+
   这里我们发现：若浮动元素的上个块级元素不为浮动元素，其不可向上移动（上个元素为行内或行内块级时会上移）
 
 ## 清除浮动
