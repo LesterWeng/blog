@@ -10,10 +10,10 @@
 
 下面我们来看看各种浮动情况下的效果，页面元素、效果如下：
 
-```
+```js
 <div class="app">
-    <div class="div1">div1</div>
-    <div class="div2">div2</div>
+  <div class="div1">div1</div>
+  <div class="div2">div2</div>
 </div>
 ```
 
@@ -40,13 +40,13 @@ clear:left/right/both <br/>
 
 常用方式：
 
-```
+```scss
 // 在需要清除浮动的元素的上侧或下侧添加div，并设置clear样式
-.clear{
+.clear {
   clear: both;
 }
 // 设置包含浮动元素的容器元素的伪元素
-.wrapper-clear::after{
+.wrapper-clear::after {
   content: '';
   display: block;
   clear: both;

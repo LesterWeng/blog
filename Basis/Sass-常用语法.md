@@ -2,10 +2,10 @@
 
 ### 样式嵌套
 
-```
+```scss
 label {
-    a {
-    }
+  a {
+  }
 }
 ```
 
@@ -13,20 +13,21 @@ label {
 
 指向父选择器，若没有父选择器则为 null，可配合@if 指令使用
 
-```
+```scss
 button {
-    &:hover {
-    }
+  &:hover {
+  }
 }
 
-.foo.bar .baz.bang, .bip.qux {
+.foo.bar .baz.bang,
+.bip.qux {
   $selector: &;
 }
 ```
 
 ### 属性嵌套
 
-```
+```scss
 .funky {
   font: {
     family: fantasy;
@@ -40,37 +41,37 @@ button {
 
 变量定义时可在结尾添加 `!default` 以修饰，如果变量已经被赋值，则不会再被重新赋值
 
-```
+```scss
 $default-font-size: 32px;
 ```
 
 ### 函数
 
-```
-@function px2rem ($px) {
+```scss
+@function px2rem($px) {
   @return $px / $default-font-size * 1rem;
 }
 ```
 
 ### 插值语句 #{}
 
-```
+```scss
 div {
-    width: calc(100% - #{px2rem(50px)})
+  width: calc(100% - #{px2rem(50px)});
 }
 ```
 
 ### @import
 
-```
-@import "foo.scss";
-@import "foo";
-@import "boo.css";
+```scss
+@import 'foo.scss';
+@import 'foo';
+@import 'boo.css';
 ```
 
 ### @extend
 
-```
+```scss
 .error {
   border: 1px #f00;
   background-color: #fdd;
@@ -83,7 +84,7 @@ div {
 
 ### @if
 
-```
+```scss
 @mixin does-parent-exist {
   @if & {
     &:hover {
@@ -108,12 +109,16 @@ div {
 
 `<start>` 和 `<end>`必须是整数值
 
-```
+```scss
 @for $i from 1 through 3 {
-  .item-#{$i} { width: 2em * $i; }
+  .item-#{$i} {
+    width: 2em * $i;
+  }
 }
 @for $i from 1 to 3 {
-  .item-#{$i} { width: 2em * $i; }
+  .item-#{$i} {
+    width: 2em * $i;
+  }
 }
 ```
 
@@ -122,7 +127,7 @@ div {
 `$var in <list>`
 `$var` 可以是任何变量名，比如 `$length`,`<list>` 是一连串的值，也就是值列表
 
-```
+```scss
 @each $animal in puma, sea-slug, egret, salamander {
   .#{$animal}-icon {
     background-image: url('/images/#{$animal}.png');
@@ -132,10 +137,12 @@ div {
 
 ### @while
 
-```
+```scss
 $i: 6;
 @while $i > 0 {
-  .item-#{$i} { width: 2em * $i; }
+  .item-#{$i} {
+    width: 2em * $i;
+  }
   $i: $i - 2;
 }
 ```
@@ -144,7 +151,7 @@ $i: 6;
 
 为便于书写，`@mixin` 可以用 `=` 表示，而 `@include` 可以用 `+` 表示
 
-```
+```scss
 @mixin silly-links {
   a {
     color: blue;
@@ -152,7 +159,7 @@ $i: 6;
   }
 }
 div {
-    @include silly-links;
+  @include silly-links;
 }
 
 @mixin sexy-border($color, $width) {
@@ -162,5 +169,7 @@ div {
     style: dashed;
   }
 }
-p { @include sexy-border(blue, 1in); }
+p {
+  @include sexy-border(blue, 1in);
+}
 ```

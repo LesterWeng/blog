@@ -1,4 +1,4 @@
-# JS-Array常用方法
+# JS-Array 常用方法
 
 1. Array.prototype.sort([compareFunction])
 
@@ -6,7 +6,7 @@
    - compareFunction 返回值 <0 时升序，而 >0 时降序，注意是根据**正值/负值**判断，而不是**true/false**
    - compareFunction 返回值 =0 时，相对位置不变（不能保证），当存在相等的字符串时，排序的结果将不再**幂等**，即多次相同规则的排序结果可能不一致，为了维持幂等，我们可以添加额外的条件，举例如下：
 
-   ```
+   ```js
    // updateTime精确到秒，可能重复；id唯一
    const arr = [{
        id: 1,
@@ -29,8 +29,8 @@
    - callback 的返回值要与数组中项的结构类似，否则结果会异常，举例如下：
    - Array.prototype.reduceRight 为从右向左遍历，没有 initialValue 时，将使用数组最后一项作为初始值
 
-   ```
-    [{x: 1},{x:2},{x:3}].reduce((a, b) => a.x + b.x); // 结果为NaN，第一次计算的结果为3，作为下一次计算的'a'，a.x -> NaN
+   ```js
+   [{ x: 1 }, { x: 2 }, { x: 3 }].reduce((a, b) => a.x + b.x); // 结果为NaN，第一次计算的结果为3，作为下一次计算的'a'，a.x -> NaN
    ```
 
 3. Array.prototype.flat([depth])

@@ -4,9 +4,8 @@
 
 ## 从原型到原型链
 
-```
-function Person(){
-}
+```js
+function Person() {}
 const person = new Person();
 ```
 
@@ -45,15 +44,15 @@ const person = new Person();
 静态：函数的作用域在函数定义时就确定了
 动态：函数的作用域在函数调用时才能确定
 
-```
+```js
 var a = 1;
-function func1(){
-    console.log(a)
+function func1() {
+  console.log(a);
 }
 
-function func2(){
-    var a = 2;
-    func1();
+function func2() {
+  var a = 2;
+  func1();
 }
 
 func2();
@@ -80,17 +79,17 @@ Ps: 非严格模式下，若变量未声明且未赋值，使用会报错；而�
 
 执行上下文栈便是用于管理执行上下文的
 
-```
+```js
 function func3() {
-    console.log('func3')
+  console.log('func3');
 }
 
 function func2() {
-    func3();
+  func3();
 }
 
 function func1() {
-    func2();
+  func2();
 }
 
 func1();
@@ -98,7 +97,7 @@ func1();
 
 上例执行上下文栈变化情况如下：
 
-```
+```js
 // 代码开始执行，遇到全局代码，生成全局上下文并入栈
 ECStack = [
     globalContext
@@ -162,49 +161,49 @@ ECStack.pop();
 
 ## 执行上下文整体举例分析
 
-```
-var scope = "global scope";
-function checkscope(){
-    var scope = "local scope";
-    function f(){
-        return scope;
-    }
-    return f;
+```js
+var scope = 'global scope';
+function checkscope() {
+  var scope = 'local scope';
+  function f() {
+    return scope;
+  }
+  return f;
 }
 checkscope()();
 ```
 
 - 执行全局代码，创建全局执行上下文，入执行上下文栈
 
-```
+```js
 ECStack = {
-    globalContext
-}
+  globalContext,
+};
 ```
 
 - 全局上下文初始化，全局上下文的 VO 是全局变量
 
-```
+```js
 globalContext = {
-    VO: global,
-    scope: [globalContext.VO],
-    this: globalContext.VO
-}
+  VO: global,
+  scope: [globalContext.VO],
+  this: globalContext.VO,
+};
 ```
 
 - 全局上下文初始化过程中，checkscope 函数被创建，保存作用域链到内部属性[[scope]]
 
-```
+```js
 checkscope.[[scope]] = globalContext.scope
 ```
 
 - 执行 checkscope 函数，创建 checkscope 函数执行上下文，入执行上下文栈
 
-```
+```js
 ECStack = {
-    checkscopeContext,
-    globalContext
-}
+  checkscopeContext,
+  globalContext,
+};
 ```
 
 - checkscope 函数执行上下文初始化：
@@ -212,7 +211,7 @@ ECStack = {
   - 用 arguments、形参、变量声明、函数声明初始化 VO
   - VO 压入 scope
 
-```
+```js
 checkscopeContext = {
     VO: {
         arguments: {
@@ -227,35 +226,35 @@ checkscopeContext = {
 
 - checkscope 函数执行上下文初始化过程中，f 函数被创建，保存作用域链到内部属性[[scope]]
 
-```
+```js
 f.[[scope]] = globalContext.scope
 ```
 
 - checkscope 函数执行完毕，checkscopeContext 出执行上下文栈
 
-```
+```js
 ECStack = {
-    globalContext
-}
+  globalContext,
+};
 ```
 
 - 执行 f 函数，创建 checkscope 函数执行上下文，入执行上下文栈
 
-```
+```js
 ECStack = {
-    fContext,
-    globalContext
-}
+  fContext,
+  globalContext,
+};
 ```
 
 - f 函数执行上下文初始化，过程与 checkscope 函数上下文同理
 
 - f 函数执行完毕，fContext 出执行上下文栈
 
-```
+```js
 ECStack = {
-    globalContext
-}
+  globalContext,
+};
 ```
 
 ## 闭包

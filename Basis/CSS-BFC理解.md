@@ -36,31 +36,31 @@
 
   示例 1 ：阻止相邻 box 及嵌套 box 的 margin 重叠
 
-  ```
+  ```html
   <!DOCTYPE html>
   <head>
-      <title>BFC</title>
-      <style>
-          .parent {
-              background-color: lightblue;
-          }
-          .child{
-              background-color: lightcoral;
-              height: 100px;
-              margin: 20px;
-          }
-          .sibling{
-              background-color: lightgreen;
-              height: 100px;
-              margin: 40px;
-          }
-      </style>
+    <title>BFC</title>
+    <style>
+      .parent {
+        background-color: lightblue;
+      }
+      .child {
+        background-color: lightcoral;
+        height: 100px;
+        margin: 20px;
+      }
+      .sibling {
+        background-color: lightgreen;
+        height: 100px;
+        margin: 40px;
+      }
+    </style>
   </head>
   <body>
-      <div class="parent">
-          <div class="child"></div>
-      </div>
-      <div class="sibling"></div>
+    <div class="parent">
+      <div class="child"></div>
+    </div>
+    <div class="sibling"></div>
   </body>
   ```
 
@@ -72,7 +72,7 @@
 
   **BFC 内的子元素受到 BFC 的隔离，无法影响到外界，故而阻止了重叠。** 给 child 添加 parent BFC，如下：
 
-  ```
+  ```html
   <!DOCTYPE html>
   <head>
     <title>BFC</title>
@@ -107,7 +107,7 @@
 
   示例 2：阻止嵌套 box 的 margin 重叠（注意使用 overflow 使 body 生成 BFC 时，需要同时给 html 设置 overflow）
 
-  ```
+  ```html
   <!DOCTYPE html>
   <head>
     <title>BFC</title>
@@ -128,7 +128,6 @@
       <div class="child"></div>
     </div>
   </body>
-
   ```
 
   ![parent](../Images/BFC_7.png)
@@ -149,7 +148,7 @@
 
   正常情况下,float 元素和块级元素一左一右置于同一行时，会发生重叠，而 BFC 区域不会和 float 区域重叠，故而块级元素创建 BFC 即可，如下：
 
-  ```
+  ```html
   <!DOCTYPE html>
   <head>
     <title>BFC</title>
@@ -171,7 +170,6 @@
     <div class="other"></div>
     <div class="child"></div>
   </body>
-
   ```
 
 - 阻止元素被浮动元素覆盖
