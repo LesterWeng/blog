@@ -20,7 +20,7 @@
 
 - 内部的 Box 会在垂直方向，一个接一个地放置
 - Box 垂直方向的距离由 margin 决定。属于同一个 BFC 的两个相邻 Box 的 margin 会发生重叠
-- BFC 的区域不会与 float box 重叠
+- BFC 中每个 Box 的左边缘与包含块的左边缘接触，即使是浮动元素也是如此，除非浮动元素左侧的框建立了 BFC（即 BFC 的区域不会与 float box 重叠）
 - BFC 就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素。反之也如此
 - 计算 BFC 的高度时，浮动元素也参与计算
 
@@ -34,7 +34,7 @@
 > 2. 父子 box 的 margin-top 和 margin-top 及 margin-bottom 和 margin-bottom
 > 3. 空 box 自身的 margin-top 和 margin-bottom
 
-示例 ：阻止相邻 box 及嵌套 box 的 margin 重叠
+示例 1 ：阻止相邻 box 及嵌套 box 的 margin 重叠
 
 ```
 <!DOCTYPE html>
@@ -143,6 +143,37 @@
 
 #### 用于清除浮动，计算 BFC 高度
 
+可尝试上述阻止 margin 重叠示例 2 的例子，给 child 设置 float: left 即可查看效果
+
 #### 自适应两栏布局
 
+正常情况下,float 元素和块级元素一左一右置于同一行时，会发生重叠，而 BFC 区域不会和 float 区域重叠，故而块级元素创建 BFC 即可，如下：
+
+```
+<!DOCTYPE html>
+<head>
+  <title>BFC</title>
+  <style>
+    .other {
+      background-color: lightgreen;
+      width: 250px;
+      height: 100px;
+      float: left;
+    }
+    .child {
+      background-color: lightcoral;
+      height: 100px;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div class="other"></div>
+  <div class="child"></div>
+</body>
+
+```
+
 #### 阻止元素被浮动元素覆盖
+
+同上述自适应两栏布局
