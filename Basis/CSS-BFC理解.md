@@ -26,154 +26,154 @@
 
 ### 应用
 
-#### 阻止 margin 重叠
+- 阻止 margin 重叠
 
-> 重叠会发生在三种情况下：
->
-> 1. 兄弟 box 的 margin-top 和 margin-bottom
-> 2. 父子 box 的 margin-top 和 margin-top 及 margin-bottom 和 margin-bottom
-> 3. 空 box 自身的 margin-top 和 margin-bottom
+  > 重叠会发生在三种情况下：
+  >
+  > 1. 兄弟 box 的 margin-top 和 margin-bottom
+  > 2. 父子 box 的 margin-top 和 margin-top 及 margin-bottom 和 margin-bottom
+  > 3. 空 box 自身的 margin-top 和 margin-bottom
 
-示例 1 ：阻止相邻 box 及嵌套 box 的 margin 重叠
+  示例 1 ：阻止相邻 box 及嵌套 box 的 margin 重叠
 
-```
-<!DOCTYPE html>
-<head>
+  ```
+  <!DOCTYPE html>
+  <head>
+      <title>BFC</title>
+      <style>
+          .parent {
+              background-color: lightblue;
+          }
+          .child{
+              background-color: lightcoral;
+              height: 100px;
+              margin: 20px;
+          }
+          .sibling{
+              background-color: lightgreen;
+              height: 100px;
+              margin: 40px;
+          }
+      </style>
+  </head>
+  <body>
+      <div class="parent">
+          <div class="child"></div>
+      </div>
+      <div class="sibling"></div>
+  </body>
+  ```
+
+  ![body](../Images/BFC_1.png)
+  ![child](../Images/BFC_2.png)
+  ![sibling](../Images/BFC_3.png)
+
+  示例代码效果如图所示，可以发现：child、sibling 的 margin-bottom 重叠在了一起，body、child 的 margin-top 也重叠在了一起
+
+  **BFC 内的子元素受到 BFC 的隔离，无法影响到外界，故而阻止了重叠。** 给 child 添加 parent BFC，如下：
+
+  ```
+  <!DOCTYPE html>
+  <head>
     <title>BFC</title>
     <style>
-        .parent {
-            background-color: lightblue;
-        }
-        .child{
-            background-color: lightcoral;
-            height: 100px;
-            margin: 20px;
-        }
-        .sibling{
-            background-color: lightgreen;
-            height: 100px;
-            margin: 40px;
-        }
+      .parent {
+        background-color: lightblue;
+        overflow: hidden;
+      }
+      .child {
+        background-color: lightcoral;
+        height: 100px;
+        margin: 20px;
+      }
+      .sibling {
+        background-color: lightgreen;
+        height: 100px;
+        margin: 40px;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="parent">
-        <div class="child"></div>
+      <div class="child"></div>
     </div>
     <div class="sibling"></div>
-</body>
-```
+  </body>
+  ```
 
-![body](../Images/BFC_1.png)
-![child](../Images/BFC_2.png)
-![sibling](../Images/BFC_3.png)
+  ![BFC](../Images/BFC_4.png)
+  ![BFC](../Images/BFC_5.png)
+  ![BFC](../Images/BFC_6.png)
 
-示例代码效果如图所示，可以发现：child、sibling 的 margin-bottom 重叠在了一起，body、child 的 margin-top 也重叠在了一起
+  示例 2：阻止嵌套 box 的 margin 重叠（注意使用 overflow 使 body 生成 BFC 时，需要同时给 html 设置 overflow）
 
-**BFC 内的子元素受到 BFC 的隔离，无法影响到外界，故而阻止了重叠。** 给 child 添加 parent BFC，如下：
+  ```
+  <!DOCTYPE html>
+  <head>
+    <title>BFC</title>
+    <style>
+      .parent {
+        background-color: lightblue;
+        margin: 20px;
+      }
+      .child {
+        background-color: lightcoral;
+        height: 100px;
+        margin: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="parent">
+      <div class="child"></div>
+    </div>
+  </body>
 
-```
-<!DOCTYPE html>
-<head>
-  <title>BFC</title>
-  <style>
-    .parent {
-      background-color: lightblue;
-      overflow: hidden;
-    }
-    .child {
-      background-color: lightcoral;
-      height: 100px;
-      margin: 20px;
-    }
-    .sibling {
-      background-color: lightgreen;
-      height: 100px;
-      margin: 40px;
-    }
-  </style>
-</head>
-<body>
-  <div class="parent">
+  ```
+
+  ![parent](../Images/BFC_7.png)
+  ![child](../Images/BFC_8.png)
+
+  示例代码效果如图所示，可以发现：parent、child 的 margin-top 和 margin-bottom 重叠在了一起
+
+  **由于 BFC 内的子元素无法影响到外界，故而 BFC 内的子元素无法和父级发生重叠，为什么？可以试想，如果 BFC 内的子 box 可以和父级发生重叠，父级又可以和兄弟 box 发生重叠，也就会出现子 box 间接地影响到了外界，而这是和规则不符的。** 给 parent 设置 overflow:hidden 生成 BFC，效果如下：
+
+  ![parent](../Images/BFC_9.png)
+  ![child](../Images/BFC_10.png)
+
+- 用于清除浮动，计算 BFC 高度
+
+  可尝试上述阻止 margin 重叠示例 2 的例子，给 child 设置 float: left 即可查看效果
+
+- 自适应两栏布局
+
+  正常情况下,float 元素和块级元素一左一右置于同一行时，会发生重叠，而 BFC 区域不会和 float 区域重叠，故而块级元素创建 BFC 即可，如下：
+
+  ```
+  <!DOCTYPE html>
+  <head>
+    <title>BFC</title>
+    <style>
+      .other {
+        background-color: lightgreen;
+        width: 250px;
+        height: 100px;
+        float: left;
+      }
+      .child {
+        background-color: lightcoral;
+        height: 100px;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="other"></div>
     <div class="child"></div>
-  </div>
-  <div class="sibling"></div>
-</body>
-```
+  </body>
 
-![BFC](../Images/BFC_4.png)
-![BFC](../Images/BFC_5.png)
-![BFC](../Images/BFC_6.png)
+  ```
 
-示例 2：阻止嵌套 box 的 margin 重叠（注意使用 overflow 使 body 生成 BFC 时，需要同时给 html 设置 overflow）
+- 阻止元素被浮动元素覆盖
 
-```
-<!DOCTYPE html>
-<head>
-  <title>BFC</title>
-  <style>
-    .parent {
-      background-color: lightblue;
-      margin: 20px;
-    }
-    .child {
-      background-color: lightcoral;
-      height: 100px;
-      margin: 20px;
-    }
-  </style>
-</head>
-<body>
-  <div class="parent">
-    <div class="child"></div>
-  </div>
-</body>
-
-```
-
-![parent](../Images/BFC_7.png)
-![child](../Images/BFC_8.png)
-
-示例代码效果如图所示，可以发现：parent、child 的 margin-top 和 margin-bottom 重叠在了一起
-
-**由于 BFC 内的子元素无法影响到外界，故而 BFC 内的子元素无法和父级发生重叠，为什么？可以试想，如果 BFC 内的子 box 可以和父级发生重叠，父级又可以和兄弟 box 发生重叠，也就会出现子 box 间接地影响到了外界，而这是和规则不符的。** 给 parent 设置 overflow:hidden 生成 BFC，效果如下：
-
-![parent](../Images/BFC_9.png)
-![child](../Images/BFC_10.png)
-
-#### 用于清除浮动，计算 BFC 高度
-
-可尝试上述阻止 margin 重叠示例 2 的例子，给 child 设置 float: left 即可查看效果
-
-#### 自适应两栏布局
-
-正常情况下,float 元素和块级元素一左一右置于同一行时，会发生重叠，而 BFC 区域不会和 float 区域重叠，故而块级元素创建 BFC 即可，如下：
-
-```
-<!DOCTYPE html>
-<head>
-  <title>BFC</title>
-  <style>
-    .other {
-      background-color: lightgreen;
-      width: 250px;
-      height: 100px;
-      float: left;
-    }
-    .child {
-      background-color: lightcoral;
-      height: 100px;
-      overflow: hidden;
-    }
-  </style>
-</head>
-<body>
-  <div class="other"></div>
-  <div class="child"></div>
-</body>
-
-```
-
-#### 阻止元素被浮动元素覆盖
-
-同上述自适应两栏布局
+  同上述自适应两栏布局
