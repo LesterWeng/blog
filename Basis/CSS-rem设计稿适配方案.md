@@ -53,6 +53,8 @@ window.addEventListener('pageshow', function(e) {
 }
 ```
 
+最后，px 到 rem 的转换推荐使用 postcss 的 postcss-px2rem 插件，不需要转换的可以使用 `/*no*/` 进行标记，或者使用如下 scss 的 function px2rem 亦可
+
 ```scss
 $default-font-size: 32px;
 
@@ -61,5 +63,3 @@ $default-font-size: 32px;
   @return $px / $default-font-size * 1rem;
 }
 ```
-
-最后，px 到 rem 的转换推荐使用 postcss 的 postcss-px2rem 插件，不需要转换的可以使用 `/*no*/` 进行标记，或者使用如上 scss 的 function px2rem 亦可
