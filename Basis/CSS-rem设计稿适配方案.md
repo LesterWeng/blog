@@ -51,7 +51,9 @@ window.addEventListener('pageshow', function(e) {
     font-size: 28px;
   }
 }
+```
 
+```scss
 $default-font-size: 32px;
 
 // translate px to rem
