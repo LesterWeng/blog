@@ -25,7 +25,7 @@
 
 - 创建并切换至新分支： `git checkout -b 'newBranch'`
 
-- 将本地分支与远程分支进行关联（常用于本地新建分支之后需要提交到新的远程分支时）： `git branch --set-upstream-to=origin/newBranch`
+- 将本地分支与远程分支进行关联（常用于本地新建分支之后需要提交到新的远程分支时，如修改本地分支名称后提交到新的远程分支时）： `git branch --set-upstream-to=origin/newBranch`
 
 - 删除分支： `git checkout -d 'oldBranch'`
 
