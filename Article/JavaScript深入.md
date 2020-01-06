@@ -172,7 +172,6 @@ ECStack.pop();
 
   //示例1
   console.log(foo.bar()); // 2 等同于console.log((foo.bar)());
-
   //示例2
   console.log((true && foo.bar)()); // 1
   //示例3
