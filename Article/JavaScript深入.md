@@ -172,14 +172,17 @@ ECStack.pop();
 
   //示例1
   console.log(foo.bar()); // 2 等同于console.log((foo.bar)());
+
   //示例2
-  console.log((foo.bar = foo.bar)()); // 1
-  //示例3
   console.log((true && foo.bar)()); // 1
-  //示例4
+  //示例3
   console.log((false || foo.bar)()); // 1
+  //示例4
+  console.log((foo.bar = foo.bar)()); // 1
   //示例6
   console.log((foo.bar, foo.bar)()); // 1
+  //示例7
+  console.log((foo.bar ? foo.bar : null)()); // 1
   ```
 
 #### 执行上下文整体举例分析
