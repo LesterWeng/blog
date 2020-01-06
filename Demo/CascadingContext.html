@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<head>
+  <title>CascadingContext</title>
+  <style>
+    .box1,
+    .box2 {
+      position: relative;
+      z-index: auto;
+    }
+    .child1 {
+      width: 200px;
+      height: 100px;
+      background: #168bf5;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2;
+    }
+    .child2 {
+      width: 100px;
+      height: 200px;
+      background: #32c292;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="box1">
+    <div class="child1"></div>
+  </div>
+
+  <div class="box2">
+    <div class="child2"></div>
+  </div>
+</body>

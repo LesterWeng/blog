@@ -14,7 +14,7 @@
   - 传播举例：
     1. body 设置宽度和背景色，发现背景色传递到了视口
     2. body 设置 width:300px、height:300px，当视口高度小于 300px 时,视口出现滚动条，此时若给 body/html 设置 overflow:scroll 会发现没有出现新的滚动条，因为它们的设置传播到了视口，只有当 html、body 都设置 overflow:scroll 才会出现双滚动条，也就是说这样阻止了传播，这便可解释为什么给 body 设置 overflow 无法生成 BFC 的现象
-- 弹性元素(display:flex/inline-flex 的子元素) / 网格元素(display:grid/inline-grid)
+- 弹性元素(display:flex/inline-flex 的子元素) / 网格元素(display:grid/inline-grid 的子元素)
 
 ### 规则
 
@@ -140,7 +140,7 @@
   ![parent](../Images/BFC_9.png)
   ![child](../Images/BFC_10.png)
 
-- 用于清除浮动，计算 BFC 高度
+- 用于清除浮动，防止高度塌陷
 
   可尝试上述阻止 margin 重叠示例 2 的例子，给 child 设置 float: left 即可查看效果
 
