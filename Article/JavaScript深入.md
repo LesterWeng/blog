@@ -158,7 +158,29 @@ ECStack.pop();
   - 由上下文对象调用？绑定到那个上下文对象
   - 默认：在严格模式下绑定到 undefined，否则绑定到全局对象
   - ES6 箭头函数 this 继承外层函数调用的 this 绑定
-- 注意 &&、||、=、(,)、双目 等运算符返回‘真正的值’(GetValue)，而不是 REference，this 返回 undefined，在非严格模式下，this 为 undefined 时会自动将其转为 window
+- 注意 &&、||、=、(,)、双目 等运算符返回‘真正的值’(GetValue)，而不是 Reference，this 将返回 undefined，在非严格模式下，this 为 undefined 时会自动将其转为 window，举例如下：
+
+  ```js
+  var value = 1;
+
+  var foo = {
+    value: 2,
+    bar: function() {
+      return this.value;
+    },
+  };
+
+  //示例1
+  console.log(foo.bar()); // 2 等同于console.log((foo.bar)());
+  //示例2
+  console.log((foo.bar = foo.bar)()); // 1
+  //示例3
+  console.log((true && foo.bar)()); // 1
+  //示例4
+  console.log((false || foo.bar)()); // 1
+  //示例6
+  console.log((foo.bar, foo.bar)()); // 1
+  ```
 
 #### 执行上下文整体举例分析
 
