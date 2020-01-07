@@ -156,9 +156,9 @@ ECStack.pop();
   - 由 new 调用？绑定到新创建的对象
   - 由 call 或者 apply（或者 bind）调用？绑定到指定的对象
   - 由上下文对象调用？绑定到那个上下文对象
-  - 默认：在严格模式下绑定到 undefined，否则绑定到全局对象
+  - 默认：全局环境中指向 window；函数中，this 绑定到 undefined，在非严格模式下，则绑定到 window
   - ES6 箭头函数 this 继承外层函数调用的 this 绑定
-- 特殊情况下的 this 指向： &&、||、=、(,)、双目 等运算符返回‘真正的值’(GetValue)，而不是 Reference，this 将返回 undefined，在非严格模式下，则返回 window，如下：
+- 特殊情况下的 this 指向： &&、||、=、(,)、双目 等运算符返回‘真正的值’(GetValue)，而不是 Reference，this 绑定到 undefined，在非严格模式下，则绑定到 window，如下：
 
   ```js
   var value = 1;
