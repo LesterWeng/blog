@@ -146,7 +146,7 @@ ECStack.pop();
 #### 作用域链
 
 - 函数创建阶段
-  - 函数有一个内部属性 [[scope]]，当函数创建的时候，会保存所有父变量对象到其中
+  - 函数有一个内部属性 [[Scopes]]，当函数创建的时候，会保存所有父变量对象到其中
 - 函数激活阶段
   - 当函数激活时，进入函数上下文，创建 VO/AO 后，就会将活动对象添加到作用链的前端
 
@@ -216,10 +216,10 @@ globalContext = {
 };
 ```
 
-- 全局上下文初始化过程中，checkscope 函数被创建，保存作用域链到内部属性[[scope]]
+- 全局上下文初始化过程中，checkscope 函数被创建，保存作用域链到内部属性[[Scopes]]
 
 ```js
-checkscope.[[scope]] = globalContext.scope
+checkscope.[[Scopes]] = globalContext.scope
 ```
 
 - 执行 checkscope 函数，创建 checkscope 函数执行上下文，入执行上下文栈
@@ -232,7 +232,7 @@ ECStack = {
 ```
 
 - checkscope 函数执行上下文初始化：
-  - 复制[[scope]]创建 scope
+  - 复制[[Scopes]]创建 scope
   - 用 arguments、形参、变量声明、函数声明初始化 VO
   - VO 压入 scope
 
@@ -249,10 +249,10 @@ checkscopeContext = {
 }
 ```
 
-- checkscope 函数执行上下文初始化过程中，f 函数被创建，保存作用域链到内部属性[[scope]]
+- checkscope 函数执行上下文初始化过程中，f 函数被创建，保存作用域链到内部属性[[Scopes]]
 
 ```js
-f.[[scope]] = globalContext.scope
+f.[[Scopes]] = globalContext.scope
 ```
 
 - checkscope 函数执行完毕，checkscopeContext 出执行上下文栈
