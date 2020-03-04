@@ -50,6 +50,9 @@ async function a1() {
   console.log('a1 end');
 }
 async function a2() {
+  await Promise.resolve().then(() => {
+    console.log('special')
+  })
   console.log('a2');
 }
 
@@ -81,13 +84,14 @@ console.log('script end');
 /* 结果为：
 script start
 a1 start
-a2
 promise2
 script end
 promise1
-a1 end
+special
 promise2.then
+a2
 promise3
+a1 end
 setTimeout
 */
 
@@ -95,13 +99,11 @@ setTimeout
 async function async1() {
   console.log('async1 start');
   await async2();
-  //更改如下：
   setTimeout(function() {
     console.log('setTimeout1');
   }, 0);
 }
 async function async2() {
-  //更改如下：
   setTimeout(function() {
     console.log('setTimeout2');
   }, 0);
