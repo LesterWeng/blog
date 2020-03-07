@@ -32,7 +32,7 @@
 
 3. '负边距'
 
-   - left、margin、padding 百分比相对于父级，但 padding 不能为负值，transform 百分比相对于自身，据此，我们可以设置 left/margin 其中一个为 50%使盒子左边对齐父级 50%宽处，再设置另一个或 transform 为负 50%自身宽度使盒子居中，垂直居中同理
+   - left、margin、padding 百分比相对于父级，但 padding 不能为负值，transform 百分比相对于自身，据此，我们可以设置 left/margin 其中一个为 50%使盒子左边对齐父级 50%宽处，再设置另一个或 transform 为负 50%自身宽度使盒子居中，垂直居中同理（注意 margin-top/bottom 百分比是相对于父级元素的 width）
 
    ```scss
    div {
