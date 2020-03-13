@@ -70,7 +70,7 @@
 
 9. new Array() / Array() / []
 
-   - new Array()/Array()完全一致
+   - new Array() / Array()完全一致
      - 支持形如 new Array(5)，创建指定长度且数据均为**empty**的数组，无法使用**for 循环**以外的遍历方法进行遍历
      - 支持形如 new Array(1, 2)，创建具有指定元素的数组
    - []
