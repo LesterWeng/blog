@@ -52,10 +52,22 @@
    - 使用 for...of 遍历时，左边参数为[index, value]，实际每次遍历时调用 iterator.next()
    - forEach、for 循环、map、some、every、filter、find 等等遍历按情形进行选择，如需要 **break/continue** 选择 for 循环，用于 Bool 型判断选择 some、every、!!find，用于返回其他的结构数据选择 map...
 
-6. Array.from()
+6. Array.prototype.fill()
+
+   - 使用参数填充数组，若参数为对象，则数组中每个元素均指向此对象
+
+7. Array.from()
 
    - 从一个类数组或可迭代对象创建一个新的、浅拷贝的数组
 
-7. Array.isArray()
+8. Array.isArray()
 
    - 判断传入数据是否为数组，等于 instanceof
+
+9. new Array()/Array()/[]
+
+   - new Array()/Array()完全一致
+     - 支持形如 new Array(5)，创建指定长度且数据均为**empty**的数组，无法正常使用遍历方法
+     - 支持形如 new Array(1, 2)，创建具有指定元素的数组
+   - []
+     - 支持形如 [1],[1,2]，创建具有指定元素的数组，仅在单个参数时与上面两种结果不同
