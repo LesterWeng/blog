@@ -83,36 +83,36 @@ WebSocket 是一种通信协议，使用 ws://（非加密）和 wss://（加密
 
 2.  网页存在跨域时，可以访问到其 window 对象，从而再通过 window.postMessage 接口即可实现两个网页间数据的交互
 
-- window 获取方式
-  - `Window.open`
-  - `Window.opener`
-  - `HTMLIFrameElement.prototype.contentWindow`
-  - `Window.parent`
-  - `Window.frames[index]`，Window.frames 返回一个**类数组对象**
-- postMessage，举例如下：
+    - window 获取方式
+      - `Window.open`
+      - `Window.opener`
+      - `HTMLIFrameElement.prototype.contentWindow`
+      - `Window.parent`
+      - `Window.frames[index]`，Window.frames 返回一个**类数组对象**
+    - postMessage，举例如下：
 
-  ```js
-  // A页面
-  const receiver = document.getElementById('receiver').contentWindow;
-  receiver.postMessage('Hello', 'http:B');
+      ```js
+      // A页面
+      const receiver = document.getElementById('receiver').contentWindow;
+      receiver.postMessage('Hello', 'http:B');
 
-  // B页面
-  window.addEventListener(
-    'message',
-    event => {
-      // event.data 消息
-      // event.origin 消息来源地址
-      // event.source 源 Window 对象
-    },
-    false,
-  );
-  ```
+      // B页面
+      window.addEventListener(
+        'message',
+        event => {
+          // event.data 消息
+          // event.origin 消息来源地址
+          // event.source 源 Window 对象
+        },
+        false,
+      );
+      ```
 
 3.  通过 location.hash 传递数据
 
-- 父页面可以对 iframe 进行 URL 读写，可以直接给 iframe 页面设置 hash，iframe 页面内通过监听 hash 的改变(onhashchange)来获取数据
-- iframe 无法对父页面 URL 进行设置，iframe 页面可添加一个隐藏的 iframe，作为代理 iframe，地址位于父域名之下，如`http://a.ccc.com/proxy.html`，iframe 页面设置代理页面的 hash，代理页面内监听 hash 的改变，由于代理页面和父页面不存在跨域，当 hash 改变时就可以设置父页面的 hash(`parent.parent.location.hash = xxx`)，从而达到传递数据的目的
+    - 父页面可以对 iframe 进行 URL 读写，可以直接给 iframe 页面设置 hash，iframe 页面内通过监听 hash 的改变(onhashchange)来获取数据
+    - iframe 无法对父页面 URL 进行设置，iframe 页面可添加一个隐藏的 iframe，作为代理 iframe，地址位于父域名之下，如`http://a.ccc.com/proxy.html`，iframe 页面设置代理页面的 hash，代理页面内监听 hash 的改变，由于代理页面和父页面不存在跨域，当 hash 改变时就可以设置父页面的 hash(`parent.parent.location.hash = xxx`)，从而达到传递数据的目的
 
-4. 通过 window.name 传递数据
+4.  通过 window.name 传递数据
 
-- window 对象有个 name 属性，该属性有个特征：即在一个窗口(window)的生命周期内,窗口载入的所有的页面都是共享一个 window.name 的，每个页面对 window.name 都有读写的权限，window.name 是持久存在一个窗口载入过的所有页面中的，并不会因新页面的载入而进行重置。
+    - window 对象有个 name 属性，该属性有个特征：即在一个窗口(window)的生命周期内,窗口载入的所有的页面都是共享一个 window.name 的，每个页面对 window.name 都有读写的权限，window.name 是持久存在一个窗口载入过的所有页面中的，并不会因新页面的载入而进行重置。
