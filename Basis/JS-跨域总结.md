@@ -73,12 +73,13 @@ WebSocket 是一种通信协议，使用 ws://（非加密）和 wss://（加密
 
 1.  设置 document.domain 使两个网页的**域**相同，举个栗子，两个网页分别如下：
 
-A 网页：`http://a.ccc.com`，documentA
-B 网页：`http://b.ccc.com`，documentB
+    A 网页：`http://a.ccc.com`，documentA
 
-正常情况两网页跨域，无法访问对方的 document，而当我们分别设置 `documentA.domain = "ccc.com"; documentB.domain = "ccc.com"`之后，发现两个网页可以互相访问对方的 document 了，因为两个网页的域已经相等了，不存在跨域了
+    B 网页：`http://b.ccc.com`，documentB
 
-需要注意的是, document.domain 是不能乱设置的，是有条件的：只能设置为当前域或当前域的**父域**且至少有一个**.**，还是上面的栗子，`http://a.ccc.com`中 com 为一级域名（顶级），ccc 为二级域名，a 为三级域名，所以这个网页的 docuemnt.domain 仅可以设置为`ccc.com`
+    正常情况两网页跨域，无法访问对方的 document，而当我们分别设置 `documentA.domain = "ccc.com"; documentB.domain = "ccc.com"`之后，发现两个网页可以互相访问对方的 document 了，因为两个网页的域已经相等了，不存在跨域了
+
+    需要注意的是, document.domain 是不能乱设置的，是有条件的：只能设置为当前域或当前域的**父域**且至少有一个**.**，还是上面的栗子，`http://a.ccc.com`中 com 为一级域名（顶级），ccc 为二级域名，a 为三级域名，所以这个网页的 docuemnt.domain 仅可以设置为`ccc.com`
 
 2.  网页存在跨域时，可以访问到其 window 对象，从而再通过 window.postMessage 接口即可实现两个网页间数据的交互
 
