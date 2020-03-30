@@ -24,6 +24,8 @@
 
 - [CSS-rem 设计稿适配方案](./Basis/CSS-rem设计稿适配方案.md)
 
+- [JS-跨域总结](./Basis/JS-跨域总结.md)
+
 - [JS-Array 常用方法](./Basis/JS-Array常用方法.md)
 
 - [Sass-常用语法](./Basis/Sass-常用语法.md)
