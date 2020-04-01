@@ -25,7 +25,7 @@
 
 2. Array.prototype.reduce(callback, [initialValue])
 
-   - 没有 initialValue 时，将使用数组第一个项作为初始值，[].reduce(() => {})就会由于缺失初始值而报错
+   - 没有 initialValue 时，将使用数组第一项作为初始值，[].reduce(() => {})就会由于缺失初始值而报错
    - callback 包含四个参数：
      - perv
      - curr
