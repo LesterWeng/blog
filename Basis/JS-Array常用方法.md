@@ -25,7 +25,7 @@
 
 2. Array.prototype.reduce(callback, [initialValue])
 
-   - 没有 initialValue 时，将使用数组第一个项作为初始值，[].reduce(() => {})就会由于缺失初始值而报错
+   - 没有 initialValue 时，将使用数组第一项作为初始值，[].reduce(() => {})就会由于缺失初始值而报错
    - callback 的返回值要与数组中项的结构类似，否则结果会异常，举例如下：
    - Array.prototype.reduceRight 为从右向左遍历，没有 initialValue 时，将使用数组最后一项作为初始值
 
