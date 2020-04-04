@@ -84,11 +84,11 @@ WebSocket 是一种通信协议，使用 ws://（非加密）和 wss://（加密
 2.  网页存在跨域时，可以访问到其 window 对象，从而再通过 window.postMessage 接口即可实现两个网页间数据的交互
 
     - window 获取方式
-      - `Window.open`
-      - `Window.opener`
+      - `window.open`
+      - `window.opener`
       - `HTMLIFrameElement.prototype.contentWindow`
-      - `Window.parent`
-      - `Window.frames[index]`，Window.frames 返回一个**类数组对象**
+      - `window.parent`
+      - `window.frames[index]`，window.frames 返回一个**类数组对象**
     - postMessage，举例如下：
 
       ```js
