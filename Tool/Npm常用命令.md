@@ -10,9 +10,9 @@
 
 - 更新包：`npm update xxx`
 
-- 安装并写入 package.json 的 dependencies 中: `npm install <package> --save`
+- 安装并写入 package.json 的 dependencies 中: `npm install <package> --save` 或缩写 `npm i <package> -S`
 
-- 安装并写入 package.json 的 devDependencies 中: `npm install <package> --save-dev`
+- 安装并写入 package.json 的 devDependencies 中: `npm install <package> --save-dev` 或缩写 `npm i <package> -D`
 
 - 移除并删除 package.json 的 dependencies 中的对应信息: `npm unnistall <package> --save`
 
