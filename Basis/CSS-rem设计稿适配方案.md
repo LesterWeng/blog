@@ -7,6 +7,8 @@
 - 页面尺寸发生改变时使用 js 修改 html(document.documentElement)的 font-size 从而修改 rem 所对应的的数值
 - 这种情况下用于计算的默认 font-size(referenceFontSize)大小可以自定义，原因是设置时与使用时分别对 referenceFontSize 使用乘法、除法，如 100 \* fontSize / fontSize，最终结果不变
 
+> referenceFontSize 可以设置为设计稿上页面主尺寸，这样就省去了在 body 上设置 font-size 的工作
+
 ```js
 var docEl = document.documentElement,
   referenceWidth = 1920 - 200,
@@ -25,7 +27,7 @@ setRemUnit();
 
 // reset rem unit on page resize
 window.addEventListener('resize', setRemUnit);
-window.addEventListener('pageshow', function(e) {
+window.addEventListener('pageshow', function (e) {
   if (e.persisted) {
     setRemUnit();
   }
