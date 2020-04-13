@@ -140,7 +140,7 @@
   ![parent](../Images/BFC_9.png)
   ![child](../Images/BFC_10.png)
 
-- 用于清除浮动，防止高度塌陷
+- 防止高度塌陷
 
   可尝试上述阻止 margin 重叠示例 2 的例子，给 child 设置 float: left 即可查看效果
 
