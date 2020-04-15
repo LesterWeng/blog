@@ -46,10 +46,10 @@
 
 4. Array.prototype.push(element1, ..., elementN)
 
-   - 依次将这些元素添加到数组末尾，**入栈**操作，返回值是新数组的**length**
+   - 依次将这些元素添加到数组末尾，即可作为栈的**入栈**操作，也可以作为队列的**入队列**操作，返回值是新数组的**length**
    - Array.prototype.pop()，**出栈**操作
-   - Array.prototype.unshift(element1, ..., elementN)，依次将这些元素添加到数组开头，**入队列**操作，返回值是新数组的**length**
    - Array.prototype.shift()，**出队列**操作
+   - Array.prototype.unshift(element1, ..., elementN)，依次将这些元素添加到数组开头，返回值是新数组的**length**
 
 5. Array.prototype.entries()
 
