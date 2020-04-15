@@ -9,7 +9,7 @@
 
 ### 宏任务(macrotask)
 
-(macro)task（又称之为宏任务），可以理解是每次执行栈执行的代码就是一个宏任务（包括每次从事件队列中获取一个事件回调并放到执行栈中执行）。
+macrotask（又称之为宏任务），可以理解是每次执行栈执行的代码就是一个宏任务（包括每次从事件队列中获取一个事件回调并放到执行栈中执行）。
 
 浏览器为了能够使得 JS 内部(macro)task 与 DOM 任务能够有序的执行，会在一个(macro)task 执行结束后，在下一个(macro)task 执行开始前，对页面进行重新渲染
 
@@ -51,8 +51,8 @@ async function a1() {
 }
 async function a2() {
   await Promise.resolve().then(() => {
-    console.log('special')
-  })
+    console.log('special');
+  });
   console.log('a2');
 }
 
@@ -68,12 +68,12 @@ Promise.resolve().then(() => {
 
 a1();
 
-let promise2 = new Promise(resolve => {
+let promise2 = new Promise((resolve) => {
   resolve('promise2.then');
   console.log('promise2');
 });
 
-promise2.then(res => {
+promise2.then((res) => {
   console.log(res);
   Promise.resolve().then(() => {
     console.log('promise3');
@@ -99,26 +99,26 @@ setTimeout
 async function async1() {
   console.log('async1 start');
   await async2();
-  setTimeout(function() {
+  setTimeout(function () {
     console.log('setTimeout1');
   }, 0);
 }
 async function async2() {
-  setTimeout(function() {
+  setTimeout(function () {
     console.log('setTimeout2');
   }, 0);
 }
 console.log('script start');
 
-setTimeout(function() {
+setTimeout(function () {
   console.log('setTimeout3');
 }, 0);
 async1();
 
-new Promise(function(resolve) {
+new Promise(function (resolve) {
   console.log('promise1');
   resolve();
-}).then(function() {
+}).then(function () {
   console.log('promise2');
 });
 console.log('script end');
