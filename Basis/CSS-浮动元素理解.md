@@ -35,7 +35,7 @@
 
   这时它们在同一行上，我们发现：若浮动元素的上个块级元素不为浮动元素，其不可向上移动（上个元素为行内或行内块级时会上移，但不会重叠，而是环绕）
 
-## 清除浮动
+## 阻止父元素高度塌陷
 
 clear:left/right/both <br/>
 即不允许左/右两边有浮动元素，当前行上不会再有浮动元素（注意用于设置 clear 样式的 div 不要设置 float） <br/>
@@ -43,16 +43,17 @@ clear:left/right/both <br/>
 常用方式：
 
 ```scss
-// 在需要清除浮动的元素的上侧或下侧添加div，并设置clear样式
+// 在需要'清除浮动'的元素的上侧或下侧添加div，并设置clear样式
 .clear {
   clear: both;
 }
-// 设置包含浮动元素的容器元素的伪元素
+// 设置父元素的伪元素
 .wrapper-clear::after {
   content: '';
   display: block;
   clear: both;
 }
-// 设置父元素overflow: auto
-// 将父元素也变为BFC
+// 设置父元素overflow: hidden等等将父元素变为BFC
 ```
+
+关于 BFC 方面的内容，详见：[CSS-BFC 理解](./CSS-BFC理解)
