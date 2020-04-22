@@ -153,10 +153,11 @@ ECStack.pop();
 #### this
 
 - 从多种情形确定 this
+  - 默认：全局环境中指向 window；函数中，this 绑定到 undefined，在非严格模式下，则绑定到 window
   - 由 new 调用？绑定到新创建的对象
   - 由 call 或者 apply（或者 bind）调用？绑定到指定的对象
-  - 由上下文对象调用？绑定到那个上下文对象
-  - 默认：全局环境中指向 window；函数中，this 绑定到 undefined，在非严格模式下，则绑定到 window
+  - 由上下文对象调用？绑定到那个上下文对象，若为间接引用时，使用默认规则
+  
   - ES6 箭头函数 this 继承外层函数调用的 this 绑定
 - 特殊情况下的 this 指向： &&、||、=、(,)、双目 等运算符返回‘真正的值’(GetValue)，而不是 Reference，this 绑定到 undefined，在非严格模式下，则绑定到 window，如下：
 
@@ -170,17 +171,13 @@ ECStack.pop();
     },
   };
 
-  //示例1
   console.log(foo.bar()); // 2 等同于console.log((foo.bar)());
-  //示例2
+  var func = foo.bar;
+  console.log(func()); // 1，间接引用
   console.log((true && foo.bar)()); // 1
-  //示例3
   console.log((false || foo.bar)()); // 1
-  //示例4
   console.log((foo.bar = foo.bar)()); // 1
-  //示例6
   console.log((foo.bar, foo.bar)()); // 1
-  //示例7
   console.log((foo.bar ? foo.bar : null)()); // 1
   ```
 
