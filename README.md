@@ -8,7 +8,7 @@
 
 - [相对路径的应用](./Article/相对路径的应用.md)
 
-- [手写Promise](./Article/手写Promise)
+- [手写Promise](./Article/手写Promise.md)
 
 - [JavaScript 深入](./Article/JavaScript深入.md)
 
