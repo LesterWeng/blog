@@ -6,8 +6,10 @@ const RESOLVED = 'resolved';
 const REJECTED = 'rejected';
 
 /**
- * 状态不可逆,pending -> resolved/rejected
+ * 注意Promise的特点：
+ * 状态变化 pending/resolved -> resolved | pending/resolved -> rejected
  * 链式调用
+ * then的返回值会作为下个then的参数
  */
 class MyPromise {
   constructor(cb) {
@@ -85,6 +87,10 @@ class MyPromise {
       reject(value);
     });
   }
+  
+  static all(promises){}
+  static race(promises){}
+  // ...
 }
 
 // test
