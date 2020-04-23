@@ -8,6 +8,8 @@
 
 - [相对路径的应用](./Article/相对路径的应用.md)
 
+- [手写Promise](./Article/手写Promise)
+
 - [JavaScript 深入](./Article/JavaScript深入.md)
 
 - [JavaScript 事件循环](./Article/JavaScript事件循环.md)
