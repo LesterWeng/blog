@@ -4,7 +4,7 @@
 
 1. 一般
 
-   - text-align: center, line-height: height, vertical-align: middle(实际并没有完全垂直居中，仅仅是中间与文字基线对齐了，可通过 vertical-align: n px 继续进行调整)
+   - text-align: center, line-height: height, vertical-align: middle(实际并没有完全垂直居中，仅仅是中间与字母`x`基线对齐了，可通过 vertical-align: n px 继续进行调整)
 
 2. 父级 flex
 
