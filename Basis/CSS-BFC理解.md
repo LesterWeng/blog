@@ -11,11 +11,15 @@
 - display: inline-block / table-cell / table-caption / table...(分别是 HTML table、row、tbody、thead、tfoot 的默认属性)
 - float 元素
 - ovevflow !== visible 并且该值没有传播到 viewport(except when that value has been propagated to the viewport)
-  - 经验证，ovevflow为scroll(auto)时会发生传播，hidden时不会发生传播，举例：
+  - 经验证，ovevflow 为 scroll(auto)时会发生传播，hidden 时不会发生传播，举例：
     1. body 设置宽度和背景色，发现背景色传递到了视口
     2. body 设置 width:300px、height:300px，当视口高度小于 300px 时,视口出现滚动条，此时若给 body/html 设置 overflow:scroll 会发现没有出现新的滚动条，因为它们的设置传播到了视口，只有当 html、body 都设置 overflow:scroll 才会出现双滚动条，也就是说这样阻止了传播，这便可解释为什么给 body 设置 overflow 无法生成 BFC 的现象
-    3. 有一个float元素，高度超出浏览器高度，它的父级及祖先都不存在BFC，即包含在html这个BFC下，这时出现的滚动条是html的滚动条（可以根据scrollTop得知）,当给body设置overflow:scroll后仍是如此，只有当给body、html均设置时才会变成body的滚动条，与上同理
-- ~~弹性元素(display:flex/inline-flex 的子元素) / 网格元素(display:grid/inline-grid 的子元素)~~ CSS3规范中已将它们划分到单独的`F(Flex)FC` 和 `G(Grid)FC`
+    3. 有一个 float 元素，高度超出浏览器高度，它的父级及祖先都不存在 BFC，即包含在 html 这个 BFC 下，这时出现的滚动条是 html 的滚动条（可以根据 scrollTop 得知）,当给 body 设置 overflow:scroll 后仍是如此，只有当给 body、html 均设置时才会变成 body 的滚动条，与上同理
+- ~~弹性元素(display:flex/inline-flex 的子元素) / 网格元素(display:grid/inline-grid 的子元素)~~ CSS3 规范中已将它们划分到单独的`F(Flex)FC` 和 `G(Grid)FC`
+
+> 除此之外还有个`IFC`的概念，即`Inline Formatting Contexts`内联格式化上下文。
+> 特点：内部只有行内元素；高度由内部最高的行内元素决定，不受垂直方向上`padding/margin`影响；水平/垂直居中可通过`text-align`/`vertical-align`设置
+> 触发条件：`inline-block`
 
 ### 规则
 

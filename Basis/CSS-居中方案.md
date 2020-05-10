@@ -22,6 +22,7 @@
    - 垂直方向上不存在流体特性，无法自动分配剩余空间，但当 position: absolute 且两个方向都进行了定位时，该盒子便具备了流体特性，因此此时再做 margin auto 设置即可达到居中效果
 
    ```scss
+   // 若是需要设置水平/垂直同时居中，则要设置margin: auto;且left/right/top/bottom：0
    div {
      position: absolute;
      top: 0;
