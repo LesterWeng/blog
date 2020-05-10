@@ -18,7 +18,9 @@
 - ~~弹性元素(display:flex/inline-flex 的子元素) / 网格元素(display:grid/inline-grid 的子元素)~~ CSS3 规范中已将它们划分到单独的`F(Flex)FC` 和 `G(Grid)FC`
 
 > 除此之外还有个`IFC`的概念，即`Inline Formatting Contexts`内联格式化上下文。
+
 > 特点：内部只有行内元素；高度由内部最高的行内元素决定，不受垂直方向上`padding/margin`影响；水平/垂直居中可通过`text-align`/`vertical-align`设置
+
 > 触发条件：`inline-block`
 
 ### 规则
