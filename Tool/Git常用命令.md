@@ -14,6 +14,7 @@
 
   - git config user.name (read)
   - git config user.name "your user name" (write)
+  - git config --global http.sslVerify false (忽略https验证)
 
 - 本地库初始化: `git init`
 
