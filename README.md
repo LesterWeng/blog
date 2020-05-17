@@ -30,7 +30,7 @@
 
 - [JS-Array 常用方法](./Basis/JS-Array常用方法.md)
 
-- [Sass-常用语法](./Basis/Sass-常用语法.md)
+- [Scss-常用语法](./Basis/Scss-常用语法.md)
 
 ## 解决方案
 
