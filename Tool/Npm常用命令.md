@@ -30,3 +30,6 @@
 - 查看可更新包（需要先安装 npm-check-updates）: `ncu`
 
 - 更新全部包（需要先安装 npm-check-updates）: `ncu-u`
+
+> 疑难问题记录：
+> `npm WARN tarball tarball data for`，此问题怀疑是网络不好，部分包没有拉下来，可尝试先单独安装出错的包
