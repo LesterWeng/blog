@@ -44,39 +44,51 @@
    - depth 默认为 1
    - Array.prototype.flatMap 对 Array.prototype.map 返回的每一项进行**数组层面的降级**
 
-4. Array.prototype.push(element1, ..., elementN)
+4. Array.prototype.push(...items)
 
    - 依次将这些元素添加到数组末尾，即可作为栈的**入栈**操作，也可以作为队列的**入队列**操作，返回值是新数组的**length**
    - Array.prototype.pop()，**出栈**操作
    - Array.prototype.shift()，**出队列**操作
-   - Array.prototype.unshift(element1, ..., elementN)，依次将这些元素添加到数组开头，返回值是新数组的**length**
+   - Array.prototype.unshift(...items)，依次将这些元素添加到数组开头，返回值是新数组的**length**
+   - Array.prototype.splice()
 
-5. Array.prototype.entries()
+5. Array.prototype.slice(statrt, end)
+
+   - 类似字符串 slice 功能，变成截取数组
+   - 返回截取的子数组
+
+6. Array.prototype.splice(start, ?deleteCount, ...items)
+
+   - 移除数组内元素的同时还可以在 start 位置依次添加新元素
+   - 返回移除的子数组
+
+7. Array.prototype.entries()
 
    - 返回一个迭代器 iterator
    - 使用 for...of 遍历时，左边参数为[index, value]，实际每次遍历时调用 iterator.next()
    - forEach、for 循环、map、some、every、filter、find 等等遍历按情形进行选择，如需要 **break/continue** 选择 for 循环，用于 Bool 型判断选择 some、every、!!find，用于返回其他的结构数据选择 map...
 
-6. Array.prototype.fill()
+8. Array.prototype.fill()
 
    - 使用参数填充数组，若参数为对象，则数组中每个元素均指向此对象
 
-7. Array.from()
+9. Array.from()
 
    - 从一个**类数组对象**或**可迭代对象**创建一个新的、浅拷贝的数组
    - 类数组对象
      - 拥有 length 属性，其他属性（索引，非数字不考虑）为非负整数的非数组对象
      - 简单判断: `0 <= length < +∞` 的对象
+     - `Array.from({length: 5})` 效果等价于 `Array.apply(null, {length: 5})`
    - 类数组对象不一定可迭代，但可迭代一定是数组 or 类数组对象
 
-8. Array.isArray()
+10. Array.isArray()
 
-   - 判断传入数据是否为数组，等于 instanceof
+    - 判断传入数据是否为数组，等于 instanceof
 
-9. new Array() / Array() / []
+11. new Array() / Array() / []
 
-   - new Array() / Array()完全一致
-     - 支持形如 new Array(5)，创建指定长度且数据均为**empty**的数组，无法使用**for 循环**以外的遍历方法进行遍历
-     - 支持形如 new Array(1, 2)，创建具有指定元素的数组
-   - []
-     - 支持形如 [1],[1,2]，创建具有指定元素的数组，仅在单个参数时与上面两种结果不同
+    - new Array() / Array()完全一致
+      - 支持形如 new Array(5)，创建指定长度且数据均为**empty**的数组，无法使用**for 循环**以外的遍历方法进行遍历
+      - 支持形如 new Array(1, 2)，创建具有指定元素的数组
+    - []
+      - 支持形如 [1],[1,2]，创建具有指定元素的数组，仅在单个参数时与上面两种结果不同
