@@ -45,7 +45,7 @@
 
 - 更新当前分支（自动 merge 本地代码，冲突时，需要手动解决）： `git pull`
 
-- 强制把远程库的代码跟新到当前分支上面：`git pull --rebase origin master`
+- 强制把远程库的代码跟新到当前分支上面：`git pull origin master`
 
 - 添加本地文件（夹）修改到 stage： `git add xxx`
 
