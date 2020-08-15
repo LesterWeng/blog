@@ -87,9 +87,9 @@
 
 - （`reset`）回退到之前的 commit state（可回退本地未 push 的 commit） 后提交，会撤销那次 commit 之后的 commit：`git reset --soft 'commitHash'`
 
-  - 回退到上次（1个版本）的 commit state：`git reset --soft HEAD~`、`git reset --soft HEAD~1`
+  - 回退到上次（1 个版本）的 commit state：`git reset --soft HEAD~`、`git reset --soft HEAD~1`
 
-  - 回退到上上次（2个版本）的 commit state：`git reset --soft HEAD~2`...
+  - 回退到上上次（2 个版本）的 commit state：`git reset --soft HEAD~2`...
 
   案例：
 
@@ -97,9 +97,9 @@
 
 - （`revert`）回退之前已提交的 commit 后提交，会撤销那次 commit 的修改：`git revert 'commitHash'`
 
-  - 回退上次提交的 commit state：`git revert HEAD`
+  - 回退上次提交（1 个版本）的 commit state：`git revert HEAD~`、`git revert HEAD~1`
 
-  - 回退上上次提交的 commit state：`git revert HEAD^`
+  - 回退上上次提交的（2 个版本） commit state：`git revert HEAD~2`...
 
   案例：
 
