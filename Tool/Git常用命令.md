@@ -93,7 +93,7 @@
 
   案例：
 
-  - 回退 remote 的 commit，常用于回退`较新`的 commit ，回退后再将之后的 commit 重新提交一次以恢复
+  - 回退 remote 的 commit，常用于回退`较新`的 commit ，回退后再将之后的 commit 重新提交一遍以恢复
 
 - （`revert`）回退之前已提交的 commit 后提交，会撤销那次 commit 的修改：`git revert 'commitHash'`
 
