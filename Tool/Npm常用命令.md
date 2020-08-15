@@ -20,7 +20,7 @@
 
 - 运行 package.json 中 scripts 定义的脚本：`npm run xxx`，一些常用命令可简化，如`npm start`、`npm test`、`npm build`
 
-- 将 npm 模块链接到本地 npm 模块：`npm link`，如在`A`项目中需要使用本地 npm 模块`B`，则我们需要现在`B`模块内使用`npm link`，之后在`A`项目内使用`npm link B`
+- 将 npm 模块链接到本地 npm 模块：`npm link`，如在`A`项目中需要使用本地 npm 模块`B`，则我们需要现在`B`模块内使用`npm link`，之后在`A`项目内使用`npm link B`（如果是 IDE 是 VsCode 的话，链接成功后，`A`项目的`node_modules`内的`B`模块右侧会有个`返回符号`）
 
 - 安装淘宝镜像 cnpm 命令行工具：`$ npm i cnpm --registry=https://registry.npm.taobao.org -g`
 
