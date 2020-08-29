@@ -58,6 +58,10 @@
 
 - 将单/多个 commit 应用于当前分支：`git cherry-pick 'commitHashA' 'commitHashB'`
 
+案例：
+
+- `master`分支不允许 push，因此通过`master_wlx`分支`merge`过去，操作步骤（在`master_wlx`分支）：修改版本号（假设仅需要修改某个包的版本号）->`git push`->`git pull origin master`，出现`conflict`，处理完之后发现文件没有改变，不允许 push。分析原因：相对于`master_wlx`分支，处理完分歧后的本地分支确实和远程分支一致。解决方案：先`pull`，再`push`，即`git pull origin master`->修改版本号->`git push`
+
 ## commit 相关
 
 - 添加本地文件（夹）修改到 stage： `git add xxx`
