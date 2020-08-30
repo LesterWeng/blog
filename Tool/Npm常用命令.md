@@ -56,6 +56,8 @@
   - 登录：`npm adduser --registry http://localhost:4873`
   - 发布：`npm publish --registry http://localhost:4873`
 
+- npm tags（待更新...）
+
 - 问题记录
 
   - `npm WARN tarball tarball data for`，此问题怀疑是网络不好，部分包没有拉下来，可尝试先单独安装出错的包
