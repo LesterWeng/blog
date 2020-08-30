@@ -22,7 +22,7 @@
 
 - 将 npm 模块链接到本地 npm 模块：`npm link`，如在`A`项目中需要使用本地 npm 模块`B`，则我们需要现在`B`模块内使用`npm link`，之后在`A`项目内使用`npm link B`（如果是 IDE 是 VsCode 的话，链接成功后，`A`项目的`node_modules`内的`B`模块右侧会有个`返回符号`）
 
-- 安装淘宝镜像 cnpm 命令行工具：`$ npm i cnpm --registry=https://registry.npm.taobao.org -g`
+- 安装淘宝镜像 cnpm 命令行工具：`$ npm i cnpm --registry=https://registry.npm.taobao.org -g`（`mac` 全局安装包时需要`sudo`）
 
   - 使用淘宝镜像安装包：将 npm 命令中的`npm`换成`cnpm`即可
 
@@ -32,17 +32,29 @@
 
 - 更新包
 
-  - 更新包并更新 package.json 文件中版本号：`npm update <package>`
-  - ncu
-    - 安装更新包的插件：`npm i npm-check-updates -g`
-    - 查看可更新包（需要先安装 npm-check-updates）：`ncu`
-    - 更新 package.json 文件中版本号（需要先安装 npm-check-updates）：`ncu -u`
+  - 更新包并更新 package.json 文件中版本号：`npm update <package>`，会按照 package.json 里指定的版本升级规则升级（\*,~，^,@）
+  - 重新安装：`npm i <package>`
+
+- 查看当前 npm 包信息（包含版本、依赖等）：`npm info`
+
+- 修改 npm 包版本号并`commit`
+
+  - 大版本号加一：`npm version major`，即`1.0.0` -> `2.0.0`
+  - 中版本号加一：`npm version minor`，即`1.0.0` -> `1.1.0`
+  - 小版本号加一：`npm version patch`，即`1.0.0` -> `1.0.1`，自定义的版本号如`0.0.1-alpha.1`无法使用`npm version`自增
 
 - package.json 中包名称前修饰符
 
   - `~`：匹配最近的小版本依赖包，比如`~1.2.3` 会匹配所有 `1.2.x` 版本，但是不包括 `1.3.0`
   - `^`：匹配最新的大版本依赖包，比如`^1.2.3` 会匹配所有 `1.x.x` 的包，包括 `1.3.0`，但是不包括 `2.0.0`
   - `*`：匹配最新版本的依赖包
+
+- npm 私服搭建，目前比较主流的有 nexus 和 Verdaccio，因为 Verdaccio 要更轻量，这里选择 Verdaccio：`npm install -g verdaccio & verdaccio`
+
+- npm 包发布，若要发布到 npm 私服，设置`registry`即可（也可通过`.npmrc`文件配置），如下：
+
+  - 登录：`npm adduser --registry http://localhost:4873`
+  - 发布：`npm publish --registry http://localhost:4873`
 
 - 问题记录
 
