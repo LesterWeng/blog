@@ -1,14 +1,13 @@
 # JavaScript 事件循环
 
-### 事件循环（浏览器）
+### 事件循环
 
-JS 分为同步任务、异步任务；同步任务都在主线程上执行，形成一个执行栈；异步任务分为宏任务、微任务
-
-事件循环就是指主线程不断循环地从任务队列中读取任务，执行任务的过程
+常见显示器的刷新频率为`60hz`，即每秒刷新`60`次，平均`16.6ms`渲染一帧画面。
+这一帧会做三件事：`[macrotask -> microtask] + render`，宏任务与微任务的循环执行的过程便称为事件循环
 
 ### 宏任务(macrotask)
 
-宏任务包括：script(整体代码，包含所有同步任务、其他宏任务和微任务)、setTimeout、setInterval、UI 交互（如点击等事件）、 I/O、postMessage、 MessageChannel、setImmediate(非标准，仅 IE10+、Edge 实现，其他浏览器未实现；Node.js 环境)
+宏任务包括：script(全局代码)、setTimeout、setInterval、setImmediate(非标准，仅 IE10+、Edge 实现，其他浏览器未实现；Node.js 环境)、postMessage、requestAnimationFrame、 MessageChannel、DOM 事件、 I/O 等
 
 ### 微任务(microtask)
 
@@ -16,12 +15,58 @@ JS 分为同步任务、异步任务；同步任务都在主线程上执行，�
 
 ### 运行机制
 
-在事件循环中，每进行一次循环操作称为一次 tick，每次 tick 的执行过程如下（循环往复）：
+这里把一次事件循环操作称为一次 tick，一次 tick 的执行过程如下（循环往复）：
 
-首先执行宏任务队列中的一个宏任务（初始为 script 整体代码），执行中遇到宏任务或微任务将其加入对应队列，宏任务执行完后，执行完微任务队列中所有的微任务（包括这次宏任务新加入的微任务和执行微任务时新加入的微任务，总之会执行完这次 tick 加入到微任务队列的所有微任务），之后如果需要的话就进行 UI 渲染，这次 tick 结束
+首先执行宏任务队列中的一个宏任务（初始为 script 全局代码），执行中遇到宏任务或微任务将其加入对应队列，宏任务执行完后，执行完微任务队列中所有的微任务（包括这次宏任务新加入的微任务和执行微任务时新加入的微任务，总之会执行完这次 tick 加入到微任务队列的所有微任务）
 
-这里仅描述了宏任务、微任务相关的过程，实际的事件循环更为复杂，下面附上完整的事件循环流程图：
+#### 一帧可能会执行多次事件循环
+
+如下例：
+
+```js
+document.body.style.background = 'red'
+setTimeout(function () {
+  document.body.style.background = 'black'
+})
+```
+
+`全局代码`和`setTimeout`为两个不同的`macrotask`,它们可能在同一帧内执行，也可能在不同帧执行，所以屏幕既可能`先显示红色再显示黑色`也可能`直接显示黑色`，如果我们把 setTimeout 的延迟事件增大到`17ms`，那么基本可以确定这 2 个 macrotask 会在不同帧执行（很大概率）
+
+完整事件循环流程图如下：
 ![eventloop](../Images/eventloop.jpg)
+
+#### requestAnimationFrame
+
+一般的宏任务、微任务没法精准控制执行时机，而`requestAnimationFrame`（简称`RAF`）可以保证代码在每一帧内都执行
+一般用来绘制动画，因为当动画代码执行完后就进入`render`，动画效果可以最快被呈现
+
+```js
+setTimeout(() => {
+  console.log('setTimeout1')
+  requestAnimationFrame(() => console.log('rAF1'))
+})
+setTimeout(() => {
+  console.log('setTimeout2')
+  requestAnimationFrame(() => console.log('rAF2'))
+})
+
+Promise.resolve().then(() =>
+  console.log('promise1'),
+)
+console.log('global')
+```
+
+`setTimeout`使用默认延迟事件（大概会有 4ms 延迟），大概率在同一帧执行，而 RAF1 和 RAF2 必定在不同帧执行
+所以上述代码执行结果大概率会是`1. global 2. promise1 3. setTimeout1 4. setTimeout2 5. RAF1 6. RAF2`
+
+#### requestIdleCallback
+
+如果在一帧内的`render`执行完后还有剩余时间，会调用`requestIdleCallback`api，我们可以使用其把部分工作放到`空闲时间`中执行
+
+#### 掉帧与时间切片
+
+如果一次事件循环执行的时间超过了`16.6ms`（比如循环、递归操作），那么这一帧就没有`render`，页面直到下一帧`render`才会更新，页面就会出现卡顿，或者说`掉帧`
+为了解决这种卡顿的情况，`requestIdleCallback`是一个方案，但不太稳定，更好的方案是：`时间切片`，即把原来执行事件很长的事件循环分割成多个节点执行。如`React`15 使用`递归`的方式构建虚拟 DOM，如果层级过深就会出现掉帧的情况；`React16`将`递归`的方式改成了可中断的`遍历`，以`5ms`的执行时间划分任务，每遍历完一个节点，就检查当前任务是否已经执行了`5ms`，如果超过`5ms`，则中断本次任务，从而解决了长时间无法`render`的问题
 
 ### 实例分析
 
@@ -32,41 +77,41 @@ JS 分为同步任务、异步任务；同步任务都在主线程上执行，�
 ```js
 // 1
 async function a1() {
-  console.log('a1 start');
-  await a2();
-  console.log('a1 end');
+  console.log('a1 start')
+  await a2()
+  console.log('a1 end')
 }
 async function a2() {
   await Promise.resolve().then(() => {
-    console.log('special');
-  });
-  console.log('a2');
+    console.log('special')
+  })
+  console.log('a2')
 }
 
-console.log('script start');
+console.log('script start')
 
 setTimeout(() => {
-  console.log('setTimeout');
-}, 0);
+  console.log('setTimeout')
+}, 0)
 
 Promise.resolve().then(() => {
-  console.log('promise1');
-});
+  console.log('promise1')
+})
 
-a1();
+a1()
 
 let promise2 = new Promise((resolve) => {
-  resolve('promise2.then');
-  console.log('promise2');
-});
+  resolve('promise2.then')
+  console.log('promise2')
+})
 
 promise2.then((res) => {
-  console.log(res);
+  console.log(res)
   Promise.resolve().then(() => {
-    console.log('promise3');
-  });
-});
-console.log('script end');
+    console.log('promise3')
+  })
+})
+console.log('script end')
 
 /* 结果为：
 script start
@@ -84,31 +129,31 @@ setTimeout
 
 // 2
 async function async1() {
-  console.log('async1 start');
-  await async2();
+  console.log('async1 start')
+  await async2()
   setTimeout(function () {
-    console.log('setTimeout1');
-  }, 0);
+    console.log('setTimeout1')
+  }, 0)
 }
 async function async2() {
   setTimeout(function () {
-    console.log('setTimeout2');
-  }, 0);
+    console.log('setTimeout2')
+  }, 0)
 }
-console.log('script start');
+console.log('script start')
 
 setTimeout(function () {
-  console.log('setTimeout3');
-}, 0);
-async1();
+  console.log('setTimeout3')
+}, 0)
+async1()
 
 new Promise(function (resolve) {
-  console.log('promise1');
-  resolve();
+  console.log('promise1')
+  resolve()
 }).then(function () {
-  console.log('promise2');
-});
-console.log('script end');
+  console.log('promise2')
+})
+console.log('script end')
 
 /* 结果为：
 script start
@@ -125,3 +170,4 @@ setTimeout1
 ### 参考文章
 
 [从一道题浅说 Javascript 的事件循环](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/7)
+[摸金校尉聊浏览器渲染](https://zhuanlan.zhihu.com/p/250477589)
