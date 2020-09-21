@@ -49,6 +49,17 @@
   - `^`：匹配最新的大版本依赖包，比如`^1.2.3` 会匹配所有 `1.x.x` 的包，包括 `1.3.0`，但是不包括 `2.0.0`
   - `*`：匹配最新版本的依赖包
 
+- npm 同时安装同一个包的不同版本，如安装多版本的`Elasticsearch`：
+
+  `npm install es6@npm:@elastic/elasticsearch@6 es7@npm:@elastic/elasticsearch@7`，package.json 文件就会多出下面的两行：
+
+  ```json
+  "dependencies": {
+    "es6": "npm:@elastic/elasticsearch@6.7.0",
+    "es7": "npm:@elastic/elasticsearch@7.0.0"
+  }
+  ```
+
 - npm 私服搭建，目前比较主流的有 nexus 和 Verdaccio，因为 Verdaccio 要更轻量，这里选择 Verdaccio：`npm install -g verdaccio & verdaccio`
 
 - npm 包发布，若要发布到 npm 私服，设置`registry`即可（也可通过`.npmrc`文件配置），如下：
