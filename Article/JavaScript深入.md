@@ -6,7 +6,7 @@
 
 ```js
 function Person() {}
-const person = new Person();
+const person = new Person()
 ```
 
 #### 原型
@@ -42,20 +42,21 @@ const person = new Person();
 #### 静态作用域(词法作用域)与动态作用域
 
 静态：函数的作用域在函数定义时就确定了
+
 动态：函数的作用域在函数调用时才能确定
 
 ```js
-var a = 1;
+var a = 1
 function func1() {
-  console.log(a);
+  console.log(a)
 }
 
 function func2() {
-  var a = 2;
-  func1();
+  var a = 2
+  func1()
 }
 
-func2();
+func2()
 ```
 
 如上例子，将打印出 1，这正是由于 js 使用的是词法作用域，若为动态作用域，则将打印出 2
@@ -82,18 +83,18 @@ Ps: 非严格模式下，若变量未声明且未赋值，使用会报错；而�
 
 ```js
 function func3() {
-  console.log('func3');
+  console.log('func3')
 }
 
 function func2() {
-  func3();
+  func3()
 }
 
 function func1() {
-  func2();
+  func2()
 }
 
-func1();
+func1()
 ```
 
 上例执行上下文栈变化情况如下：
@@ -161,23 +162,23 @@ ECStack.pop();
 - 特殊情况下的 this 指向： &&、||、=、(,)、双目 等运算符返回‘真正的值’(GetValue)，而不是 Reference，this 绑定到 undefined，在非严格模式下，则绑定到 window，如下：
 
   ```js
-  var value = 1;
+  var value = 1
 
   var foo = {
     value: 2,
     bar: function () {
-      return this.value;
+      return this.value
     },
-  };
+  }
 
-  console.log(foo.bar()); // 2 等同于console.log((foo.bar)());
-  var func = foo.bar;
-  console.log(func()); // 1，间接引用
-  console.log((true && foo.bar)()); // 1
-  console.log((false || foo.bar)()); // 1
-  console.log((foo.bar = foo.bar)()); // 1
-  console.log((foo.bar, foo.bar)()); // 1
-  console.log((foo.bar ? foo.bar : null)()); // 1
+  console.log(foo.bar()) // 2 等同于console.log((foo.bar)());
+  var func = foo.bar
+  console.log(func()) // 1，间接引用
+  console.log((true && foo.bar)()) // 1
+  console.log((false || foo.bar)()) // 1
+  console.log((foo.bar = foo.bar)()) // 1
+  console.log((foo.bar, foo.bar)()) // 1
+  console.log((foo.bar ? foo.bar : null)()) // 1
   ```
 
 > 当多个规则同时出现时，`new` 的优先级最高，接下来是 `bind` 这些函数，然后是`上下文对象调用`，最后是`间接引用`，同时，`箭头函数`的 this 一旦被绑定，就不会再被任何方式所改变
@@ -185,15 +186,15 @@ ECStack.pop();
 #### 执行上下文整体举例分析
 
 ```js
-var scope = 'global scope';
+var scope = 'global scope'
 function checkscope() {
-  var scope = 'local scope';
+  var scope = 'local scope'
   function f() {
-    return scope;
+    return scope
   }
-  return f;
+  return f
 }
-checkscope()();
+checkscope()()
 ```
 
 - 执行全局代码，创建全局执行上下文，入执行上下文栈
@@ -201,7 +202,7 @@ checkscope()();
 ```js
 ECStack = {
   globalContext,
-};
+}
 ```
 
 - 全局上下文初始化，全局上下文的 VO 是全局变量
@@ -211,13 +212,13 @@ globalContext = {
   VO: global,
   scope: [globalContext.VO],
   this: globalContext.VO,
-};
+}
 ```
 
 - 全局上下文初始化过程中，checkscope 函数被创建，保存作用域链到内部属性[[Scopes]]
 
 ```js
-checkscope.[[Scopes]] = globalContext.scope
+checkscope[[Scopes]] = globalContext.scope
 ```
 
 - 执行 checkscope 函数，创建 checkscope 函数执行上下文，入执行上下文栈
@@ -226,7 +227,7 @@ checkscope.[[Scopes]] = globalContext.scope
 ECStack = {
   checkscopeContext,
   globalContext,
-};
+}
 ```
 
 - checkscope 函数执行上下文初始化：
@@ -250,7 +251,7 @@ checkscopeContext = {
 - checkscope 函数执行上下文初始化过程中，f 函数被创建，保存作用域链到内部属性[[Scopes]]
 
 ```js
-f.[[Scopes]] = globalContext.scope
+f[[Scopes]] = globalContext.scope
 ```
 
 - checkscope 函数执行完毕，checkscopeContext 出执行上下文栈
@@ -258,7 +259,7 @@ f.[[Scopes]] = globalContext.scope
 ```js
 ECStack = {
   globalContext,
-};
+}
 ```
 
 - 执行 f 函数，创建 checkscope 函数执行上下文，入执行上下文栈
@@ -267,7 +268,7 @@ ECStack = {
 ECStack = {
   fContext,
   globalContext,
-};
+}
 ```
 
 - f 函数执行上下文初始化，过程与 checkscope 函数上下文同理
@@ -277,7 +278,7 @@ ECStack = {
 ```js
 ECStack = {
   globalContext,
-};
+}
 ```
 
 ## 闭包
@@ -297,11 +298,11 @@ ECStack = {
 
 ```js
 function A() {
-  let a = 1;
+  let a = 1
   window.B = function () {
-    console.log(a);
-  };
+    console.log(a)
+  }
 }
-A();
-B(); // 1
+A()
+B() // 1
 ```
