@@ -1,4 +1,4 @@
-# new 和 instanceof
+# JS-new和instanceof
 
 ### new
 

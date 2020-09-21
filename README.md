@@ -14,8 +14,6 @@
 
 - [JavaScript 事件循环](./Article/JavaScript事件循环.md)
 
-- [new和instanceof](./Article/new和instanceof.md)
-
 ## 基础
 
 - [CSS-浮动元素理解](./Basis/CSS-浮动元素理解.md)
@@ -31,6 +29,8 @@
 - [JS-跨域总结](./Basis/JS-跨域总结.md)
 
 - [JS-Array 常用方法](./Basis/JS-Array常用方法.md)
+
+- [JS-new和instanceof](./Basis/JS-new和instanceof.md)
 
 - [Scss-常用语法](./Basis/Scss-常用语法.md)
 
