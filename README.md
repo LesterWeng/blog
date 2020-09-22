@@ -8,6 +8,8 @@
 
 - [相对路径的应用](./Article/相对路径的应用.md)
 
+- [手写call、apply、bind](./Article/手写call、apply、bind)
+
 - [手写Promise](./Article/手写Promise.md)
 
 - [JavaScript 深入](./Article/JavaScript深入.md)
