@@ -8,9 +8,9 @@
 
 - [相对路径的应用](./Article/相对路径的应用.md)
 
-- [手写call、apply、bind](./Article/手写call、apply、bind)
+- [手写 call、apply、bind](./Article/手写call\、apply\、bind)
 
-- [手写Promise](./Article/手写Promise.md)
+- [手写 Promise](./Article/手写Promise.md)
 
 - [JavaScript 深入](./Article/JavaScript深入.md)
 
@@ -32,7 +32,7 @@
 
 - [JS-Array 常用方法](./Basis/JS-Array常用方法.md)
 
-- [JS-new和instanceof](./Basis/JS-new和instanceof.md)
+- [JS-new 和 instanceof](./Basis/JS-new和instanceof.md)
 
 - [Scss-常用语法](./Basis/Scss-常用语法.md)
 
