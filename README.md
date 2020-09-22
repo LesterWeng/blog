@@ -8,7 +8,7 @@
 
 - [相对路径的应用](./Article/相对路径的应用.md)
 
-- [手写 call、apply、bind](./Article/手写call\、apply\、bind)
+- [手写 call、apply、bind](./Article/手写call、apply、bind.md)
 
 - [手写 Promise](./Article/手写Promise.md)
 
