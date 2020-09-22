@@ -294,7 +294,7 @@ ECStack = {
 ```js
 // eg1
 function A() {
-  let const = 1
+  let a = 1
   return function(){
     console.log(a)
   }
