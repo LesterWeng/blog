@@ -170,4 +170,5 @@ setTimeout1
 ### 参考文章
 
 [从一道题浅说 Javascript 的事件循环](https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/7)
+
 [摸金校尉聊浏览器渲染](https://zhuanlan.zhihu.com/p/250477589)
