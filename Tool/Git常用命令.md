@@ -36,7 +36,7 @@
 
 - 创建并切换至新分支： `git checkout -b 'newBranch'`
 
-- 将本地分支与远程分支进行关联（常用于本地新建分支之后需要提交到新的远程分支时，如修改本地分支名称后提交到新的远程分支时）： `git branch --set-upstream-to=origin/newBranch`
+- 将本地分支与远程分支进行关联，设置后`git pull`和`git push`简写会直接拉取/推送到关联的远程分支： `git branch --set-upstream-to=origin/newBranch`
 
 - 删除分支： `git checkout -d 'oldBranch'`
 
@@ -48,13 +48,13 @@
 
 ## 拉取相关
 
-- 更新当前分支（不会自动 merge 本地代码，冲突时，用户检查后决定是否 merge）：`git fetch`
-
-- 更新当前分支（自动 merge 本地代码，冲突时，需要手动解决）： `git pull`
-
-- 强制把远程库的代码跟新到当前分支上面：`git pull origin master`
+- 更新本地的远程分支：`git fetch`
 
 - 合并 xxx 分支到当前分支： `git merge xxx`
+
+- 更新本地的远程分支并合并到本地分支（等于`git fetch + git merge`，冲突时，需要手动解决）： `git pull`
+
+  - 可以把其他远程库的代码拉取到当前分支上面：`git pull origin master`
 
 - 将单/多个 commit 应用于当前分支：`git cherry-pick 'commitHashA' 'commitHashB'`
 
