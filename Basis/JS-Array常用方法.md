@@ -35,7 +35,9 @@
    - Array.prototype.reduceRight 为从右向左遍历，没有 initialValue 时，将使用数组最后一项作为初始值
 
    ```js
-   [{ x: 1 }, { x: 2 }, { x: 3 }].reduce((a, b) => a.x + b.x); // 结果为NaN，第一次计算的结果为3，作为下一次计算的'a'，a.x -> NaN
+   ;[{ x: 1 }, { x: 2 }, { x: 3 }].reduce(
+     (a, b) => a.x + b.x,
+   ) // 结果为NaN，第一次计算的结果为3，作为下一次计算的'a'，a.x -> NaN
    ```
 
 3. Array.prototype.flat([depth])
@@ -52,7 +54,7 @@
    - Array.prototype.unshift(...items)，依次将这些元素添加到数组开头，返回值是新数组的**length**
    - Array.prototype.splice()
 
-5. Array.prototype.slice(statrt, end)
+5. Array.prototype.slice(start, end)
 
    - 类似字符串 slice 功能，变成截取数组
    - 返回截取的子数组
@@ -92,3 +94,12 @@
       - 支持形如 new Array(1, 2)，创建具有指定元素的数组
     - []
       - 支持形如 [1],[1,2]，创建具有指定元素的数组，仅在单个参数时与上面两种结果不同
+
+12. Array.prototype.concat(...items/item[])
+
+    - 拼接数组（元素）
+    - 当参数为数组时，会拼接数组内的元素（不会递归内部数组）
+
+    ```js
+    ;[].concat(1, [2], [3, [4]]) // 结果为[1,2,3, [4]]
+    ```
