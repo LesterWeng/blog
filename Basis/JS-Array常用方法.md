@@ -52,7 +52,6 @@
    - Array.prototype.pop()，**出栈**操作
    - Array.prototype.shift()，**出队列**操作
    - Array.prototype.unshift(...items)，依次将这些元素添加到数组开头，返回值是新数组的**length**
-   - Array.prototype.splice()
 
 5. Array.prototype.slice(start, end)
 
