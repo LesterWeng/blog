@@ -24,6 +24,8 @@
 
 - [CSS-居中方案](./Basis/CSS-居中方案.md)
 
+- [CSS-隐藏滚动条方案](./Basis/CSS-隐藏滚动条方案.md)
+
 - [CSS-长宽成比例缩放方案](./Basis/CSS-长宽成比例缩放方案.md)
 
 - [CSS-BFC 理解](./Basis/CSS-BFC理解.md)
