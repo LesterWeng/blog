@@ -60,7 +60,7 @@
   }
   ```
 
-- npm 私服搭建，目前比较主流的有 nexus 和 Verdaccio，因为 Verdaccio 要更轻量，这里选择 Verdaccio：`npm install -g verdaccio & verdaccio`
+- npm 私服搭建，使用 Verdaccio：`npm install -g verdaccio & verdaccio`
 
 - npm 包发布，若要发布到 npm 私服，设置`registry`即可（也可通过`.npmrc`文件配置），如下：
 
