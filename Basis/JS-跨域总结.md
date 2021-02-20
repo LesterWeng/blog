@@ -47,9 +47,13 @@
 6. 优点是配置简单
 7. 缺点是某些古老浏览器不支持 CORS 或不支持 Credentials，解决办法是用 JSONP 或后台转发彻底解决跨域问题
 
-### 何为 JSONP(json with padding)
+### 何为 JSONP
 
-基本思想是网页通过添加一个`<script>`元素，请求 `text/javascript` 类型数据（只能发 GET 请求），这种做法不受同源策略的限制，服务器收到请求后，返回包含回调函数(参数)的 js，浏览器执行 js 调用定义好的全局函数。如下例：
+1. JSONP(json with padding)
+2. 该技术通过 script 不受同源策略限制来达到跨域的目的
+3. 该技术核心是前端构造 script 发起 get 请求，后端返回包含回调函数(参数)的 js，浏览器执行 js 调用定义好的全局函数
+4. 优点是通过简单的约定就能跨域
+5. 缺点是不支持 get 以外的动词，而且存在 csrf 风险，解决办法是 CORS 或 csrf token
 
 前端
 
@@ -62,7 +66,7 @@
 <script src="http://example.com/api?callback=cb"></script>
 ```
 
-后台(egg.js)
+后端(egg.js)
 
 ```js
 const { ctx } = this
@@ -76,50 +80,50 @@ ctx.body = ctx.query.callback + '("hello")'
 
 如果两个网页存在跨域，它们无法进行正常的数据交互，解决方案：
 
-1.  设置 document.domain 使两个网页的**域**相同，举个栗子，两个网页分别如下：
+1. 设置 document.domain 使两个网页的**域**相同，举个栗子，两个网页分别如下：
 
-    A 网页：`http://a.ccc.com`，documentA
+   A 网页：`http://a.ccc.com`，documentA
 
-    B 网页：`http://b.ccc.com`，documentB
+   B 网页：`http://b.ccc.com`，documentB
 
-    正常情况两网页跨域，无法访问对方的 document，而当我们分别设置 `documentA.domain = "ccc.com"; documentB.domain = "ccc.com"`之后，发现两个网页可以互相访问对方的 document 了，因为两个网页的域已经相等了，不存在跨域了
+   正常情况两网页跨域，无法访问对方的 document，而当我们分别设置 `documentA.domain = "ccc.com"; documentB.domain = "ccc.com"`之后，发现两个网页可以互相访问对方的 document 了，因为两个网页的域已经相等了，不存在跨域了
 
-    需要注意的是, document.domain 是不能乱设置的，是有条件的：只能设置为当前域或当前域的**父域**且至少有一个**.**，还是上面的栗子，`http://a.ccc.com`中 com 为一级域名（顶级），ccc 为二级域名，a 为三级域名，所以这个网页的 docuemnt.domain 仅可以设置为`ccc.com`
+   需要注意的是, document.domain 是不能乱设置的，是有条件的：只能设置为当前域或当前域的**父域**且至少有一个**.**，还是上面的栗子，`http://a.ccc.com`中 com 为一级域名（顶级），ccc 为二级域名，a 为三级域名，所以这个网页的 docuemnt.domain 仅可以设置为`ccc.com`
 
-2.  网页存在跨域时，可以访问到其 window 对象，从而再通过 window.postMessage 接口即可实现两个网页间数据的交互
+2. 网页存在跨域时，可以访问到其 window 对象，从而再通过 window.postMessage 接口即可实现两个网页间数据的交互
 
-    - window 获取方式
-      - `window.open`
-      - `window.opener`
-      - `HTMLIFrameElement.prototype.contentWindow`
-      - `window.parent`
-      - `window.frames[index]`，window.frames 返回一个**类数组对象**
-    - postMessage，举例如下：
+   - window 获取方式
+     - `window.open`
+     - `window.opener`
+     - `HTMLIFrameElement.prototype.contentWindow`
+     - `window.parent`
+     - `window.frames[index]`，window.frames 返回一个**类数组对象**
+   - postMessage，举例如下：
 
-      ```js
-      // A页面
-      const receiver = document.getElementById(
-        'receiver',
-      ).contentWindow
-      receiver.postMessage('Hello', 'http:B')
+     ```js
+     // A页面
+     const receiver = document.getElementById(
+       'receiver',
+     ).contentWindow
+     receiver.postMessage('Hello', 'http:B')
 
-      // B页面
-      window.addEventListener(
-        'message',
-        (event) => {
-          // event.data 消息
-          // event.origin 消息来源地址
-          // event.source 源 Window 对象
-        },
-        false,
-      )
-      ```
+     // B页面
+     window.addEventListener(
+       'message',
+       (event) => {
+         // event.data 消息
+         // event.origin 消息来源地址
+         // event.source 源 Window 对象
+       },
+       false,
+     )
+     ```
 
-3.  通过 location.hash 传递数据
+3. 通过 location.hash 传递数据
 
-    - 父页面可以对 iframe 进行 URL 读写，可以直接给 iframe 页面设置 hash，iframe 页面内通过监听 hash 的改变(onhashchange)来获取数据
-    - iframe 无法对父页面 URL 进行设置，iframe 页面可添加一个隐藏的 iframe，作为代理 iframe，地址位于父域名之下，如`http://a.ccc.com/proxy.html`，iframe 页面设置代理页面的 hash，代理页面内监听 hash 的改变，由于代理页面和父页面不存在跨域，当 hash 改变时就可以设置父页面的 hash(`parent.parent.location.hash = xxx`)，从而达到传递数据的目的
+   - 父页面可以对 iframe 进行 URL 读写，可以直接给 iframe 页面设置 hash，iframe 页面内通过监听 hash 的改变(onhashchange)来获取数据
+   - iframe 无法对父页面 URL 进行设置，iframe 页面可添加一个隐藏的 iframe，作为代理 iframe，地址位于父域名之下，如`http://a.ccc.com/proxy.html`，iframe 页面设置代理页面的 hash，代理页面内监听 hash 的改变，由于代理页面和父页面不存在跨域，当 hash 改变时就可以设置父页面的 hash(`parent.parent.location.hash = xxx`)，从而达到传递数据的目的
 
-4.  通过 window.name 传递数据
+4. 通过 window.name 传递数据
 
-    - window 对象有个 name 属性，该属性有个特征：即在一个窗口(window)的生命周期内,窗口载入的所有的页面都是共享一个 window.name 的，每个页面对 window.name 都有读写的权限，window.name 是持久存在一个窗口载入过的所有页面中的，并不会因新页面的载入而进行重置。
+   - window 对象有个 name 属性，该属性有个特征：即在一个窗口(window)的生命周期内,窗口载入的所有的页面都是共享一个 window.name 的，每个页面对 window.name 都有读写的权限，window.name 是持久存在一个窗口载入过的所有页面中的，并不会因新页面的载入而进行重置。
