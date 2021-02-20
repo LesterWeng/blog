@@ -18,54 +18,59 @@
 
 到这里，我们知道了何为跨域，**跨域**就是由于同源策略的限制而导致的不同源之间无法正常交互的现象
 
-我把各种跨域情形大致分为两类:
-
 ## 请求跨域
 
-跨域时，AJAX 请求无法正常发起，解决方案：
+### 何为 AJAX
 
-1. CORS(corss-origin resource sharing 跨域资源共享)
+1. AJAX(Asynchronous JavaScript + XML，异步的 JS 和 XML) ，目前我们一般用 JSON 代替 XML。
+2. AJAX 主要用于在不刷新页面的情况下向浏览器发起请求并接受响应，最后局部更新页面。
+3. 该技术最核心概念是 `XMLHttpRequest` API，该对象可发起 HTTP 请求，我们可以监听其 readystate 的变化获得响应。此外还有新的 `Fetch` API
+4. 优点是无刷新请求。
+5. 缺点是被浏览器限制不能跨域，解决办法是 `CORS` 或 `JSONP`了
 
-   CORS 需要浏览器和服务器同时支持。目前所有浏览器都支持该功能，IE 浏览器不能低于 IE10；只要服务器实现了 CORS 接口，就可以跨源通信，相关问题：
+### 何为 CORS
 
-   - requestHeaders 携带 cookie
+1. CORS(cross origin resource sharing，跨域资源共享)，CORS 需要浏览器和服务器同时支持。目前所有浏览器都支持该功能，IE 浏览器不能低于 IE10；只要服务器实现了 CORS 接口，就可以跨域通信
+2. 该技术通过在目标域名返回 CORS 响应头来达到获取该域名的数据的目的
+3. 该技术核心就是设置 response header，分为简单请求和复杂请求两种
+4. 简单请求只需要设置 `Access-Control-Allow-Origin: 目标源` 即可；复杂请求(非简单请求)则分两步走，第一步是浏览器发起预请求，第二步才是真实请求，OPTIONS 请求需要把服务器支持的请求类型通过响应头来表明，如 `Access-Control-Allow-Methods: POST, GET, OPTIONS`
+   1. 预请求(OPTIONS)：预请求无法携带**自定义 header**
+      - chrome 中默认不显示 OPTIONS 预请求，访问`chrome://flags/#out-of-blink-cors`将其设置为 disabled 即可
+   2. 非简单请求：普通请求即为简单请求，而当请求符合某些条件时，将变为非简单请求，条件如下
+      - 请求方法不为 GET，POST，HEAD
+      - content-type 不为 application/x-www-form-urlencoded，multipart/form-data， text/plain
+      - 有自定义 header
+5. 其他重要的响应头：
+   1. `Access-Control-Allow-Credentials: true`，设置是否接受请求中的 `Cookie`
+   2. `Access-Control-Allow-Headers: 'token'`，设置允许自定义 requestHeader 字段
+   3. `Access-Control-Expose-Headers: 'token'`，设置允许前端获取 responseHeaders 自定义数据
+6. 优点是配置简单
+7. 缺点是某些古老浏览器不支持 CORS 或不支持 Credentials，解决办法是用 JSONP 或后台转发彻底解决跨域问题
 
-     - 前端 axios 设置 widthCredentials: true
-     - 后端 Access-Control-Allow-Origin 字段必须指定域名(指 responseHeaders 中的，后端代码中可能使用的是 ALL / _，只要最终 responseHeaders 中为当前 origin 即可)，不能为 _
-     - 后端 Access-Control-Allow-Credentials 设置为 true
+### 何为 JSONP(json with padding)
 
-   - 自定义 requestHeader 字段
+基本思想是网页通过添加一个`<script>`元素，请求 `text/javascript` 类型数据（只能发 GET 请求），这种做法不受同源策略的限制，服务器收到请求后，返回包含回调函数(参数)的 js，浏览器执行 js 调用定义好的全局函数。如下例：
 
-     - 后端 设置允许自定义 requestHeader 字段：Access-Control-Allow-Headers: 'token'
-     - 后端 允许前端获取 responseHeaders 自定义数据：Access-Control-Expose-Headers: 'token'
+前端
 
-   - 非简单请求，普通请求即为简单请求，而当请求符合某些条件时，将变为非简单请求，如下
+```html
+<script type="text/javascript">
+  function cb(data) {
+    //处理获得的数据
+  }
+</script>
+<script src="http://example.com/api?callback=cb"></script>
+```
 
-     - 请求方法不为 GET，POST，HEAD
-     - content-type 不为 application/x-www-form-urlencoded，multipart/form-data， text/plain
-     - 有自定义 header
+后台(egg.js)
 
-   - 预请求
+```js
+const { ctx } = this
+ctx.set('content-type', 'text/javascript')
+ctx.body = ctx.query.callback + '("hello")'
+```
 
-     - 非简单请求在正式请求之前会先发送一个预请求(preflight，OPTIONS)，确认完毕后才会正式发送，而预请求无法携带**自定义 header**
-       > chrome 中默认不显示 OPTIONS 预请求，访问`chrome://flags/#out-of-blink-cors`将其设置为 disabled 即可
-
-2. JSONP
-
-   基本思想是网页通过添加一个`<script>`元素，向服务器请求 json 数据，这种做法不受同源策略的限制，服务器收到请求后，将数据放在一个指定名字的回调函数里面传回来。（只能发 GET 请求）如下例：
-
-   ```html
-   <script type="text/javascript">
-     function cb(data) {
-       //处理获得的数据
-     }
-   </script>
-   <script src="http://example.com/api?callback=cb"></script>
-   ```
-
-3. WebSocket
-
-WebSocket 是一种通信协议，使用 ws://（非加密）和 wss://（加密）作为协议前缀。该协议不实行同源政策，只要服务器支持，就可以通过它进行跨源通信
+> WebSocket 是一种通信协议，使用 ws://（非加密）和 wss://（加密）作为协议前缀。该协议不实行同源政策，只要服务器支持，就可以通过它进行跨源通信
 
 ## 数据跨域
 
@@ -93,19 +98,21 @@ WebSocket 是一种通信协议，使用 ws://（非加密）和 wss://（加密
 
       ```js
       // A页面
-      const receiver = document.getElementById('receiver').contentWindow;
-      receiver.postMessage('Hello', 'http:B');
+      const receiver = document.getElementById(
+        'receiver',
+      ).contentWindow
+      receiver.postMessage('Hello', 'http:B')
 
       // B页面
       window.addEventListener(
         'message',
-        event => {
+        (event) => {
           // event.data 消息
           // event.origin 消息来源地址
           // event.source 源 Window 对象
         },
         false,
-      );
+      )
       ```
 
 3.  通过 location.hash 传递数据
