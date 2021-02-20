@@ -33,7 +33,7 @@
 1. CORS(cross origin resource sharing，跨域资源共享)，CORS 需要浏览器和服务器同时支持。目前所有浏览器都支持该功能，IE 浏览器不能低于 IE10；只要服务器实现了 CORS 接口，就可以跨域通信
 2. 该技术通过在目标域名返回 CORS 响应头来达到获取该域名的数据的目的
 3. 该技术核心就是设置 response header，分为简单请求和复杂请求两种
-4. 简单请求只需要设置 `Access-Control-Allow-Origin: 目标源` 即可；复杂请求(非简单请求)则分两步走，第一步是浏览器发起预请求，第二步才是真实请求，OPTIONS 请求需要把服务器支持的请求类型通过响应头来表明，如 `Access-Control-Allow-Methods: POST, GET, OPTIONS`
+4. 简单请求只需要设置 `Access-Control-Allow-Origin: 目标源` 即可；复杂请求(非简单请求)则分两步走，第一步是浏览器发起预请求，第二步才是真实请求，预请求需要把服务器支持的请求类型通过响应头来表明，如 `Access-Control-Allow-Methods: POST, GET, OPTIONS`
    1. 预请求(OPTIONS)：预请求无法携带**自定义 header**
       - chrome 中默认不显示 OPTIONS 预请求，访问`chrome://flags/#out-of-blink-cors`将其设置为 disabled 即可
    2. 非简单请求：普通请求即为简单请求，而当请求符合某些条件时，将变为非简单请求，条件如下
