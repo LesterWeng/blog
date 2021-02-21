@@ -1,5 +1,7 @@
 # JavaScript 事件循环
 
+> 实际 JS 引擎没有事件循环，使用的就是宿主(浏览器、Node)的事件循环，这里指的是浏览器事件循环
+
 ### 事件循环
 
 常见显示器的刷新频率为`60hz`，即每秒刷新`60`次，平均`16.6ms`渲染一帧画面。
@@ -7,11 +9,13 @@
 
 ### 宏任务(macrotask)
 
-宏任务包括：script(全局代码)、setTimeout、setInterval、setImmediate(非标准，仅 IE10+、Edge 实现，其他浏览器未实现；Node.js 环境)、postMessage、requestAnimationFrame、 MessageChannel、DOM 事件、 I/O 等
+宏任务包括：script(全局代码)、setTimeout、setInterval、setImmediate(非标准，仅 IE10+、Edge 实现，其他浏览器未实现；Node.js 环境)、postMessage、requestAnimationFrame、 MessageChannel、UI 交互事件(鼠标滚动、点击、移动，键盘输入等)、 文件读写(I/O)、DOM 解析、样式计算、布局计算、CSS 动画 等
 
 ### 微任务(microtask)
 
-微任务包括：Promise.then、 MutaionObserver、process.nextTick(Node.js 环境）、queueMicrotask
+微任务包括：Promise.then、 MutationObserver、process.nextTick(Node.js 环境）、queueMicrotask、DOM 变化的事件(节点的插入、修改、删除等动态变化)
+
+另外可理解为：`宿主`发起的任务是`宏任务`，如点击事件，setTimeout 进入微任务队列；`js 引擎`发起的任务是`微任务`，如 promise
 
 ### 运行机制
 
