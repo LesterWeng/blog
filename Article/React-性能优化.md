@@ -19,7 +19,7 @@
 
 ### 发布订阅 + 高阶组件
 
-可以理解为将`不关心状态的组件`提升到`有状态组件的外部`中，避免`不关心状态的组件`无效`render`
+可以理解为将`不关心状态的组件`提升到`有状态组件的外部`，避免`不关心状态的组件`无效`render`
 
 如下例，当后面`setState`时，只有使用到`CustomContext`的`ChildComponent1`重新`render`了。原因是`CtxContainer`内部的`setState`不会导致外部`ParentComponent`的更新，不会再使用`React.createElement`生成 2 个子组件的新`ReactElement`(生成的`ReactElement`的`props`每次都会是一个新对象，如果重新生成`ReactElement`则必然会导致`CtxContainer`的`ReactElement`的`props`的改变)
 
