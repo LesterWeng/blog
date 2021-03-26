@@ -18,6 +18,8 @@
 
 - [JavaScript 事件循环](./Article/JavaScript事件循环.md)
 
+- [React-性能优化](./Article/React-性能优化.md)
+
 ## 基础
 
 - [CSS-浮动元素理解](./Basis/CSS-浮动元素理解.md)
