@@ -69,11 +69,28 @@ export default function ParentComponent() {
 
 ### 批量更新
 
-`FunctionComponent`的`setState`每次调用都会执行更新，而不是像`ClassComponent`那样内部使用`batchUpdates`进行批量更新(跳出`BatchedContext`的情况除外)，为了避免多次`setState`进行多次更新影响性能，可以通过如下方式进行批量更新：
+`React`内的`事件回调、hook回调、钩子函数`(内部可能包含`setState`)在执行时，当前`executionContext`会打上`BatchedContext`的`flag`，表示使用批量更新进行优化。但这些`fn`内部可能由于各种原因（`宏任务、微任务`）跳出当前事件循环的`同步Script`，而后当这些`fn`执行时，当前`executionContext`已恢复之前的状态，丢失了`BatchedContext`的`flag`，便无法进行批量更新优化，导致进行了多次`render`，但这种情况是可以优化的，方法及源码如下：
 
 - 将多个`state`进行合并
 
-- 使用`ReactDOM.unstable_batchedUpdates`合并`setState`
+- 使用`ReactDOM.unstable_batchedUpdates`(其实就是`batchedUpdates`方法)合并`setState`
+
+```ts
+export function batchedUpdates<A, R>(fn: A => R, a: A): R {
+  const prevExecutionContext = executionContext;
+  executionContext |= BatchedContext;
+  try {
+    return fn(a);
+  } finally {
+    executionContext = prevExecutionContext;
+    if (executionContext === NoContext) {
+      // Flush the immediate callbacks that were scheduled during this batch
+      resetRenderTimer();
+      flushSyncCallbackQueue();
+    }
+  }
+}
+```
 
 ### 列表项使用 key
 
