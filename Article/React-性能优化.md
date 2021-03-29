@@ -2,6 +2,7 @@
 
 > 这里只谈`FunctionComponent`相关
 > 下文涉及：`render`指`FunctionComponent`函数，`render阶段`指 React render 阶段（即调和器`reconciler`工作阶段），`commit阶段`指 React commit 阶段（即渲染器`renderer`工作阶段）
+> React性能优化就是在`render阶段`或`commit阶段`进行优化，`commit阶段`基本都是React内部管理，开发者难以插手，如下的优化方式中仅有**列表项使用 key**属于`commit阶段`的优化
 
 ### React.Memo
 
