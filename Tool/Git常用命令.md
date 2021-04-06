@@ -109,9 +109,7 @@
 
   - 回退 remote 的 commit，常用于回退`较老`的 commit ，回退后将修改后的这次 commit 重新提交一次以恢复
 
-    - 需要注意 revert 之后，这次 commit 涉及的文件的修改状态已发生改变，后续提交时如果未修改这些文件，将无法更新成功
-
-    - 使用 revert 回退后，再次合并后无法更新，若希望那次被 revert 的 commit 重新被提交，可再次 revert 那次`revert commmit`以更新
+    - 使用 revert 回退`dev`后，其他分支若未修改被`revert`的文件，则后续`merge`时无法更新 dev，可在 dev`revert`那次`revert commit`以更新
 
 ## stash 相关
 
