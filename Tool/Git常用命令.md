@@ -97,7 +97,7 @@
 
   案例：
 
-  - 回退 remote 的 commit，常用于回退`较新`的 commit ，回退后再将之后的 commit 重新提交一遍以恢复（其他已拉取该远程分支「如`master`」被撤销代码的分支仍会有问题，在`merge`到`master`分支时需要处理分歧，较好的解决方法是新建分支将撤销的代码恢复再重新`merge`到`master`，之后再拉取`master`之后即可更新，不如直接新建分支将撤销的代码恢复再重新`merge`到`master`而不需要`reset`😂）
+  - 回退 remote 的 commit，常用于回退`较新`的 commit ，回退后再将之后的 commit 重新提交一遍以恢复（其他已拉取该远程分支「如`master`」被撤销代码的分支仍会有问题，在`merge`到`master`分支时需要处理分歧，较好的解决方法是新建分支将撤销的代码恢复再重新`merge`到`master`，之后再拉取`master`之后即可更新）
 
 - （`revert`）回退之前已提交的 commit 后提交，会撤销那次 commit 的修改：`git revert 'commitHash'`
 
