@@ -61,5 +61,3 @@
 - [前端安全系列（一）：如何防止 XSS 攻击？](https://segmentfault.com/a/1190000016551188)
 
 - [前端安全系列（二）：如何防止 CSRF 攻击？](https://segmentfault.com/a/1190000016659945)
-
-- [前端黑科技：美团网页首帧优化实践](https://segmentfault.com/a/1190000017040216)
