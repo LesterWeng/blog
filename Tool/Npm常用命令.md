@@ -60,7 +60,9 @@
   - 修改文件：`npm config edit`
   - 修改单个配置：如`npm config set registry https://registry.npm.taobao.org -g`
 
-- npm 全局包路径查看：`npm root -g`
+- npm 路径查看：`npm root`
+
+  - npm 全局路径查看：`npm root -g`
 
 - npm 同时安装同一个包的不同版本，如安装多版本的`Elasticsearch`：
 
