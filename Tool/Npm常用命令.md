@@ -10,13 +10,20 @@
 
 - 安装并写入 package.json 的 dependencies 中：`npm i <package>` 或 `npm i <package> -S/--save`
 
+  - 安装时指定使用的仓库，`npm i <package> --registry=https://registry.npm.taobao.org`
+
 - 安装并写入 package.json 的 devDependencies 中：`npm i <package> -D` 或 `npm i <package> --save-dev`
 
-- 移除并删除 package.json 的 dependencies 和 devDependencies 中的对应信息：`npm unnistall <package>`
+- dependencies 和 devDependencies 的异同：
 
-- 移除并删除 package.json 的 dependencies 中的对应信息：`npm unnistall <package> --save`
+  1. 运行`npm i`时这 2 个中的依赖都会被安装，运行`npm i --production`时只会安装`dependencies`中的包
+  2. 当某个项目依赖了当前包时，运行`npm i`时只会安装`dependencies`中的包（这种情况可以添加`peerDependencies`告诉用户当前包需要依赖的包）
 
-- 移除并删除 package.json 的 devDependencies 中的对应信息：`npm unnistall <package> --save-dev`
+- 移除并删除 package.json 的 dependencies 和 devDependencies 中的对应信息：`npm uninstall <package>`
+
+- 移除并删除 package.json 的 dependencies 中的对应信息：`npm uninstall <package> --save`
+
+- 移除并删除 package.json 的 devDependencies 中的对应信息：`npm uninstall <package> --save-dev`
 
 - 运行 package.json 中 scripts 定义的脚本：`npm run xxx`，一些常用命令可简化，如`npm start`、`npm test`、`npm build`
 
@@ -27,8 +34,6 @@
   - 使用淘宝镜像安装包：将 npm 命令中的`npm`换成`cnpm`即可
 
   - `cnpm` 与 `npm` 仍有差异，应避免其与 `npm` 混用
-
-- 全局修改 npm 配置，如`npm config set registry https://registry.npm.taobao.org -g`，也可在安装某个包时设置使用的仓库，如`npm i <package> --registry=https://registry.npm.taobao.org`
 
 - 更新包
 
@@ -48,6 +53,14 @@
   - `~`：匹配最近的小版本依赖包，比如`~1.2.3` 会匹配所有 `1.2.x` 版本，但是不包括 `1.3.0`
   - `^`：匹配最新的大版本依赖包，比如`^1.2.3` 会匹配所有 `1.x.x` 的包，包括 `1.3.0`，但是不包括 `2.0.0`
   - `*`：匹配最新版本的依赖包
+
+- npm 配置文件(即`.npmrc`文件，相关命令可通过`npm config`查看)
+
+  - 查看文件：`npm config list`
+  - 修改文件：`npm config edit`
+  - 修改单个配置：如`npm config set registry https://registry.npm.taobao.org -g`
+
+- npm 全局包路径查看：`npm root -g`
 
 - npm 同时安装同一个包的不同版本，如安装多版本的`Elasticsearch`：
 
