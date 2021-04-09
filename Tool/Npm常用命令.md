@@ -79,7 +79,7 @@
 
 - npm 包发布，若要发布到 npm 私服，设置`registry`即可（也可通过`.npmrc`文件配置），如下：
 
-  - 登录：`npm adduser --registry http://localhost:4873`
+  - 登录(`adduser`和`login`功能完全一致)：`npm login --registry http://localhost:4873`
   - 发布：`npm publish --registry http://localhost:4873`
 
 - npm tags（待更新...）
