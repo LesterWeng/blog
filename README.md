@@ -42,6 +42,8 @@
 
 - [Scss-常用语法](./Basis/Scss-常用语法.md)
 
+- [TS-联合类型和 Narrowing](./Basis/TS-联合类型和Narrowing.md)
+
 ## 解决方案
 
 - [ios-mobile+企微 iframe 内图片的长按二维码识别](./Solution/ios-mobile+企微iframe内图片的长按二维码识别.md)
