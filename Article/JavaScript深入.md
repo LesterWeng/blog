@@ -158,7 +158,7 @@ ECStack.pop();
   - 由 new 调用？绑定到新创建的对象
   - 由 call 或者 apply（或者 bind）调用？绑定到指定的对象
   - 由上下文对象调用？绑定到那个上下文对象，若为间接引用时，使用默认规则
-  - ES6 箭头函数 this 继承外层函数调用的 this 绑定
+  - ES6 箭头函数会根据当前的词法作用域来决定 this, 会继承外层函数调用的 this 绑定
 - 特殊情况下的 this 指向： &&、||、=、(,)、双目 等运算符返回‘真正的值’(GetValue)，而不是 Reference，this 绑定到 undefined，在非严格模式下，则绑定到 window，如下：
 
   ```js
@@ -295,7 +295,7 @@ ECStack = {
 // eg1
 function A() {
   let a = 1
-  return function(){
+  return function () {
     console.log(a)
   }
 }
