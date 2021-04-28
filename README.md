@@ -54,6 +54,8 @@
 
 - [Git 常用命令](./Tool/Git常用命令.md)
 
+- [GitLab-CICD 记录](./Tool/GitLab-CICD记录.md)
+
 - [Markdown 常用语法](./Tool/Markdown常用语法.md)
 
 - [Npm 常用命令](./Tool/Npm常用命令.md)
