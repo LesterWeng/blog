@@ -19,4 +19,5 @@
 - CI 默认执行用户为`gitlab-runner`，权限不足，需要新增权限或更改执行用户，这里在尝试新增权限(`sudo vim /etc/sudoers`)无果后更改执行用户后解决问题，步骤如下：
   1. 删除 gitlab-runner(可能无 service，继续下一步即可)：`sudo gitlab-runner uninstall`
   2. 安装并设置`--user`(这里设置为`root`)：`gitlab-runner install --working-directory /home/gitlab-runner --user root`
-  3. 重启 gitlab-runner：`service gitlab-runner restart`
+  3. 验证修改成功：`ps aux | grep gitlab`，`--user` 更新为 `root` 即可
+  4. 重启 gitlab-runner：`service gitlab-runner restart`
