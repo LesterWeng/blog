@@ -130,6 +130,7 @@ export function batchedUpdates<A, R>(fn: A => R, a: A): R {
 由于 React 使用`仅右移`的 diff 优化策略，若将靠后的元素移至靠前位置，会导致被移动的元素之后位置的元素均被打上`Placement`标记，在`commit阶段`会进行 DOM 移动操作(`最长有序子序列`)，造成性能缺陷，如下例就是错误的使用方式：
 
 ```ts
+// 状态更新前后
 <ul>
   <li key='1'>1</li>
   <li key='2'>2</li>
