@@ -6,9 +6,11 @@
 
 - [防抖与节流](./Article/防抖与节流.md)
 
-- [个人命名规范](./Article/个人命名规范.md)
+<!-- - [个人命名规范](./Article/个人命名规范.md) -->
 
 - [相对路径的应用](./Article/相对路径的应用.md)
+
+- [手写 Async](./Article/手写Async.md)
 
 - [手写 call、apply、bind](./Article/手写call、apply、bind.md)
 

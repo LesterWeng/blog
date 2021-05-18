@@ -9,7 +9,9 @@
 
 ### 宏任务(macrotask)
 
-宏任务包括：script(全局代码)、setTimeout、setInterval、setImmediate(非标准，仅 IE10+、Edge 实现，其他浏览器未实现；Node.js 环境)、AJAX、UI 交互事件(鼠标滚动、点击、移动，键盘输入等)、requestAnimationFrame、requestIdleCallback、MessageChannel、文件读写(I/O)、DOM 解析、样式计算、布局计算、CSS 动画 等
+> `requestAnimationFrame`、`requestIdleCallback`既不是宏任务，也不是微任务，只是浏览器在特定时机调用的回调函数
+
+宏任务包括：script(全局代码)、setTimeout、setInterval、setImmediate(非标准，仅 IE10+、Edge 实现，其他浏览器未实现；Node.js 环境)、AJAX、UI 交互事件(鼠标滚动、点击、移动，键盘输入等)、MessageChannel、文件读写(I/O)、DOM 解析、样式计算、布局计算、CSS 动画 等
 
 ### 微任务(microtask)
 
