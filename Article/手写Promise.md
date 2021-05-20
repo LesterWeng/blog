@@ -84,7 +84,6 @@ const resolvePromise = (
   }
 }
 
-// let count = 0
 class MyPromise {
   state: STATE
   value: any
@@ -97,11 +96,11 @@ class MyPromise {
       reject: Function,
     ) => any,
   ) {
-    // console.log(`${++count}个promise`)
     this.state = STATE.PENDING
     this.value = null
 
-    // pending状态时可能会绑定多个cb，类似promise.then(() => {});promise.then(() => {})写法
+    // pending状态时可能会绑定多个cb，类似promise.then(() => {});promise.then(() => {})写法，
+    // 故而一个promise实例可能有多个cb
     this.resolveCbs = []
     this.rejectCbs = []
 
@@ -143,6 +142,7 @@ class MyPromise {
   }
 
   then(resolveCb?: any, rejectCb?: Function) {
+    // 没回调参数时需要可以'透传'
     resolveCb =
       resolveCb instanceof Function
         ? resolveCb
@@ -155,12 +155,13 @@ class MyPromise {
             throw e
           }
 
-    // 这里的判断的state是父promise
+    // 这里的state、resolveCbs、rejectCbs是父promise的
     let newPromise
     if (this.state === STATE.PENDING) {
       return (newPromise = new MyPromise(
         (resolve, reject) => {
           this.resolveCbs.push((v) => {
+            // 这里没有异步执行，因为调用时已经是异步的了
             try {
               const value = resolveCb(v)
               resolvePromise(
@@ -191,6 +192,7 @@ class MyPromise {
     } else if (this.state === STATE.RESOLVED) {
       return (newPromise = new MyPromise(
         (resolve, reject) => {
+          // 异步执行，避免其后的同步代码被阻塞
           setTimeout(() => {
             try {
               const value = resolveCb(this.value)
@@ -209,6 +211,7 @@ class MyPromise {
     } else {
       return (newPromise = new MyPromise(
         (resolve, reject) => {
+          // 异步执行，避免其后的同步代码被阻塞
           setTimeout(() => {
             try {
               const value = rejectCb(this.value)
