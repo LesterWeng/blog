@@ -22,34 +22,40 @@ test().then((res) => console.log(res))
 实现：
 
 ```js
+// 注意：
+// 内置执行器
+// 返回promise
+// await后(yield 返回值)支持promise和原始类型的值
+// 错误处理：捕获yield语句执行过程中的错误、yield返回reject promise的错误、需要支持函数内的try catch
+// run返回的是一个函数(不是promise...)
+
 const run = (genFn) => {
+  const gen = genFn()
   return () =>
     new Promise((resolve, reject) => {
-      const gen = genFn()
-
       const next = (fn) => {
-        let result
-
+        let res
+        // catch yield执行过程中的错误
         try {
-          result = fn()
+          res = fn()
         } catch (err) {
           reject(err)
         }
 
-        if (result.done) {
-          return resolve(result.value)
+        if (res.done) {
+          resolve(res.value)
         } else {
-          Promise.resolve(result.value)
-            .then((data) =>
-              next(() => gen.next(data)),
-            )
-            .catch((err) =>
-              next(() => gen.throw(err)),
-            )
+          // catch yield返回reject promise时的错误，这里错误需要通过throw抛出使得generator内部可以使用try catch捕获到
+          Promise.resolve(res.value)
+            .then((data) => {
+              next(() => gen.next(data))
+            })
+            .catch((err) => {
+              next(() => gen.throw(err))
+            })
         }
       }
-
-      next(() => gen.next(undefined))
+      next(undefined)
     })
 }
 ```
