@@ -95,7 +95,7 @@ export function batchedUpdates<A, R>(fn: A => R, a: A): R {
 
 #### 列表项使用 key
 
-在`render阶段`列表项`diff`时，若不存在`key`值，则默认使用`index`作为键进行比较，否则使用`key`值，使用`key`值可以减少`DOM操作`次数，优化性能。
+在`render阶段`列表项`diff`时，若不存在`key`值，则默认使用`null`作为键进行比较，否则使用`key`值，使用`key`值可以减少`DOM操作`次数，优化性能。
 
 虽然推荐使用`key`值，但使用之后并不一定能减少`DOM操作`，比如下面的`简单列表`：
 
@@ -122,7 +122,7 @@ export function batchedUpdates<A, R>(fn: A => R, a: A): R {
 
 ```
 
-结果解析：不使用`key`时，使用默认`index`作为键比较，`React`认为 2 个子`fiberNode`可复用，因而只需要进行 2 次`DOM更新`操作；
+结果解析：不使用`key`时，`React`认为 2 个子`fiberNode`可复用，因而只需要进行 2 次`DOM更新`操作；
 而使用`key`时，由于`key`变了，`React`认为 2 个子`fiberNode`不可复用，则需要进行 2 次`DOM删除`和 2 次`DOM插入`操作
 
 #### 避免将列表项靠后的元素移至靠前位置
