@@ -1,25 +1,45 @@
 # React-流程概览
 
 > 本文:
-> 默认读者已掌握`Fiber`架构原理；
-> 只讨论同步模式(`legacy`)的情况，不关注调度器`scheduler`相关处理
+> 默认读者已了解`Fiber`架构原理；
+> 只讨论同步模式(`legacy`)的情况，不关注调度器`scheduler`相关处理;
+> 主要考虑类型为`FunctionComponent`、`HostComponent`的情况；
+> 缩写：`wip`指`workInProgress`,`FC`指`FunctionComponent`;
 
 ### 整体流程
 
-应用`mount`：调用`ReactDOM.render()`，调用`createContainer`创建`FiberRootNode`(即为 root)、`RootFiber`，调用`updateContainer`从 root 开始调度更新(`scheduleUpdateOnFiber`)。之后，分别进行`render`阶段`mount`时的流程和`commit`阶段的流程
+> `render`阶段：调和器`reconciler`工作阶段；
+> `commit`阶段：渲染器`renderer`工作阶段
 
-应用`update`：进行`render`阶段`update`时的流程和`commit`阶段的流程
+`mount`时：调用`ReactDOM.render()`开始渲染，调用`createContainer`创建`FiberRootNode`(即为 root)、`RootFiber`，调用`updateContainer -> scheduleUpdateOnFiber`从 root 开始调度更新(`scheduleSyncCallback(performSyncWorkOnRoot)`)，包括`render`阶段`mount`时的流程和`commit`阶段的流程
 
-下面详细介绍`render`阶段`和`commit`阶段的流程
+`update`时：调用`dispatchAction()`触发更新，最终和`mount`时相同，也调用`scheduleUpdateOnFiber`开始调度更新，包括`render`阶段`update`时的流程和`commit`阶段的流程
+
+下面分别介绍`render`阶段和`commit`阶段的流程：
 
 ### render 阶段
 
-> 即调和器`reconciler`工作阶段
+`render` 阶段包括若干个`beginWork`、`completeWork`过程，可分别理解为自上而下的`递`与`归`的过程，先从`fiber树`顶开始`递`到底，后从`fiber树`底开始`归`到顶
 
-##### mount 时
+#### mount 时
 
-##### update 时
+`beginWork`过程，根据`ReactElement`(`wip.tag=FC`时，由`Component()`函数返回；`wip.tag=HostComponent`时，从`pendingProps.children`获取)，经过`reconcileChildren`(即`diff`)生成一个新的`child wip fiber`，之后以新的`child wip fiber`为当前`wip fiber`继续`beginWork`过程。
+所有自上而下的`beginWork`的执行过程中仅有一个`wip fiber`存在`current`，即`rootFiber`，其会执行下面 update 时的流程，给其打上`Placement`的`effect tag`
+
+`completeWork`过程，会为当前`wip fiber`创建对应的`dom`节点，之后返回`return fiber`继续`completeWork`过程，最终自下而上生成一棵完整的`dom`树，结合上面打了`Placement effect tag`的`rooFiber`，在`commit`阶段就完成了首次的渲染
+
+#### update 时
+
+`beginWork`过程，先根据当前的`wip fiber`和`current fiber`的新旧`props`以及`wip fiber.lanes`来判断是否可以复用(`bailoutOnAlreadyFinishedWork`)
+
+- 若当前`fiber`可复用但子`fiber`有需要进行的工作(`fiber.childLanes`)，则调用`cloneChildFibers`根据`pendingProps`、复用的当前`current fiber`，以及当前`wip fiber`上的部分属性(`flags、lanes、child、sibling、memoizedProps、memoizedState、updateQueue`等等)通过`createWorkInProgress`生成一个新的`child wip fiber`；若子`fiber`没有需要进行的工作，则直接复用当前`wip fiber`
+<!-- - TODO:确认完整diff过程 -->
+- 若不可复用，则进行`diff`，在`diff`过程中再次判断是否可复用
+  - 若可复用则依次调用`useFiber -> createWorkInProgress`生成一个新的`child wip fiber`
+  - 否则进行`增/删`fiber 操作
+  - `diff`完成后会生成一个新的`child wip fiber`，过程中，会为`wip fiber`打上相应的`effect tag`
+- 同`mount`时相同，之后会以新的`child wip fiber`为当前`wip fiber`继续`beginWork`过程
+
+`completeWork`过程，会处理当前`tag=HostComponent`的`wip fiber`的`props`，并生成`updateQueue`，同样会返回`return fiber`继续`completeWork`过程
 
 ### commit 阶段
-
-> 即渲染器`renderer`工作阶段
