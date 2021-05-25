@@ -65,6 +65,8 @@
 
 - 当遍历到`FC`时，会沿着`fiber.updateQueue`上的`effect hook单向链表`进行相关的处理：若当前`effect hook`包含`HookLayout | HookHasEffect`的`flag`，则执行`useEffect、useLayoutEffect`的回调
 
+> 与`HookLayout | HookHasEffect`的`flag`相关联的`useEffect、useLayout`hooks 请移步[React-hooks 解析](./React-hooks解析.md)
+
 <!-- TODO:PassiveEffect -->
 <!-- 同样，当遍历到`FC`时，会沿着`fiber.updateQueue`上的`effect hook单向链表`进行相关的处理:
 
