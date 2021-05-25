@@ -2,9 +2,9 @@
 
 > 本文:
 > 默认读者已了解`Fiber`架构原理；
-> 只讨论同步模式(`legacy`)的情况，不关注调度器`scheduler`相关处理;
+> 只讨论同步模式(`legacy`)的情况，不关注调度器`scheduler`相关处理；
 > 主要考虑类型为`FunctionComponent`、`HostComponent`的情况；
-> 缩写：`wip`指`workInProgress`,`FC`指`FunctionComponent`;
+> 缩写：`wip`指`workInProgress`,`FC`指`FunctionComponent`；
 
 ### 整体流程
 
@@ -30,7 +30,9 @@
 
 #### update 时
 
-`beginWork`过程，先根据当前的`wip fiber`和`current fiber`的新旧`props`以及`wip fiber.lanes`来判断是否可以复用(`bailoutOnAlreadyFinishedWork`)
+> 更新时与`fiber.lanes`有很大关联，`lane`相关请查看[React-lane 解析](./React-lane解析.md)
+
+`beginWork`过程，若`current fiber`存在，则根据当前的`wip fiber`、`current fiber`的新旧`props`以及`wip fiber.lanes`来判断是否可以复用(`bailoutOnAlreadyFinishedWork`)，否则即为不可复用
 
 - 若当前`fiber`可复用但子`fiber`有需要进行的工作(`fiber.childLanes`)，则调用`cloneChildFibers`根据`pendingProps`、复用的当前`current fiber`，以及当前`wip fiber`上的部分属性(`flags、lanes、child、sibling、memoizedProps、memoizedState、updateQueue`等等)通过`createWorkInProgress`生成一个新的`child wip fiber`；若子`fiber`没有需要进行的工作，则直接复用当前`wip fiber`
 <!-- - TODO:确认完整diff过程 -->
@@ -43,3 +45,32 @@
 `completeWork`过程，会处理当前`tag=HostComponent`的`wip fiber`的`props`，并生成`updateQueue`，同样会返回`return fiber`继续`completeWork`过程
 
 ### commit 阶段
+
+### 案例解析
+
+```js
+function Comp() {
+  const [num, setNum] = useState(0)
+  return (
+    <button
+      onClick={() => setNum((num) => num + 1)}
+    >
+      按钮：{num}
+    </button>
+  )
+}
+function App() {
+  return (
+    <div>
+      <div>hello world</div>
+      <Comp></Comp>
+    </div>
+  )
+}
+ReactDOM.render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+  document.getElementById('root'),
+)
+```
