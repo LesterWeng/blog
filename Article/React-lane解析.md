@@ -13,7 +13,8 @@
 案例：
 
 ```ts
-// `setNum(1)`第二次调用仍触发`renderRootSync`执行，再次打印出'render'
+// `setNum(1)`第二次调用仍触发`renderWithHooks`执行，再次打印出'render'
+// 结合React双缓存工作过程和fiber.lanes即可分析出原因
 function Comp() {
   console.log('render')
   const [num, setNum] = useState(0)

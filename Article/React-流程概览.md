@@ -23,7 +23,7 @@
 
 #### mount 时
 
-`beginWork`过程，根据`ReactElement`(`wip.tag=FC`时，由`Component()`函数返回；`wip.tag=HostComponent`时，从`pendingProps.children`获取)，经过`reconcileChildren`(即`diff`)生成一个新的`child wip fiber`，之后以新的`child wip fiber`为当前`wip fiber`继续`beginWork`过程。
+`beginWork`过程，根据`ReactElement`(`wip.tag=FC`时，由`Component()`函数返回；`wip.tag=HostComponent`时，从`pendingProps.children`获取)，经过`reconcileChildren`(即`diff`，根据新生成的`child ReactElement`与`child current fiber`对比)生成一个新的`child wip fiber`，之后以新的`child wip fiber`为当前`wip fiber`继续`beginWork`过程。
 所有自上而下的`beginWork`的执行过程中仅有一个`wip fiber`存在`current`，即`rootFiber`，其会执行下面 update 时的流程，给其打上`Placement`的`effect tag`
 
 `completeWork`过程，会为当前`wip fiber`创建对应的`dom`节点，之后返回`return fiber`继续`completeWork`过程，最终自下而上生成一棵完整的`dom`树，结合上面打了`Placement effect tag`的`rooFiber`，在`commit`阶段就完成了首次的渲染
@@ -31,16 +31,16 @@
 #### update 时
 
 > 更新时与`fiber.lanes`有很大关联，`lane`相关请查看[React-lane 解析](./React-lane解析.md)
+> 此时的`current fiber`是`上次`的`wip fiber`，而`wip fiber`其实是`上上次`的`wip fiber`，当`beginWork`完成后，`wip fiber`才真正变成`这次`的`wip fiber`，不要被绕晕哦 :）
 
 `beginWork`过程，若`current fiber`存在，则根据当前的`wip fiber`、`current fiber`的新旧`props`以及`wip fiber.lanes`来判断是否可以复用(`bailoutOnAlreadyFinishedWork`)，否则即为不可复用
 
-- 若当前`fiber`可复用但子`fiber`有需要进行的工作(`fiber.childLanes`)，则调用`cloneChildFibers`根据`pendingProps`、复用的当前`current fiber`，以及当前`wip fiber`上的部分属性(`flags、lanes、child、sibling、memoizedProps、memoizedState、updateQueue`等等)通过`createWorkInProgress`生成一个新的`child wip fiber`；若子`fiber`没有需要进行的工作，则直接复用当前`wip fiber`
-<!-- - TODO:确认完整diff过程 -->
+- 若当前`fiber`可复用但子`fiber`有需要进行的工作(`fiber.childLanes`)，则调用`cloneChildFibers`根据`child.pendingProps`、复用的当前`child wip fiber`，以及当前`child current fiber`上需要继承的属性(如`flags、lanes、child、sibling、memoizedProps、memoizedState、updateQueue`等等)通过`createWorkInProgress`生成一个新的`child wip fiber`(更新原`child wip fiber`)；若子`fiber`没有需要进行的工作，则直接复用当前`wip fiber`且返回`null`停止遍历
 - 若不可复用，则进行`diff`，在`diff`过程中再次判断是否可复用
   - 若可复用则依次调用`useFiber -> createWorkInProgress`生成一个新的`child wip fiber`
   - 否则进行`增/删`fiber 操作
   - `diff`完成后会生成一个新的`child wip fiber`，过程中，会为`wip fiber`打上相应的`effect tag`
-- 同`mount`时相同，之后会以新的`child wip fiber`为当前`wip fiber`继续`beginWork`过程
+- 同`mount`时相同，若新生成的`child wip fiber !== null`，之后会以新的`child wip fiber`为当前`wip fiber`继续`beginWork`过程
 
 `completeWork`过程，会处理当前`tag=HostComponent`的`wip fiber`的`props`，生成包含更新`props`的`wip fiber.updateQueue`(结构为`[key1, value1, key2, value2]`)，同样会返回`return fiber`继续`completeWork`过程
 
@@ -60,6 +60,7 @@
 
 - 当`fiber.child`或`child.sibling`为`FC`且在`fiber.deletion`内时，调用`FC`的`updateQueue`内所有的`effect hook`回调返回的清理函数
 - 当遍历到`FC`时，会沿着`fiber.updateQueue`上的`effect hook单向链表`进行相关的处理：若当前`FC`包含`PlacementAndUpdate | Update`的`flag` 且当前`effect hook`包含`HookLayout | HookHasEffect`的`flag`，则执行`useEffect、useLayoutEffect`上次的回调返回的清理函数
+- 此过程结束后会使用`root.current = finishedWork`切换应用的`wip rootFiber`，原来的`current rootFiber`就变成了下次调度时的`wip rootFiber`
 
 #### commitLayoutEffects
 
