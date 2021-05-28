@@ -30,7 +30,7 @@
 
 #### update 时
 
-> 更新时与`fiber.lanes`有很大关联，`lane`相关请查看[React-lane 解析](./React-lane解析.md)
+> 更新时与`fiber.lanes`有很大关联，`lane`相关请查看[React-lane 解析](./React-lane解析.md)；
 > 此时的`current fiber`是`上次`的`wip fiber`，而`wip fiber`其实是`上上次`的`wip fiber`，当`beginWork`完成后，`wip fiber`才真正变成`这次`的`wip fiber`，不要被绕晕哦 :）
 
 `beginWork`过程，若`current fiber`存在，则根据当前的`wip fiber`、`current fiber`的新旧`props`以及`wip fiber.lanes`来判断是否可以复用(`bailoutOnAlreadyFinishedWork`)，否则即为不可复用
