@@ -46,8 +46,8 @@
 #### update 时
 
 > 下面涉及的`fiber.lane`相关请查看[React-lane 解析](./React-lane解析.md)；
-> 此时的`current fiber`是`上次`更新时的`wip fiber`，而`wip fiber`其实是`上上次`更新时的`wip fiber`，当`beginWork`完成后，`wip fiber`才真正变成`这次`更新时的`wip fiber`，不要被绕晕哦 :）
-> 下面说的`复用`指最终通过调用`createWorkInProgress`复用`current fiber`属性生成`wip fiber`的方式
+> 此时的`current fiber`是`上次`更新时的`wip fiber`，而`wip fiber`其实是`上上次`更新时的`wip fiber`，当`beginWork`完成后，`wip fiber`才真正变成`这次`更新时的`wip fiber`，不要被绕晕哦 :）；
+> 下面说的`复用`指最终通过调用`createWorkInProgress`复用`current fiber`属性生成`wip fiber`的方式；
 
 `beginWork`过程，若`current fiber`存在，则根据当前的`wip fiber`、`current fiber`的新旧`props`以及`wip fiber.lanes`来判断是否可以调用`bailoutOnAlreadyFinishedWork`准备复用，否则即为不可复用
 
@@ -57,7 +57,7 @@
   - 否则进行`增/删`fiber 操作
   - `diff`完成后会生成一个新的`child wip fiber`，过程中，会为`wip fiber`打上相应的`effect tag`
 
-`completeWork`过程，会处理当前`tag === HostComponent`的`wip fiber`的`props`，生成包含更新`props`的`wip fiber.updateQueue`(结构为`[key1, value1, key2, value2]`)，同样会返回`return fiber`继续`completeWork`过程
+`completeWork`过程，会处理当前`tag === HostComponent`的`wip fiber`的`props`，生成包含更新`props`的`wip fiber.updateQueue`(结构为`[key1, value1, key2, value2]`)
 
 ### commit 阶段
 
