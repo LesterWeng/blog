@@ -49,13 +49,21 @@
 > 此时的`current fiber`是`上次`更新时的`wip fiber`，而`wip fiber`其实是`上上次`更新时的`wip fiber`，当`beginWork`完成后，`wip fiber`才真正变成`这次`更新时的`wip fiber`，不要被绕晕哦 :）；
 > 下面说的`复用`指最终通过调用`createWorkInProgress`复用`current fiber`属性生成`wip fiber`的方式；
 
-`beginWork`过程，若`current fiber`存在，则根据当前的`wip fiber`、`current fiber`的新旧`props`以及`wip fiber.lanes`来判断是否可以调用`bailoutOnAlreadyFinishedWork`准备复用，否则即为不可复用
+`beginWork`过程，若`current fiber`存在，则根据当前的`wip fiber`、`current fiber`的新旧`props`以及`wip fiber.lanes`来判断是否可以调用`bailoutOnAlreadyFinishedWork`进行复用
 
-- 若当前`fiber`可复用但子`fiber`有需要进行的工作(`fiber.childLanes`)，则调用`cloneChildFibers -> createWorkInProgress`根据`child.pendingProps`、`current child fiber`上需要复用的属性(如`flags、lanes、child、sibling、memoizedProps、memoizedState、updateQueue`等)生成一个新的`child wip fiber`(更新了原`child wip fiber`的属性)；若子`fiber`没有需要进行的工作，则直接复用当前`wip fiber`且返回`null`停止遍历
-- 若不可复用，则进行`diff`，在`diff`过程中再次判断是否可复用
+- 若可复用，则进行如下`bailoutOnAlreadyFinishedWork`复用流程：
+
+  - 若子`fiber`有需要进行的工作(`fiber.childLanes`)，则调用`cloneChildFibers -> createWorkInProgress`根据`child.pendingProps`、`current child fiber`上需要复用的属性(如`flags、lanes、child、sibling、memoizedProps、memoizedState、updateQueue`等)生成一个新的`child wip fiber`(更新了原`child wip fiber`的属性)
+  - 否则，直接复用当前`wip fiber`且返回`null`停止遍历
+
+- 若不可复用且为`FC`，则执行`renderWithHooks -> Comp()`调用`updateReducer`判断是否`!is(newState, hook.memoizedState)`，若满足则也会调用`bailoutOnAlreadyFinishedWork`进行复用，否则进行如下`diff`流程：
+  <!-- - TODO:详细diff流程 -->
+
   - 若可复用则调用`useFiber -> createWorkInProgress`生成一个新的`child wip fiber`
   - 否则进行`增/删`fiber 操作
-  - `diff`完成后会生成一个新的`child wip fiber`，过程中，会为`wip fiber`打上相应的`effect tag`
+  - `diff`会生成一个打上了相应的`effect tag`的`child wip fiber`，若为`删除`，则会保存到父`fiber`的`deletions`中且其不再在`wip fiber`树中存在，`beginWork`循环也停止并执行`completeUnitWork`
+
+- 若不可复用且不为`FC`，同样进行上述`diff`流程
 
 `completeWork`过程，会处理当前`tag === HostComponent`的`wip fiber`的`props`，生成包含更新`props`的`wip fiber.updateQueue`(结构为`[key1, value1, key2, value2]`)
 
@@ -73,8 +81,6 @@
 
 当遍历到包含`deletions`的`fiber`时，进行`删除 DOM`操作；当遍历到`HostComponent || HostText`时，根据`fiber.flags`进行`删除以外的 DOM`操作。`DOM`操作完成后重置这 2 个标识
 
-和`effect hook`相关的处理：
-
 - 当`fiber.child`或`child.sibling`为`FC`且在`fiber.deletion`内时，调用`FC`的`updateQueue`内所有的`effect hook`回调返回的清理函数
 - 当遍历到`FC`时，会沿着`fiber.updateQueue`上的`effect hook单向链表`进行相关的处理：若当前`FC`包含`PlacementAndUpdate | Update`的`flag` 且当前`effect hook`包含`HookLayout | HookHasEffect`的`flag`，则执行`useEffect、useLayoutEffect`上次的回调返回的清理函数
 
@@ -84,10 +90,7 @@
 
 - 当遍历到`FC`时，会沿着`fiber.updateQueue`上的`effect hook单向链表`进行相关的处理：若当前`effect hook`包含`HookLayout | HookHasEffect`的`flag`，则执行`useEffect、useLayoutEffect`的回调
 
-> 与`HookLayout | HookHasEffect`的`flag`相关联的`useEffect、useLayoutEffect`hooks 请移步[React-hooks 解析](./React-hooks解析.md)
-
 <!-- TODO:PassiveEffect -->
 <!-- 同样，当遍历到`FC`时，会沿着`fiber.updateQueue`上的`effect hook单向链表`进行相关的处理:
-
 - 若当前`effect hook`包含`HookPassive | HookHasEffect`的`flag`，则执行`useEffect、useLayoutEffect`上次的清理函数
 - 若当前`effect hook`包含`HookPassive | HookHasEffect`的`flag`，则执行`useEffect、useLayoutEffect`这次的回调 -->
