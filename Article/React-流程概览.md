@@ -17,7 +17,8 @@
   - 调用`createContainer`创建`root`和`current rootFiber`
   - 调用`updateContainer -> scheduleUpdateOnFiber -> performSyncWorkOnRoot`依次进行`render`、`commit`阶段
 
-- `update`时：调用`dispatchAction()`触发更新，调用`scheduleUpdateOnFiber -> ensureRootIsScheduled`开始调度更新，包括`render`阶段`update`时的流程和`commit`阶段的流程
+- `update`时：
+  - 调用`dispatchAction()`触发更新，调用`scheduleUpdateOnFiber -> ensureRootIsScheduled`依次进行`render`、`commit`阶段
 
 下面分别介绍`render`阶段和`commit`阶段的流程：
 
