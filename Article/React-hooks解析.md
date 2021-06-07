@@ -109,7 +109,7 @@ const effect: Effect = {
 
 ### useCallback
 
-`mount`阶段调用时：返回首次的`callback`
+`mount`阶段调用时：返回上次的`callback`
 
 `update`阶段调用时：
 
@@ -118,7 +118,7 @@ const effect: Effect = {
 
 ### useMemo
 
-`mount`阶段调用时：返回首次的`callback() 返回值`
+`mount`阶段调用时：返回上次的`callback() 返回值`
 
 `update`阶段调用时：
 
