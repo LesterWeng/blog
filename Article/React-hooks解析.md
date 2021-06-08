@@ -8,7 +8,7 @@
 
 ```ts
 const hook: Hook = {
-    memoizedState: null, // 上次的state
+    memoizedState: null,
     baseState: null,
     baseQueue: null,
     queue: {
@@ -55,7 +55,7 @@ const update: Update<S, A> = {
 
 ### useEffect
 
-`effect hooks`结构：
+`effect hook`结构：
 
 ```ts
 const effect: Effect = {
