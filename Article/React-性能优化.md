@@ -13,7 +13,7 @@
 ### useMemo、useCallback
 
 - 缓存计算结果，减少`render`耗时
-- 缓存`jsx`
+- 缓存`ReactElement`，避免无效`render`
 - 生成稳定值
   - 作为`dependencies`时提供稳定的依赖
   - 作为`props`避免子组件无效`render`
@@ -68,7 +68,9 @@ export default function ParentComponent() {
 
 ### 批量更新
 
-`React`内的`事件回调、hook回调、钩子函数`(内部可能包含`setState`)在执行时，当前`executionContext`会打上`BatchedContext`的`flag`，表示使用批量更新进行优化。但这些`fn`内部可能由于各种原因（`宏任务、微任务`）跳出当前事件循环的`同步Script`，而后当这些`fn`执行时，当前`executionContext`已恢复之前的状态，丢失了`BatchedContext`的`flag`，便无法进行批量更新优化，导致进行了多次`render`，但这种情况是可以优化的，方法及源码如下：
+在`React`内的`事件回调、钩子函数`中使用`this.setState`会默认进行`批量更新`，但当脱离`React`的控制后(执行时机变为后续`事件循环`中)，就无法再应用`批量更新`
+
+使用`hook setState`时，默认也会进行`批量更新`，实现方式是在`ensureRootIsScheduled`中判断是否已存在相同优先级的`task`，若存在则直接使用之前的`task`而不会再进行调度更新
 
 - 将多个`state`进行合并
 
