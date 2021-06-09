@@ -34,7 +34,7 @@
   - 若存在，则以`completedWork.sibling`作为`wip fiber`继续执行`performUnitOfWork`，`completeUnitOfWork`结束
   - 若不存在，则更新`completedWork = completedWork.return`继续循环，直至`completedWork === null`
 
-`beginWork`中遍历`wip fiber`的过程与`深度优先搜索`相同，当`触底`时，`completeWork`负责`反弹`，下面详细介绍`beginWork`和`completeWork`过程：
+`beginWork`和`completeWork`交错执行的过程与[全排列](https://leetcode-cn.com/problems/permutations/)`递归回溯`过程相同，当`beginWork`触底时，`completeWork`反弹，下面详细介绍`beginWork`和`completeWork`过程：
 
 #### mount 时
 
