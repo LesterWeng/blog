@@ -26,35 +26,36 @@ test().then((res) => console.log(res))
 // 内置执行器
 // 返回promise
 // await后(yield 返回值)支持promise和原始类型的值
-// 错误处理：捕获yield语句执行过程中的错误、yield返回reject promise的错误、需要支持函数内的try catch
+// generator函数内return的值会作为最后done=true时的value
+// 错误处理：需要支持函数内的try catch；需要捕获yield语句执行过程中的错误、yield返回reject promise的错误
 // run返回的是一个函数(不是promise...)
 
 const run = (genFn) => {
   const gen = genFn()
+
   return () =>
     new Promise((resolve, reject) => {
       const next = (fn) => {
-        let res
-        // catch yield执行过程中的错误
+        let res = null
         try {
           res = fn()
-        } catch (err) {
-          reject(err)
+        } catch (e) {
+          reject(e)
         }
 
         if (res.done) {
           resolve(res.value)
         } else {
-          // catch yield返回reject promise时的错误，这里错误需要通过throw抛出使得generator内部可以使用try catch捕获到
           Promise.resolve(res.value)
-            .then((data) => {
-              next(() => gen.next(data))
-            })
-            .catch((err) => {
-              next(() => gen.throw(err))
-            })
+            .then((value) =>
+              next(() => gen.next(value)),
+            )
+            .catch((e) =>
+              next(() => gen.throw(e)),
+            )
         }
       }
+
       next(undefined)
     })
 }

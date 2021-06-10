@@ -1,15 +1,16 @@
 # 手写 call、apply、bind
 
 ```js
+const symbolKey = Symbol('')
 const fnCall = (fn, context, ...args) => {
   if (typeof fn !== 'function') {
     throw new TypeError('Error')
   }
 
   context = context || window
-  context._fn = fn
-  const result = context._fn(...args)
-  Reflect.deleteProperty(context, '_fn')
+  context[symbolKey] = fn
+  const result = context[symbolKey](...args)
+  Reflect.deleteProperty(context, symbolKey)
   return result
 }
 
@@ -19,9 +20,9 @@ const fnApply = (fn, context, args) => {
   }
 
   context = context || window
-  context._fn = fn
-  const result = context._fn(...args)
-  Reflect.deleteProperty(context, '_fn')
+  context[symbolKey] = fn
+  const result = context[symbolKey](...args)
+  Reflect.deleteProperty(context, symbolKey)
   return result
 }
 
@@ -31,10 +32,10 @@ const fnBind = (fn, context, ...args) => {
   }
 
   context = context || window
-  context._fn = fn
+  context[symbolKey] = fn
   return (...otherArgs) => {
-    context._fn(...args, ...otherArgs)
-    Reflect.deleteProperty(context, '_fn')
+    context[symbolKey](...args, ...otherArgs)
+    Reflect.deleteProperty(context, symbolKey)
   }
 }
 
