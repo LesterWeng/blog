@@ -10,8 +10,9 @@
 ### 宏任务(macrotask)
 
 > `requestAnimationFrame`、`requestIdleCallback`既不是宏任务，也不是微任务，只是浏览器在特定时机调用的回调函数
+> 实际下面的宏任务、微任务都是指遇到使用这些的情况时，将其`回调函数`加入对应的队列，等待按顺序执行
 
-宏任务包括：script(同步代码，包括`appendChild`等`dom`操作，`dom`操作表现是同步的，操作之后`dom`树就变了，但后续的渲染过程如`Recalculate Style、Update Layer、Layout、 Paint`并不是同步的)、定时器`fire`事件(`setTimeout`、`setInterval`、`setImmediate`(非标准，仅 IE10+、Edge 实现，其他浏览器未实现；Node.js 环境))、`AJAX`事件、`输入`事件(鼠标滚动、点击、移动，键盘输入等)、`MessageChannel`、`文件读写`(I/O)事件、DOM 解析、样式计算(`Recalculate Style`)、布局计算(`Layout`)、CSS 动画 等。每个宏任务都会关联一个`微任务队列`
+宏任务包括：script(全局代码，包括`appendChild`等`dom`操作，`dom`操作表现是同步的，操作之后`dom`树就变了，但后续的渲染过程如`Recalculate Style、Update Layer、Layout、 Paint`并不是同步的)、定时器`fire`事件(`setTimeout`、`setInterval`、`setImmediate`(非标准，仅 IE10+、Edge 实现，其他浏览器未实现；Node.js 环境))、`AJAX`事件、`输入`事件(鼠标滚动、点击、移动，键盘输入等)、`MessageChannel`、`文件读写`(I/O)事件、DOM 解析、样式计算(`Recalculate Style`)、布局计算(`Layout`)、CSS 动画 等。每个宏任务都会关联一个`微任务队列`
 
 ### 微任务(microtask)
 
@@ -21,7 +22,7 @@
 
 ### 运行机制
 
-这里把一次事件循环操作称为一次 tick，一次 tick 的执行过程如下（循环往复）：
+一次事件循环的执行过程如下（循环往复）：
 
 首先执行宏任务队列中的一个宏任务（初始为 script 全局代码），执行中遇到宏任务或微任务将其加入对应队列，宏任务执行完后，执行完微任务队列中所有的微任务（包括这次宏任务新加入的微任务和执行微任务时新加入的微任务，总之会执行完这次 tick 加入到微任务队列的所有微任务）
 
@@ -39,7 +40,7 @@ setTimeout(function () {
 })
 ```
 
-`全局代码`和`setTimeout`为两个不同的`macrotask`,它们可能在同一帧内执行，也可能在不同帧执行，所以屏幕既可能`先显示红色再显示黑色`也可能`直接显示黑色`，如果我们把 setTimeout 的延迟事件增大到`17ms`，那么基本可以确定这 2 个 macrotask 会在不同帧执行（很大概率）
+`全局代码`和`setTimeout`为两个不同的`macrotask`，它们可能在同一帧内执行，也可能在不同帧执行，所以屏幕既可能`先显示红色再显示黑色`也可能`直接显示黑色`，如果我们把 setTimeout 的延迟事件增大到`17ms`，那么基本可以确定这 2 个 `macrotask` 会在不同帧执行（很大概率）
 
 #### requestAnimationFrame
 
@@ -72,7 +73,7 @@ console.log('global')
 #### 掉帧与时间切片
 
 如果一次事件循环执行的时间超过了`16.6ms`（比如循环、递归操作），那么这一帧就没有`render`，页面直到下一帧`render`才会更新，页面就会出现卡顿，或者说`掉帧`
-为了解决这种卡顿的情况，`requestIdleCallback`是一个方案，但不太稳定，更好的方案是：`时间切片`，即把原来执行事件很长的事件循环分割成多个节点执行。如`React`15 使用`递归`的方式构建虚拟 DOM，如果层级过深就会出现掉帧的情况；`React16`将`递归`的方式改成了可中断的`遍历`，以`5ms`的执行时间划分任务，每遍历完一个节点，就检查当前任务是否已经执行了`5ms`，如果超过`5ms`，则中断本次任务，从而解决了长时间无法`render`的问题
+为了解决这种卡顿的情况，`requestIdleCallback`是一个方案，但不太稳定，更好的方案是：`时间切片`，即把原来执行事件很长的事件循环分割成多个节点执行。如`React15` 使用`递归`的方式构建虚拟 DOM，如果层级过深就会出现掉帧的情况；`React16 CM模式`将`递归`的方式改成了可中断的`遍历`，以`5ms`的执行时间划分任务，每遍历完一个节点，就检查当前任务是否已经执行了`5ms`，如果超过`5ms`，则中断本次任务，从而解决了长时间无法`render`的问题
 
 ### 实例分析
 
