@@ -11,13 +11,13 @@
 
 > `requestAnimationFrame`、`requestIdleCallback`既不是宏任务，也不是微任务，只是浏览器在特定时机调用的回调函数
 
-宏任务包括：script(全局代码)、setTimeout、setInterval、setImmediate(非标准，仅 IE10+、Edge 实现，其他浏览器未实现；Node.js 环境)、AJAX、UI 交互事件(鼠标滚动、点击、移动，键盘输入等)、MessageChannel、文件读写(I/O)、DOM 解析、样式计算、布局计算、CSS 动画 等
+宏任务包括：script(同步代码，包括`appendChild`等`dom`操作，`dom`操作表现是同步的，操作之后`dom`树就变了，但后续的渲染过程如`Recalculate Style、Update Layer、Layout、 Paint`并不是同步的)、定时器`fire`事件(`setTimeout`、`setInterval`、`setImmediate`(非标准，仅 IE10+、Edge 实现，其他浏览器未实现；Node.js 环境))、`AJAX`事件、`输入`事件(鼠标滚动、点击、移动，键盘输入等)、`MessageChannel`、`文件读写`(I/O)事件、DOM 解析、样式计算(`Recalculate Style`)、布局计算(`Layout`)、CSS 动画 等。每个宏任务都会关联一个`微任务队列`
 
 ### 微任务(microtask)
 
-微任务包括：Promise.then、Promise.reject、 MutationObserver、DOM 变化的事件(节点的插入、修改、删除等动态变化)、queueMicrotask、process.nextTick(Node.js 环境）等
+微任务包括：`Promise.then`、`Promise.reject`、 `DOM 变化`事件：节点的插入、修改、删除等动态变化事件，包括`MutationObserver`、加载卸载事件(`onload`、`onbeforeunload`、`onunload`等，暂时这样理解，待继续确认:)、`queueMicrotask`、`process.nextTick`(Node.js 环境）等
 
-另外可理解为：`宿主`发起的任务是`宏任务`，如点击事件，setTimeout 进入微任务队列；`js 引擎`发起的任务是`微任务`，如 promise
+另外可理解为：`宿主`发起的任务是`宏任务`，如点击事件，setTimeout 进入宏任务队列；`js 引擎`发起的任务是`微任务`，如 promise
 
 ### 运行机制
 
