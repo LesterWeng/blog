@@ -68,8 +68,8 @@
 
 - [Npm 常用命令](./Tool/Npm常用命令.md)
 
-## 资料
+<!-- ## 资料
 
 - [前端安全系列（一）：如何防止 XSS 攻击？](https://segmentfault.com/a/1190000016551188)
 
-- [前端安全系列（二）：如何防止 CSRF 攻击？](https://segmentfault.com/a/1190000016659945)
+- [前端安全系列（二）：如何防止 CSRF 攻击？](https://segmentfault.com/a/1190000016659945) -->
