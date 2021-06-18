@@ -7,12 +7,19 @@
 `state hook`结构：
 
 ```ts
+const update: Update<S, A> = {
+    lane,
+    action,
+    eagerReducer: null,
+    eagerState: null,
+    next: (null: any),
+  };
 const hook: Hook = {
     memoizedState: null,
     baseState: null,
     baseQueue: null,
     queue: {
-        pending: null, // update环形链表：4 -> 1 -> 2 -> 3
+        pending: update, // update环形链表：4 -> 1 -> 2 -> 3
         interleaved: null,
         lanes: NoLanes,
         dispatch: dispatchAction.bind( // setState
@@ -24,18 +31,6 @@ const hook: Hook = {
         lastRenderedState: (initialState: any),
     },
     next: null, // 单向链表
-  };
-```
-
-`update`结构：
-
-```ts
-const update: Update<S, A> = {
-    lane,
-    action,
-    eagerReducer: null,
-    eagerState: null,
-    next: (null: any),
   };
 ```
 
@@ -58,13 +53,33 @@ const update: Update<S, A> = {
 `effect hook`结构：
 
 ```ts
-const effect: Effect = {
-    tag,
-    create,
-    destroy,
-    deps,
-    next: (null: any), // 环形链表： 4 -> 1 -> 2 -> 3
+const hook: Hook = {
+    memoizedState: {
+      tag,
+      create,
+      destroy,
+      deps,
+      next: (null: any), // 环形链表： 4 -> 1 -> 2 -> 3
+    },
+    baseState: null,
+    baseQueue: null,
+    queue: null,
+    next: null, // 单向链表
   };
+```
+
+需要注意的是，`effect`还保存在`fiber.updateQueue`内，如下：
+
+```ts
+fiber.updateQueue = {
+  lastEffect: {
+      tag,
+      create,
+      destroy,
+      deps,
+      next: (null: any), // 环形链表： 4 -> 1 -> 2 -> 3
+    }
+}
 ```
 
 `mount`阶段调用时：
