@@ -38,7 +38,7 @@
 
 #### mount 时
 
-`beginWork`过程，根据`ReactElement`(`wip.tag=FC`时，由`Component()`函数返回；`wip.tag=HostComponent`时，从`pendingProps.children`获取)，经过`reconcileChildren`(即`diff`，根据新生成的`child ReactElement`与`child current fiber`对比)生成一个新的`child wip fiber`。需要注意的是，`wip rootFiber`由于存在`current rootFiber`，其会执行下面 `update时`的流程，给其打上`Placement`的`effect tag`，最终在`commit`阶段将`应用根 HostComponent`挂载到`dom树`中
+`beginWork`过程，根据`ReactElement`(`wip.tag=FC`时，由`Component()`函数返回；`wip.tag=HostComponent`时，从`pendingProps.children`获取)，经过`reconcileChildren`(即`diff`，`mount`时直接根据新生成的`child ReactElement`，更新时根据新生成的`child ReactElement`与`child current fiber`)生成一个新的`child wip fiber`。需要注意的是，`wip rootFiber`由于存在`current rootFiber`，其会执行下面 `update时`的流程，给其打上`Placement`的`effect tag`，最终在`commit`阶段将`应用根 HostComponent`挂载到`dom树`中
 
 <!-- TODO: rootFiber这里需要深入-->
 
