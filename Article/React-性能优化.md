@@ -76,7 +76,7 @@ export default function ParentComponent() {
 
 - 将多个`state`进行合并进而只需要一次`setState`
 
-- 使用`ReactDOM.unstable_batchedUpdates`(其实就是`batchedUpdates`方法)合并`setState`
+- 使用`ReactDOM.unstable_batchedUpdates`(其实就是`batchedUpdates`方法)手动合并`setState`
 
 ```ts
 export function batchedUpdates<A, R>(fn: A => R, a: A): R {
