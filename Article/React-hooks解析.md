@@ -116,7 +116,7 @@ fiber.updateQueue = {
   - 会在`commit`阶段内的`commitHookEffectListUnmount`、`commitHookEffectListMount`内执行`清理`和`回调`函数
 - 否则，会只给`effect hook`打上`HookLayout`的`tag`，不会执行`清理`和`回调`函数
 
-注意：`useLayoutEffect`的回调会在`commit`阶段结束后`同步`执行，即渲染后同步执行。相对于`useEffect`的回调，当`deps`为可变数据时，`useLayoutEffect`的回调中不会出现获取的`dep`值发生改变的情况。由于更接近渲染，它比`useEffect`更适合依赖`dom`做相关处理的情况，`几乎`看不到页面突变。
+注意：`useLayoutEffect`的回调会在`commit`阶段结束后`同步`执行，会阻塞渲染(`若打debugger会发现页面已渲染完毕，原因是debugger打断了JS引擎而未打断渲染引擎`)。相对于`useEffect`的回调，当`deps`为可变数据时，`useLayoutEffect`的回调中不会出现获取的`dep`值发生改变的情况
 
 ### useRef
 
