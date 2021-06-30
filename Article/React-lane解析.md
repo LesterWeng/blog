@@ -18,6 +18,10 @@
 
 原因：第一次调用后 `current fiber` 上的 `lanes` 未重置，第二次调用时原来的 `current fiber` 作为 `wip fiber`，其上的 `lanes === 1`，这才导致了这次 `state 未改变`仍触发了`Comp()`执行
 
+那么我们可以修改`markUpdateLaneFromFiberToRoot`只给`fiber`打上`lanes`吗？
+
+答案是`不可以`，由于`dispatchAction`函数始终`bind`到最初的`current fiber`上，在调用时该`fiber`可能是作为`wip fiber`，也可能作为`current fiber`，若不修改`alternate.lanes`，会导致`alternate`作为`wip fiber`时，错误复用了`current fiber`的值为`0`的`lanes`，导致`React工作流程`中错误判断为不需要进行更新
+
 ```ts
 function Comp() {
   console.log('render')

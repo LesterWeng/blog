@@ -42,8 +42,6 @@ const hook: Hook = {
 
 - 根据`update`更新`hook`，返回最新的`hook.memoizedState`和原`dispatch`
 
-注意：`dispatchAction`函数`bind`的`fiber`是固定的，即始终`bind`到`current`、`wip`中的一棵树上，在调用时该`fiber`可能是作为`wip fiber`，也可能作为`current fiber`，而`current fiber`和`wip fiber`上的部分属性可能并不一致，如`lanes`
-
 ### useReducer
 
 除书写方式外，均与`useState`相同
