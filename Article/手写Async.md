@@ -56,7 +56,7 @@ const run = (genFn) => {
         }
       }
 
-      next(undefined)
+      next(() => gen.next())
     })
 }
 ```
