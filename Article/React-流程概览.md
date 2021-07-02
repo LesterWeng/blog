@@ -11,6 +11,50 @@
 > `render`阶段：调和器`reconciler`工作阶段；
 > `commit`阶段：渲染器`renderer`工作阶段
 
+`fiber`结构：
+
+```ts
+function FiberNode(
+  tag: WorkTag,
+  pendingProps: mixed,
+  key: null | string,
+  mode: TypeOfMode,
+) {
+  // Instance
+  this.tag = tag
+  this.key = key
+  this.elementType = null
+  this.type = null
+  this.stateNode = null
+
+  // Fiber
+  this.return = null
+  this.child = null
+  this.sibling = null
+  this.index = 0
+
+  this.ref = null
+
+  this.pendingProps = pendingProps
+  this.memoizedProps = null
+  this.updateQueue = null
+  this.memoizedState = null
+  this.dependencies = null
+
+  this.mode = mode
+
+  // Effects
+  this.flags = NoFlags
+  this.subtreeFlags = NoFlags
+  this.deletions = null
+
+  this.lanes = NoLanes
+  this.childLanes = NoLanes
+
+  this.alternate = null
+}
+```
+
 - `mount`时：
 
   - 调用`ReactDOM.render()`开始渲染
