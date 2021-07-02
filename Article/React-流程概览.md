@@ -34,7 +34,9 @@
   - 若存在，则以`completedWork.sibling`作为`wip fiber`继续执行`performUnitOfWork`，`completeUnitOfWork`结束
   - 若不存在，则更新`completedWork = completedWork.return`继续循环，直至`completedWork === null`
 
-`beginWork`和`completeWork`交错执行的过程与[全排列](https://leetcode-cn.com/problems/permutations/)`递归回溯`过程相同，当`beginWork`触底时，`completeWork`反弹，下面详细介绍`beginWork`和`completeWork`过程：
+举例：下图所示的`fiber树`的执行过程如图中箭头所示，`向下`的过程为`beginWork`，`向上`的过程为`completeWork`
+
+![fiber-tree](../Images/mini-fiber-tree.png)
 
 #### mount 时
 
@@ -43,6 +45,8 @@
 <!-- TODO: rootFiber这里需要深入-->
 
 `completeWork`过程，会为`tag === HostComponent`的`completedWork`创建对应的`dom`节点，并将子`dom`节点`append`上去。当执行到`tag === HostRoot`的`completedWork`时(`rootFiber`)，会更新`root.pendingChildren`，最终在`commit`阶段根据其完成首次渲染
+
+此外`completeWork`会通过`bubbleProperties`给`wip fiber`打上`childLanes`和`subtreeFlags`，分别用来简化`render`阶段遍历路径和`commit`阶段遍历路径
 
 #### update 时
 
@@ -68,9 +72,11 @@
 
 `completeWork`过程，会处理当前`tag === HostComponent`的`wip fiber`的`props`，生成包含更新`props`的`wip fiber.updateQueue`(结构为`[key1, value1, key2, value2]`)
 
+同样会调用`bubbleProperties`给`wip fiber`打上`childLanes`和`subtreeFlags`
+
 ### commit 阶段
 
-可大体分为 3 个子过程：`commitBeforeMutationEffects`、`commitMutationEffects`、`commitLayoutEffects`，3 个过程使用与`render`阶段相同的方式(`_begin`、`_complete`)遍历`wip fiber树`
+可大体分为 3 个子过程：`commitBeforeMutationEffects`、`commitMutationEffects`、`commitLayoutEffects`，3 个过程会沿着打了`subtreeFlags`的`fiber`进行遍历从而优化遍历过程
 
 3 个子过程结束后，会调用`flushSyncCallbacks`立即执行`syncQueue`内的更新(包括`useLayoutEffect`回调内触发的更新)
 
