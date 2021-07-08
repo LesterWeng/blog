@@ -56,4 +56,4 @@ clear:left/right/both <br/>
 // 设置父元素overflow: hidden等等将父元素变为BFC
 ```
 
-关于 BFC 方面的内容，详见：[CSS-BFC 理解](./CSS-BFC理解)
+关于 BFC 方面的内容，详见：[CSS-BFC 理解](./CSS-BFC理解.md)
