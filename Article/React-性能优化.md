@@ -72,7 +72,7 @@ export default function ParentComponent() {
 
 使用`hook setState`时，默认也会进行`"批量更新"`，实现方式是在`ensureRootIsScheduled`中判断是否已存在相同优先级的`task`，若存在则直接使用之前的`task`而不会再进行调度更新
 
-但不管是`this.setState`还是`hook setState`，当脱离`React`的控制后(执行时机变为后续`事件循环`中)，就无法再应用`批量更新`，解决方案如下：
+但不管是`this.setState`还是`hook setState`，当脱离`React`的同步控制后(`scheduleUpdateOnFiber`内会判断`executionContext`，若为`NoContext`时会立即执行更新流程，而脱离`React`的同步控制，即执行时机变为后续`事件循环`时`executionContext`正是`NoContext`)，就无法再应用`批量更新`，解决方案如下：
 
 - 将多个`state`进行合并进而只需要一次`setState`
 
