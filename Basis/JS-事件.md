@@ -4,11 +4,11 @@
 
 > 指使用如下方式绑定的事件
 
-绑定：`html` 内`<input onclick=''>`;`js` 中 `el.onclick=''`
+**绑定**：`html` 内`<input onclick=''>`;`js` 中 `el.onclick=''`
 
-解绑： `el.onclick = null`
+**解绑**： `el.onclick = null`
 
-阻止：可使用 `return false` 来阻止事件往下执行，也可阻止`默认事件`
+**阻止**：可使用 `return false` 来阻止事件往下执行，也可阻止`默认事件`
 
 ## DOM2 级事件
 
@@ -25,15 +25,17 @@
 > 指使用`addEventListener`绑定的事件。
 > `addEventListener`参数：事件名称、回调函数和事件执行阶段：冒泡阶段(false)、捕获阶段(true)，默认为 false
 
-绑定：`el.addEventListener('', func, bool)`
+**绑定**：`el.addEventListener('', func, bool)`
 
-解绑：`el.removeEventListener( '', func, bool )`。如果定义`捕获`阶段执行的事件，则必须在 `removeEventListener()`中指明是捕获阶段，才能正确地将这个事件处理函数删除
+**解绑**：`el.removeEventListener( '', func, bool )`。如果定义`捕获`阶段执行的事件，则必须在 `removeEventListener()`中指明是捕获阶段，才能正确地将这个事件处理函数删除
 
-阻止：可使用`event.stopPropagation()`阻止冒泡和捕获阶段的事件(需要注意的是，阻止并不表示其截断了事件从上到下再从下到上的传播，只是阻止了在当前`target`之下的`target`(即`子孙元素`)的`捕获事件`的执行和在当前`target`之`上`(即`祖先元素`)的`target`的`冒泡事件`的执行，这就是为什么绑定在`子元素`上的`冒泡事件`无法在`父元素`上进行阻止的原因)；
+**阻止**：可使用`event.stopPropagation()`阻止冒泡和捕获阶段的事件。需要注意的是，阻止并不表示其截断了事件从上到下再从下到上的传播，只是阻止了在当前`target`之下的`target`(即`子孙元素`)的`捕获事件`的执行和在当前`target`之`上`(即`祖先元素`)的`target`的`冒泡事件`的执行，这就是为什么绑定在`子元素`上的`冒泡事件`无法在`父元素`上进行阻止的原因；
+
 可使用`stopImmediatePropagation`阻止冒泡和捕获阶段的事件，和`stopPropagation`的区别是它同时还能阻止该元素的后续相同事件的发生(多个事件监听默认会按顺序执行)；
+
 可使用`event.preventDefault()`阻止默认事件（如果`event`的 `cancelable`为`fasle`则代表其无法阻止）
 
-手动触发：`el.dispatchEvent(event)`
+**手动触发**：`el.dispatchEvent(event)`
 
 ## DOM3 级事件，在 DOM2 级事件的基础上添加了更多的事件类型
 
