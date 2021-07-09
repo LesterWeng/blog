@@ -44,6 +44,8 @@
 
 - [JS-跨域总结](./Basis/JS-跨域总结.md)
 
+- [JS-事件](./Basis/JS-事件.md)
+
 - [JS-Array 常用方法](./Basis/JS-Array常用方法.md)
 
 - [JS-new 和 instanceof](./Basis/JS-new和instanceof.md)
