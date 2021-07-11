@@ -131,7 +131,7 @@ export function batchedUpdates<A, R>(fn: A => R, a: A): R {
 
 #### 避免将列表项靠后的元素移至靠前位置
 
-由于 React 使用`仅右移`的 diff 优化策略，若将靠后的元素(`B`)移至靠前位置，则`B`会复用原 dom(dom 位置无需移动)，并记录其位置`lastPlacedIndex`(最后一个 dom 可复用的位置)，后续元素处理时发现原位置都位于`lastPlacedIndex`的左侧，因此均会进行`右移`(打上`Placement`标记)，在`commit阶段`会进行 DOM 移动操作。这种情况完全背离了复用`最长有序子序列`的原则，进行了最多次数的 dom 移动，造成性能缺陷，如下例：
+由于 React 使用`仅右移`的 diff 优化策略，若将靠后的元素移至靠前位置，则这个靠后的元素会被复用并记录其位置`lastPlacedIndex`(最后一个被复用的位置)，处理后续元素时发现`oldFiber`的位置都位于`lastPlacedIndex`的左侧，此时就会被打上`Placement`标记并在之后的`commit阶段`进行 `DOM 移动`操作，这样就出现了需要移动大量 dom 的情况, 背离了`最长有序子序列`复用的原则，造成性能缺陷，如下例：
 
 ```ts
 // 状态更新前后
