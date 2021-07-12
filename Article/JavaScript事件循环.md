@@ -63,8 +63,10 @@ Promise.resolve().then(() =>
 console.log('global')
 ```
 
-`setTimeout`使用默认延迟事件（大概会有 4ms 延迟），大概率在同一帧执行，而 RAF1 和 RAF2 必定在不同帧执行
+2 个`setTimeout`大概率在同一帧执行，而 RAF1 和 RAF2 必定在不同帧执行
 所以上述代码执行结果大概率会是`1. global 2. promise1 3. setTimeout1 4. setTimeout2 5. RAF1 6. RAF2`
+
+> `setTimeout`时延问题：`chrome`下最小时延`1ms`，嵌套层级`>= 5层`时最小时延`4ms`
 
 #### requestIdleCallback
 
