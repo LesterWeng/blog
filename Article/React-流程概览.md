@@ -114,7 +114,7 @@ function FiberNode(
     - 若`key、elementType`相同，则：
       - 删除多余的`sibling`
       - `useFiber -> createWorkInProgress`复用生成一个新的`child wip fiber`
-    - 否则，删除`fiber`和多余的`sibling`
+    - 否则，删除`fiber`和多余的`sibling`并使用`createFiberFromElement`创建一个新的`child wip fiber`
   - 否则，调用`reconcileChildrenArray`进行多节点的`diff`
     - 第一轮遍历，仅处理对应`index`位置`key、type`相同可复用的情况，不满足时跳出第一轮遍历
     - 先处理`newChildren`遍历完但`oldFiber`未完的情况，方法是删除多余的`sibling`，之后进行第二轮遍历
