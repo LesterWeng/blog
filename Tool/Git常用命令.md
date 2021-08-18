@@ -121,7 +121,7 @@ newBranch: A --- B --- C --- D --- B'
 回退到的commit之后的commit后续若需要再提交，cherry-pick再提交即可
 ```
 
-#### revert
+### revert
 
 用于`撤销`指定 commit，
 
