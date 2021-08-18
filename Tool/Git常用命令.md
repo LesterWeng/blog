@@ -89,42 +89,67 @@
 
 ## 回退相关
 
-- （`reset`）回退到之前的 commit state（可回退本地未 push 的 commit） 后提交，会撤销那次 commit 之后的 commit：`git reset --soft 'commitHash'`
+```ts
 
-  - 回退到上次（1 个版本）的 commit state：`git reset --soft HEAD~`、`git reset --soft HEAD~1`
+操作前历史：A --- B --- C --- D
+```
 
-  - 回退到上上次（2 个版本）的 commit state：`git reset --soft HEAD~2`...
+### 回退指定 commit 中的部分文件
 
-  案例：
+```ts
+git checkout B -- 要回退的文件1 要回退的文件2
+然后commit这两个文件得到新的版本 E，之后提交
 
-  - 回退 remote 的 commit，常用于回退`较新`的 commit ，回退后再将之后的 commit 重新提交一遍以恢复（其他已拉取该远程分支「如`master`」被撤销代码的分支仍会有问题，在`merge`到`master`分支时需要处理分歧，较好的解决方法是新建分支将撤销的代码恢复再重新`merge`到`master`，之后再拉取`master`之后即可更新）
+repo: A --- B --- C --- D --- E
+```
 
-- （`revert`）回退之前已提交的 commit 后提交，会撤销那次 commit 的修改：`git revert 'commitHash'`
+### reset
 
-  - 回退上次提交（1 个版本）的 commit state：`git revert HEAD~`、`git revert HEAD~1`
+用于`回退`到指定 commit 所在版本，正常不应使用`--hard`选项
 
-  - 回退上上次提交的（2 个版本） commit state：`git revert HEAD~2`...
+常见案例(回退`master`)处理：
 
-  案例：
+```ts
+git checkout -b newBranch B
+git reset --soft D
 
-  - 回退 remote 的 commit，常用于回退`较老`的 commit ，回退后将修改后的这次 commit 重新提交一次以恢复
+然后 commit 得到
+newBranch: A --- B --- C --- D --- B'
 
-    - 使用 revert 回退`dev`后，其他分支若未修改被`revert`的文件，则后续`merge`时无法更新 dev，可在 dev`revert`那次`revert commit`以更新
+再MR到master
+
+回退到的commit之后的commit后续若需要再提交，cherry-pick再提交即可
+```
+
+#### revert
+
+用于`撤销`指定 commit，
+
+```ts
+git revert C
+
+产生跟 B 内容一样的新commit B'，repo 快速移动到B'就行了
+
+A --- B --- C --- B'
+                (HEAD)
+
+可能存在冲突，手动处理
+```
 
 ## stash 相关
 
 - 把未完成的修改缓存到堆栈中：`git stash`
 
-  - 查看所有的缓存：`git stash list`
+- 查看所有的缓存：`git stash list`
 
-  - 恢复到最近的一个缓存：`git stash apply`
+- 恢复到最近的一个缓存：`git stash apply`
 
-  - 恢复到指定的一个缓存：`git stash apply 'stashName'`
+- 恢复到指定的一个缓存：`git stash apply 'stashName'`
 
-    'stashName'为`stash@{0}`,`stash@{1}`...
+  'stashName'为`stash@{0}`,`stash@{1}`...
 
-  - 删除一个指定的缓存：`git stash drop 'stashName'`
+- 删除一个指定的缓存：`git stash drop 'stashName'`
 
-  - 恢复到最近的一个缓存并删除这个缓存：`git stash pop`
+- 恢复到最近的一个缓存并删除这个缓存：`git stash pop`
 
-  - 删除所有缓存：`git stash clear`
+- 删除所有缓存：`git stash clear`
