@@ -51,6 +51,7 @@ type myPartial<T> = {
 }
 
 // Required
+// PS:TS中在readonly或?前使用-、+分别代表remove和add，默认不写为+
 type myRequired<T> = {
   [k in keyof T]-?: T[k]
 }
@@ -108,4 +109,16 @@ type myReturnType<T> = T extends (
 // InstanceType
 
 // ThisParameterType
+
+// OmitThisParameter
+
+// ThisType
+
+// Uppercase
+
+// Lowercase
+
+// Capitalize
+
+// Uncapitalize
 ```
