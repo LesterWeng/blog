@@ -28,6 +28,8 @@
 
 - [React-lane 解析](./Article/React-lane解析.md)
 
+- [TS-联合类型和 Narrowing](./Article/TS-联合类型和Narrowing.md)
+
 - [TS-条件类型和工具类型](./Article/TS-条件类型和工具类型.md)
 
 ## 基础
@@ -53,8 +55,6 @@
 - [JS-new 和 instanceof](./Basis/JS-new和instanceof.md)
 
 - [Scss-常用语法](./Basis/Scss-常用语法.md)
-
-- [TS-联合类型和 Narrowing](./Basis/TS-联合类型和Narrowing.md)
 
 ## 解决方案
 
