@@ -133,9 +133,32 @@ function FiberNode(
 
 ## commit 阶段
 
-可大体分为 3 个子过程：`commitBeforeMutationEffects`、`commitMutationEffects`、`commitLayoutEffects`，3 个过程会沿着打了`subtreeFlags`的`fiber`进行遍历从而优化遍历过程
+可大体分为如下过程：`开始`、 `commitBeforeMutationEffects`、`commitMutationEffects`、`commitLayoutEffects`、`结束`，会沿着打了`subtreeFlags`的`fiber`进行遍历从而优化遍历过程
 
-3 个子过程结束后，会调用`flushSyncCallbacks`立即执行`syncQueue`内的更新(包括`useLayoutEffect`回调内触发的更新)
+`开始`和`结束`阶段会处理`passiveEffect`(useEffect 等)，如下：
+
+1、`开始`阶段调度 `passiveEffect` 后`执行`
+
+```ts
+scheduleCallback(NormalSchedulerPriority, () => {
+  flushPassiveEffects()
+  return null
+})
+```
+
+2、`结束`阶段赋值`rootWithPendingPassiveEffects`，用于后续执行的`flushPassiveEffects`函数内部
+
+```ts
+if (rootDoesHavePassiveEffects) {
+  // This commit has passive effects. Stash a reference to them. But don't
+  // schedule a callback until after flushing layout work.
+  rootDoesHavePassiveEffects = false
+  rootWithPendingPassiveEffects = root
+  pendingPassiveEffectsLanes = lanes
+}
+```
+
+下面我们再看看中间的三个子阶段：`commitBeforeMutationEffects`、`commitMutationEffects`、`commitLayoutEffects`
 
 ### commitBeforeMutationEffects
 
@@ -146,15 +169,10 @@ function FiberNode(
 当遍历到包含`deletions`的`fiber`时，进行`删除 DOM`操作；当遍历到`HostComponent || HostText`时，根据`fiber.flags`进行`删除以外的 DOM`操作。`DOM`操作完成后重置这 2 个标识
 
 - 当`fiber.child`或`child.sibling`为`FC`且在`fiber.deletion`内时，调用`FC`的`updateQueue`内所有的`effect hook`回调返回的清理函数
-- 当遍历到`FC`时，会沿着`fiber.updateQueue`上的`effect hook单向链表`进行相关的处理：若当前`FC`包含`PlacementAndUpdate | Update`的`flag` 且当前`effect hook`包含`HookLayout | HookHasEffect`的`flag`，则执行`useEffect、useLayoutEffect`上次的回调返回的清理函数
+- 当遍历到`FC`时，会沿着`fiber.updateQueue`上的`effect hook单向链表`进行相关的处理：若当前`FC`包含`PlacementAndUpdate | Update`的`flag` 且当前`effect hook`包含`HookLayout | HookHasEffect`的`flag`，则执行`useLayoutEffect`上次的回调返回的清理函数
 
 `commitMutationEffects`过程结束后会使用`root.current = finishedWork`切换应用的`wip rootFiber`，原来的`current rootFiber`就变成了下次调度时的`wip rootFiber`
 
 ### commitLayoutEffects
 
-- 当遍历到`FC`时，会沿着`fiber.updateQueue`上的`effect hook单向链表`进行相关的处理：若当前`effect hook`包含`HookLayout | HookHasEffect`的`flag`，则执行`useEffect、useLayoutEffect`的回调
-
-<!-- TODO:PassiveEffect -->
-<!-- 同样，当遍历到`FC`时，会沿着`fiber.updateQueue`上的`effect hook单向链表`进行相关的处理:
-- 若当前`effect hook`包含`HookPassive | HookHasEffect`的`flag`，则执行`useEffect、useLayoutEffect`上次的清理函数
-- 若当前`effect hook`包含`HookPassive | HookHasEffect`的`flag`，则执行`useEffect、useLayoutEffect`这次的回调 -->
+- 当遍历到`FC`时，会沿着`fiber.updateQueue`上的`effect hook单向链表`进行相关的处理：若当前`effect hook`包含`HookLayout | HookHasEffect`的`flag`，则执行`useLayoutEffect`的回调
