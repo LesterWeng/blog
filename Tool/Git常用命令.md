@@ -18,7 +18,8 @@
 
   - git config user.name (read)
   - git config user.name "your user name" (write)
-  - git config --global http.sslVerify false (忽略 https 验证)
+  - git config credential.helper store (设置认证助手为 store)
+  - git config --unset credential.helper (不使用认证帮助，即每次均需要输入账号密码，无保存记录时若设置了认证助手可能直接报错：`fatal: Authentication failed`)
 
 - 查看 git config 的 HOME 路径：`echo $HOME`
 
