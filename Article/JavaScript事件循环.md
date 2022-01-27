@@ -12,7 +12,7 @@
 > `requestAnimationFrame`、`requestIdleCallback`既不是宏任务，也不是微任务，只是浏览器在特定时机调用的回调函数
 > 实际下面的宏任务、微任务都是指遇到使用这些的情况时，将其`回调函数`加入对应的队列，等待按顺序执行
 
-宏任务包括：script(全局代码)、定时器`fire`事件(`setTimeout`、`setInterval`、`setImmediate`(非标准，仅 IE10+、Edge 实现，其他浏览器未实现；Node.js 环境))、`AJAX`事件、`输入`事件(鼠标滚动、点击、移动，键盘输入等)、`MessageChannel`、`文件读写`(I/O)事件、DOM 解析、样式计算(`Recalculate Style`)、布局计算(`Layout`)、CSS 动画 等。每个宏任务都会关联一个`微任务队列`
+宏任务包括：script(全局代码)、定时器`fire`事件(`setTimeout`、`setInterval`、`setImmediate`(非标准，仅 IE10+、Edge 实现，其他浏览器未实现；Node.js 环境))、`AJAX`事件、`鼠标和键盘`事件(会放置在一个更高优先级的任务队列)、`MessageChannel`、`文件读写`(I/O)事件、DOM 解析、样式计算(`Recalculate Style`)、布局计算(`Layout`)、CSS 动画 等。每个宏任务都会关联一个`微任务队列`
 
 ### 微任务(microtask)
 
@@ -66,6 +66,8 @@ console.log('global')
 #### requestIdleCallback
 
 如果在一帧内的`render`执行完后还有剩余时间，会调用`requestIdleCallback`api，我们可以使用其把部分工作放到`空闲时间`中执行
+
+如果要避免任务`饿死`，可以传递第二个参数`{timeout: 500}`指定`timeout`以保证其在指定时间内(ms)执行
 
 #### 掉帧与时间切片
 
