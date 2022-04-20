@@ -11,27 +11,25 @@
 
 ```js
 var docEl = document.documentElement,
-  referenceWidth = 1920 - 200,
-  minWidth = 1210,
-  referenceFontSize = 32;
+  referenceWidth = 720,
+  referenceFontSize = 32
 
 function setRemUnit() {
   docEl.style.fontSize =
-    (referenceFontSize *
-      (docEl.clientWidth >= minWidth ? docEl.clientWidth : minWidth)) /
+    (referenceFontSize * docEl.clientWidth) /
       referenceWidth +
-    'px';
+    'px'
 }
 
-setRemUnit();
+setRemUnit()
 
 // reset rem unit on page resize
-window.addEventListener('resize', setRemUnit);
+window.addEventListener('resize', setRemUnit)
 window.addEventListener('pageshow', function (e) {
   if (e.persisted) {
-    setRemUnit();
+    setRemUnit()
   }
-});
+})
 ```
 
 ### 区段适配
