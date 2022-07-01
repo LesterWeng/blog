@@ -8,13 +8,15 @@
 
 <!-- - [个人命名规范](./Article/个人命名规范.md) -->
 
-- [相对路径的应用](./Article/相对路径的应用.md)
-
 - [手写 Async](./Article/手写Async.md)
 
 - [手写 call、apply、bind](./Article/手写call、apply、bind.md)
 
 - [手写 Promise](./Article/手写Promise.md)
+
+- [相对路径的应用](./Article/相对路径的应用.md)
+
+- [dumi 支持 vue3 组件](./Article/dumi支持vue3组件.md)
 
 - [JavaScript 深入](./Article/JavaScript深入.md)
 
