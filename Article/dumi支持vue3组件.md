@@ -73,7 +73,7 @@ export default function VueContainer(props: {
 
 然后我们需要修改 demo 语法树节点编译函数，通过查阅 [dumi 类型定义](https://github.com/umijs/dumi/blob/202b2c8d56a3b670e1f4172be2794452028194db/packages/preset-dumi/src/transformer/remark/index.ts#L90) 并结合打印，我们获取到 demo 的代码，写入`dumi临时目录`，用于`sources`中代码的展示；然后再通过`rendererProps`传入上面写入的额外资产的路径，用于动态引入
 
-为了能够动态引入，我们首先需要将入口文件编译成`js`，这里我们通过`vite`进行`vue`文件的编译打包。另外，由于我们打包出来的`js`文件并未被`dumi`的`dev-server`托管，我们无法直接通过路径引入，但我们可以先在`dumi`编译产物中手动添加额外的资产（我们打包出的`js`文件）再进行引入，这里我们通过 dumi 提供的`api.chainWebpack`添加额外的 webpack 插件结合文件缓存实现
+为了能够动态引入，我们首先需要将入口文件编译成`js`，这里我们通过`vite`进行`vue`文件的编译打包。另外，由于我们打包出来的`js`文件并未被`dumi`处理，我们无法直接通过路径引入，但我们可以先在`dumi`编译产物中手动添加额外的资产（我们打包出的`js`文件）再进行引入，这里我们通过 dumi 提供的`api.chainWebpack`添加额外的 webpack 插件结合文件缓存实现
 
 插件详情如下：
 
@@ -277,3 +277,5 @@ export default (api: IApi) => {
   })
 }
 ```
+
+> 在线模板示例：[vue3-fta-material-single](https://devstatic.amh-group.com/vue3-fta-material-single/#/regions/result-success)
