@@ -154,3 +154,19 @@ export default forwardRef(function Comp(
   return <div></div>
 })
 ```
+
+### useTransition
+
+```ts
+const [isPending, startTransition] =
+  useTransition()
+```
+
+`startTransition`不会延迟耗时组件`render`阶段的执行（意味着若耗时组件时间花在`render`阶段，无效）
+<!-- render阶段被打断是怎么个过程 -->
+
+打断发生在调度任务开始时，也就是说一个调度任务执行中是无法打断的，也就是这个调度任务的render、commit都无法打断
+
+低优先级任务的会被合并，最终只执行一次commit
+
+但是可以区分调度的优先级，让高优先级的任务优先调度渲染，但是若后续的低优先级任务render、commit执行耗时较大，仍会阻塞UI交互
