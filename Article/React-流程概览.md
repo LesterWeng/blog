@@ -48,6 +48,7 @@ function FiberNode(
   this.subtreeFlags = NoFlags
   this.deletions = null
 
+  // priority
   this.lanes = NoLanes
   this.childLanes = NoLanes
 

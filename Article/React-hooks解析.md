@@ -88,7 +88,7 @@ fiber.updateQueue = {
 
 `update`阶段调用时：
 
-- 若`依赖发生了改变`或`不存在依赖`，会
+- 若`依赖发生了改变`，会
   - 给当前`wip fiber`打上`PassiveEffect`的`flag`
   - 给`effect hook`打上`HookHasEffect | HookPassive`的`tag`，且`effect.destroy = hook.memoizedState.destroy`(上次的清理函数)
   - 会在`commit`阶段内的`commitHookEffectListUnmount`、`commitHookEffectListMount`内执行`清理`和`回调`函数
