@@ -22,6 +22,8 @@ function fnNew() {
       : Object.prototype,
   )
   const result = Constructor.apply(obj, arguments)
+
+  // If the constructor function returns a non-primitive, this return value becomes the result of the whole new expression. Otherwise, if the constructor function doesn't return anything or returns a primitive, newInstance is returned instead
   return result instanceof Object ? result : obj
 }
 
