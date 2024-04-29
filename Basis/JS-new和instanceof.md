@@ -1,4 +1,4 @@
-# JS-new和instanceof
+# JS-new 和 instanceof
 
 ### new
 
@@ -17,7 +17,10 @@ function fnNew() {
   const Constructor = [].shift.apply(arguments)
   Reflect.setPrototypeOf(
     obj,
-    Constructor.prototype,
+    // If the constructor function returns a non-primitive, this return value becomes the result of the whole new expression. Otherwise, if the constructor function doesn't return anything or returns a primitive, newInstance is returned instead
+    'non-primitive'
+      ? Constructor.prototype
+      : Object.prototype,
   )
   const result = Constructor.apply(obj, arguments)
   return result instanceof Object ? result : obj
