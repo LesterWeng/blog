@@ -14,16 +14,17 @@
 ```js
 function fnNew() {
   const obj = {}
-  const Constructor = [].shift.apply(arguments)
-  Reflect.setPrototypeOf(
-    obj,
-    Constructor.prototype instanceof Object
-      ? Constructor.prototype
-      : Object.prototype,
-  )
+  const Constructor =
+    Array.prototype.shift.apply(arguments)
+
+  if (Constructor.prototype instanceof Object) {
+    Reflect.setPrototypeOf(
+      obj,
+      Constructor.prototype,
+    )
+  }
   const result = Constructor.apply(obj, arguments)
 
-  // If the constructor function returns a non-primitive, this return value becomes the result of the whole new expression. Otherwise, if the constructor function doesn't return anything or returns a primitive, newInstance is returned instead
   return result instanceof Object ? result : obj
 }
 
