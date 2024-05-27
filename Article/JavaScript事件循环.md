@@ -12,7 +12,7 @@
 > `requestAnimationFrame`、`requestIdleCallback`既不是宏任务，也不是微任务，只是浏览器在特定时机调用的回调函数
 > 实际下面的宏任务、微任务都是指遇到使用这些的情况时，将其`回调函数`加入对应的队列，等待按顺序执行
 
-宏任务包括：script(全局代码)、定时器`fire`事件(`setTimeout`、`setInterval`、`setImmediate`(非标准，仅 IE10+、Edge 实现，其他浏览器未实现；Node.js 环境))、`AJAX`事件、`鼠标和键盘`事件(会放置在一个更高优先级的任务队列)、`MessageChannel`、`文件读写`(I/O)事件、DOM 解析、样式计算(`Recalculate Style`)、布局计算(`Layout`)、CSS 动画 等。每个宏任务都会关联一个`微任务队列`
+宏任务包括：script(全局代码)、定时器`fire`事件(`setTimeout`、`setInterval`、`setImmediate`(非标准，仅 IE10+、Edge 实现，其他浏览器未实现；Node.js 环境))、`AJAX`事件、`鼠标和键盘`事件(会放置在一个更高优先级的任务队列)、`MessageChannel(postMessage)`、`文件读写`(I/O)事件、DOM 解析、样式计算(`Recalculate Style`)、布局计算(`Layout`)、CSS 动画 等。每个宏任务都会关联一个`微任务队列`
 
 ### 微任务(microtask)
 
