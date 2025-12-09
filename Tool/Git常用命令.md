@@ -111,15 +111,9 @@ repo: A --- B --- C --- D --- E
 常见案例(回退`master`)处理：
 
 ```ts
-git checkout -b newBranch B
-git reset --soft D
-
-然后 commit 得到
-newBranch: A --- B --- C --- D --- B'
-
-再MR到master
-
-回退到的commit之后的commit后续若需要再提交，cherry-pick再提交即可
+// 注意要先备份，如先checkout出个新分支
+git reset --hard bba7e1002183dd882ff778c0ab99e339a5517ec9
+git push --force origin release/v0.3.7.5
 ```
 
 ### revert
